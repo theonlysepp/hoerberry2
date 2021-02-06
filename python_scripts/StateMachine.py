@@ -2227,12 +2227,7 @@ class StateMachine():
 
     def DO_ST_1060(self):
         # ins Verzeichnis des Repositories wechseln
-        p = subprocess.Popen(["cd", self.cfg_gl['foname_repo']], stdout=subprocess.PIPE)
-
-        # debugmeldung, TOD: entfernen
-        p = subprocess.Popen(["ls"], stdout=subprocess.PIPE)
-        return_stuff = p.communicate()
-        print(return_stuff[0].decode('ascii'))
+        os.chdir(self.cfg_gl['foname_repo'])
 
         p = subprocess.Popen(["git", "pull", "origin", "main"], stdout=subprocess.PIPE)
 
