@@ -2227,6 +2227,7 @@ class StateMachine():
 
     def DO_ST_1060(self):
         # ins Verzeichnis des Repositories wechseln
+        # Test commit, ob das wirklich funktioniert
         os.chdir(self.cfg_gl['foname_repo'])
 
         p = subprocess.Popen(["git", "pull", "origin", "main"], stdout=subprocess.PIPE)
