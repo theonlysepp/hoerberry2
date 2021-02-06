@@ -2279,7 +2279,8 @@ class StateMachine():
             self.newstate = 1069   
 
     def DO_ST_1069(self):
-        self._run_helptext(1065)
+        # Gleich zurueck in die Hauptebene
+        self._run_helptext(1005)
 
     def DO_ST_1070(self):
         # Nutzerstatistik anzeigen
