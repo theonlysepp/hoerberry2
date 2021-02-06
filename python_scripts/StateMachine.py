@@ -2226,6 +2226,10 @@ class StateMachine():
         self._run_helptext(1050)
 
     def DO_ST_1060(self):
+        # wo fehre ich das aus? 
+        p = subprocess.Popen(["ls"], stdout=subprocess.PIPE)
+        return_stuff = p.communicate()
+        print(return_stuff[0].decode('ascii'))
 
         p = subprocess.Popen(["git", "pull", "origin", "main"], stdout=subprocess.PIPE)
 
