@@ -2226,7 +2226,10 @@ class StateMachine():
         self._run_helptext(1050)
 
     def DO_ST_1060(self):
-        # wo fehre ich das aus? 
+        # ins Verzeichnis des Repositories wechseln
+        p = subprocess.Popen(["cd", self.cfg_gl['foname_repo']], stdout=subprocess.PIPE)
+
+        # debugmeldung, TOD: entfernen
         p = subprocess.Popen(["ls"], stdout=subprocess.PIPE)
         return_stuff = p.communicate()
         print(return_stuff[0].decode('ascii'))
