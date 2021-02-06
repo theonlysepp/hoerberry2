@@ -263,9 +263,9 @@
      "GB"  : "add Mastercard",
      "Cz"  : " ???",
      },    
- "1004":     # Hilfetext "Updates:"
+ "1004":     # Hilfetext "Updates:" Bei GitHub nach Updates suchen. Kommt in Zukunft automatisch beim Start des Editiermenue.
      {
-     "D "  : "Updates suchen, TODO.",
+     "D "  : "Bei GitHub nach Up-dates su-chen. Kommt in Zu-kunft au-to-ma-tisch beim Start des Edi-tier-menue.",
      "GB"  : "Updates suchen, TODO.",
      "Cz"  : "Updates suchen, TODO.",
      },     
@@ -340,19 +340,7 @@
      "D "  : "Reset erfolgreich",
      "GB"  : "add Mastercard",
      "Cz"  : " ???",
-     },         
- "1060":       # Update erfolgreich 
-     {
-     "D "  : "Update erfolgreich",
-     "GB"  : "Check for updates",
-     "Cz"  : " ???",
-     },     
- "1061":       # Kein Update 
-     {
-     "D "  : "Kein Update",
-     "GB"  : "Check for updates",
-     "Cz"  : " ???",
-     },     
+     },            
  "1070":   
      {
      "D "  : "Statistik",

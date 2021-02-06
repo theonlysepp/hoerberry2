@@ -2159,6 +2159,7 @@ class StateMachine():
             self.F_update_display = True    
 
     def DO_ST_1050(self):
+        # TODO: zu loeschende Datensaetze auswaehlbar gestalten?
         # folgende Dateien loeschen:
         # - Liste der Mastercard
         # - Playlistenzuordnung
@@ -2226,6 +2227,8 @@ class StateMachine():
         self._run_helptext(1050)
 
     def DO_ST_1060(self):
+        # TODO: Git update jedesmal beim Starten des Editiermenue durchfuehren?
+        # Information des letzten Commits als Hilfetext anzeigbaer gestalten?
         # ins Verzeichnis des Repositories wechseln
         os.chdir(self.cfg_gl['foname_repo'])
 
