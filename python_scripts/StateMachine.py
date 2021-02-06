@@ -422,6 +422,7 @@ class StateMachine():
                         1056 : self.DO_ST_1056,
                         1059 : self.DO_ST_1059,
                         1060 : self.DO_ST_1060,
+                        1065 : self.DO_ST_1065,
                         1070 : self.DO_ST_1070,
                         1075 : self.DO_ST_1075,
                         1080 : self.DO_ST_1080,
