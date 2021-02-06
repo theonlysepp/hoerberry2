@@ -1,0 +1,16 @@
+[Unit]
+Description=Starten der Hauptdatei zum Abspielen der Musik
+After=local-fs.target mpd.target
+Before=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -u main.py
+WorkingDirectory=/home/dietpi/hoerberry2/python_scripts
+Type=simple
+StandardOutput=inherit
+StandardError=inherit
+Restart=no
+User=dietpi
+
+[Install]
+WantedBy=network.target

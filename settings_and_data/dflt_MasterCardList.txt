@@ -1,0 +1,6 @@
+   # UID aller hinterlegten Mastercards
+   [
+    "114492432092"
+
+    ]
+

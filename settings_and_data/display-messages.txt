@@ -1,0 +1,446 @@
+{
+ "000":       # Vorlage
+     {
+     "D "  : "Fehler:",
+     "GB"  : "error:",
+     "Cz"  : "chyba:",
+     },
+ "100":        # Text fuer Zustand 100, Zeile 0
+     {
+     "D "  : "Hallo",
+     "GB"  : "hello",
+     "Cz"  : "???",
+     },
+ "400":     # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
+     {
+     "D "  : "Bitte Playliste anlegen.        Bereit zum Starten.",
+     "GB"  : "Please choose a playlist ",
+     "Cz"  : "???",
+     },
+ "500":       
+     {
+     "D "  : "unbekannte Karte",
+     "GB"  : "unknown card ",
+     "Cz"  : "neznama karta",
+     },
+ "510":       
+     {
+     "D "  : 'Playliste bereits geladen',
+     "GB"  : "playlist is already loaded",
+     "Cz"  : "???",
+     },
+ "600":        # Text fuer Zustand 600, Zeile 0
+     {
+     "D "  : "Auf Wiedersehen",
+     "GB"  : "byebye",
+     "Cz"  : "???",
+     },
+ "700":        # Text fuer Zustand 700, Zeile 0
+     {
+     "D "  : ["EDITIERMENUE",
+              "Verlassen"
+              "Playlisten verwalten",
+              "Einstellungen",
+              "Grundeinstellungen"], 
+     "GB"  : ["EDIT MENUE ",
+              "Exit"
+              "manage playlists",
+              "settings",
+              "base settings"],
+     "Cz"  : ["EDIT MENUE ",
+              "Verlassen"
+              "Playlisten verwalten",
+              "Einstellungen",
+              "Grundeinstellungen"],
+     },
+ "701":     # Hilfetext "Verlassen"
+     {
+     "D "  : "Edi-tier-men-ue mit Spei-chern oder Ab-bruch ver-las-sen",
+     "GB"  : "Lea-ve the menu with SAVE or CAN-CEL.",
+     "Cz"  : "???",
+     },
+ "702":     # Hilfetext "Playlisten Verwalten"
+     {
+     "D "  : "Play-list-en ver-wal-ten: RFID-Kar-ten den Play-list-en zu-ord-nen.",
+     "GB"  : "Play-list ma-nag-ment: assign RFID-Cards to the play-lists.",
+     "Cz"  : "???",
+     },
+ "703":      # Hilfetext "Settings"
+     {
+     "D "  : "Ein-stell-un-gen für die An-zei-ge im Dis-play und das Ab-spie-len der Mu-sik.",
+     "GB"  : "Set-tings for dis-play and mu-sic.",
+     "Cz"  : "???",
+     },
+ "704":     # Hilfetext " Base Settings
+     {
+     "D "  : "Grund-ein-stel-lun-gen: WLAN, Master-card, Up-dates",
+     "GB"  : "bae settings: IP, WLAN, master-cards, up-dates",
+     "Cz"  : "???",
+     },
+     # Startbildschirm Zuordnung der Karten
+ "800":      
+     {
+     "D "  : ["PLAYLISTEN:",
+              "RFID zuordnen",
+              "RFID korrigieren",
+              "Playliste anzeigen"], 
+     "GB"  : ["PLAYLISTS:",
+              "- add RFID",
+              "- correct RFID",
+              "- show playlist"], 
+     "CZ"  : ["PLAYLISTEN:",
+              "- zuordnen",
+              "- korrigieren",
+              "- anzeigen"], 
+     },
+ "801":     # Hilfetext "RFID zuordnen"
+     {
+     "D "  : "RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. An-hal-ten ein-er Mast-er-Card führt zum Ver-las-sen des Edi-tier-me-nues.",
+     "GB"  : "Play-list manag-ment: assign a unique RFID to each new playlist. For that, put the card to the reader. This card will then be assigned to the currently selec-ted play-list. A mast-er-card will lea-ve the menu.",
+     "Cz"  : "???",
+     },     
+ "802":     # Hilfetext "RFID korrigieren"
+     {
+     "D "  : "RFID kor-rigie-ren: Alle Play-list-en de-nen ei-ne Kar-te zu-ge-ord-net ist wer-den auf-ge-list-et. An-hal-ten ei-ner RFID-Kar-te über-schrei-bt die al-te Zu-ord-nung.", 
+     "GB"  : "correct RFID: A list of all play-lists with a RFID is shown. Put-ting a card to the reader up-date the set-ting for the high-lighted play-list.",
+     "Cz"  : "???",
+     },     
+ "803":     # Hilfetext "Playlisten anzeigen:"
+     {
+     "D "  : "Play-listen an-zei-gen: Ist der Kar-te ei-ne Play-liste zu-ge-ord-net, wird der Ti-tel der Play-li-ste an-ge-zeigt.",
+     "GB"  : "display play-list: Put a card to the reader. The assigned play-list is shown.",
+     "Cz"  : "???",
+     },     
+ "820":       
+     {
+     "D "  : "RFID zuordnen",
+     "GB"  : "add RFID",
+     "Cz"  : " ???",
+     },
+ "830":       
+     {
+     "D "  : "RFID korrigieren",
+     "GB"  : "correct RFID",
+     "Cz"  : " ???",
+     },
+ "840":       
+     {
+     "D "  : ["PLAYLISTE anzeigen",
+              "Karte anhalten"], 
+     "GB"  : ["display playlist",
+              "add card"], 
+     "Cz"  : ["Testovani prirazeni",
+                "add card"],
+     },
+ "845_master":       
+     {
+     "D "  : "Masterkarte!",
+     "GB"  : "Mastercard!",
+     "Cz"  : " ???",
+     },
+ "845":       
+     {
+     "D "  : "unbekannte RFID",
+     "GB"  : "unknown RFID",
+     "Cz"  : " ???",
+     },
+
+ "900":       # 
+     {
+     "D "  : "EINSTELLUNGEN",
+     "GB"  : "settings",
+     "Cz"  : "Nastaveni"
+     },
+ # Achtung: die Nummerieung der folgenden Entraege 90x ergibt sich aus der alphabetischen Sortierung der 
+ # Elemente -->  "Backlight mode" ist das erste Element der Liste, daher "901"!  
+
+ "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Sekunden Pause oder Stop automatisch aus.
+     {
+     "D "  : "Time-out Shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den Pau-se oder Stop au-to-ma-tisch aus.",
+     "GB"  : "Time-out Shut-down: The Hoerberry will shut down after xxx seconds of idle time. (pause or stop)",
+     "Cz"  : "todo",
+     },
+ "907":       # Time-out Back-light: Dauer der Hintergrundbeleuchtung, falls das Display nur bei Aktion beleuchtet wird. 
+     {
+     "D "  : "Time-out Back-light: Dauer der Hin-ter-grund-be-leuch-tung, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
+     "GB"  : "Time-out Back-light: Du-ra-tion of the back-ground ligh-ting if the dis-play is only illumi-na-ted du-ring ac-tion",
+     "Cz"  : "Time-out Back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
+     },
+ "909":       # "Vol-Max:  Maximal erlaubt Lautstärke in %. Im Display erscheint beim maximal erlaubter Lautstaerke immer 100%. Die Kinder sind ja nicht doof."
+     {
+     "D "  : "Vol-Max: Maxi-mal er-lau-bt Laut-stä-rke in %. Im Dis-play er-scheint beim maxi-mal er-laub-ter Laut-stä-rke im-mer 100%. Die Kin-der sind ja nicht doof.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "910":       # vol_step: Vol-Step: Schrittweite der Lautstärke in % pro Raste
+     {
+     "D "  : "Vol-Step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "911":       # vol_step_quick: Vol-Step: Schrittweite der Lautstärke in % pro Raste, bei schneller Veränderung. 
+     {
+     "D "  : "Vol-Step-Quick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "901":       # Backlight mode: back-light: Beleuchtung des Display. /"On-Button/" bedeutet, dass bei einer Eingabe (Taste oder Karte) die Beleuchtung kurz angeschatet wird.
+     {
+     "D "  : "back-light: Be-leuch-tung des Dis-play. 'On-But-ton' be-deu-tet, dass bei ei-ner Ein-ga-be (Ta-ste oder Kar-te) die Be-leuch-tung kurz an-ge-schal-tet wird.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "902":       # daily-limit: Höchstdauer pro Tag in Minuten. Danach wird keine Musik mehr abgespielt. Bei jeder Eingabe wird gesagt, dass der Hoerberry für den Rest des Tages gesperrt ist. 
+     {
+     "D "  : "daily-limit: Höchstdauer pro Tag in Mi-nu-ten. Da-nach wird kei-ne Mu-sik mehr ab-ge-spielt. Bei je-der Ein-ga-be wird ge-sagt, dass der Hoer-ber-ry für den Rest des Ta-ges ge-sperrt ist.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "903":       # evening-limit: Keine Musikwiedergabe nach dieser Uhrzeit erlaubt. Nur mit WLAN möglich, sonst kennt der Hoerberry die Uhrzeit nicht.
+     {
+     "D "  : "evening-limit: Kei-ne Mu-sik-wie-der-ga-be nach die-ser Uhr-zeit er-laubt. Nur mit WLAN mög-lich, sonst kennt der Hoe-rbe-rry die Uhr-zeit nicht.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "904":       # Sprache: Sprache der Displayanzeige.
+     {
+     "D "  : "Spra-che: Spra-che der Dis-play-an-zei-ge.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "905":       # Morning-limit: Keine Musikwiedergabe vor dieser Uhrzeit erlaubt. Nur mit WLAN möglich, sonst kennt der Hoerberry die Uhrzeit nicht.
+     {
+     "D "  : "morning-limit: Kei-ne Mu-sik-wie-der-ga-be vor die-ser Uhr-zeit er-laubt. Nur mit WLAN mög-lich, sonst kennt der Hoer-ber-ry die Uhr-zeit nicht.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+ "906":       # shuffle step: Schrittweite des Spulens in Sekunden pro Raste.
+     {
+     "D "  : "shuffle step: Schritt-wei-te des Spu-lens in Se-kun-den pro Raste.",
+     "GB"  : "ready to read the card - ",
+     "Cz"  : "pripraven ke cteni karty - ",
+     },
+# Startbildschirm Grundeinstellungen
+ "1000":      
+     {
+     "D "  : ["Grundeinstellung",
+              "Mastercard hinzufügen",
+              "WLAN",
+              "Reset to factory settings",
+              "Updates suchen",
+              "Nutzungsstatistik",
+              "aktuelle IP" ], 
+     "GB"  : ["Base Settings:",
+              "add MASTERCARDs",
+              "WLAN",
+              "Reset to factory settings",
+              "Updates suchen",
+              "Nutzungsstatistik",
+              "aktuelle IP" ], 
+     "CZ"  : ["Base Settings:",
+              "add MASTERCARDs",
+              "WLAN",
+              "Reset to factory settings",
+              "Updates suchen",
+              "Nutzungsstatistik",
+              "aktuelle IP" ], 
+     },   
+ "1001":     # Hilfetext "Mastercard"
+     {
+     "D "  : "Eine oder meh-re-re Kar-ten als Mast-er-card ein-rich-ten",
+     "GB"  : "Add one or more cards as Mast-er-card.",
+     "Cz"  : "???",
+     },     
+ "1002":     # Hilfetext "WLAN:"
+     {
+     "D "  : "WLAN einrichten, TODO.",
+     "GB"  : "WLAN einrichten, TODO.",
+     "Cz"  : "WLAN einrichten, TODO.",
+     },     
+ "1003":     # Hilfetext "Reset:"
+     {
+     "D "  : "Reset to factory: Alle Einstellungen zuruecksetzen? RFID-Zuordnung, Einstellungen, Nutzerinfo?",
+     "GB"  : "add Mastercard",
+     "Cz"  : " ???",
+     },    
+ "1004":     # Hilfetext "Updates:"
+     {
+     "D "  : "Updates suchen, TODO.",
+     "GB"  : "Updates suchen, TODO.",
+     "Cz"  : "Updates suchen, TODO.",
+     },     
+ "1005":     # Hilfetext "Statistics:"
+     {
+     "D "  : "Benutzerstatistik, TODO.",
+     "GB"  : "Benutzerstatistik, TODO.",
+     "Cz"  : "Benutzerstatistik, TODO.",
+     },     
+ "1006":     # Hilfetext "IP-Addresse:"
+     {
+     "D "  : "aktuelle IP, fuer Verbindung zwecks Datentransfer.",
+     "GB"  : "Current IP. For data transfer",
+     "Cz"  : "aktuelle IP, fuer Verbindung zwecks Datentransfer.",
+     },     
+ "1020":       
+     {
+     "D "  : "Mastercard",
+     "GB"  : "add Mastercard",
+     "Cz"  : " ???",
+     },     
+ "1021":       
+     {
+     "D "  : "Karte anhalten",
+     "GB"  : "add card",
+     "Cz"  : " ???",
+     },     
+ "1022":       
+     {
+     "D "  : "Mastercard bekannt",
+     "GB"  : "Mastercard known",
+     "Cz"  : " ???",
+     },     
+ "1023":       
+     {
+     "D "  : "Das ist eine Playliste!",
+     "GB"  : "But that is a playlist!",
+     "Cz"  : " ???",
+     },     
+ "1024":       
+     {
+     "D "  : "Mastercard hinzugefügt",
+     "GB"  : "add Mastercard done",
+     "Cz"  : " ???",
+     },     
+ "1031":       
+     {
+     "D "  : "WLAN Name",
+     "GB"  : "WLAN name",
+     "Cz"  : " ???",
+     },     
+ "1033":       
+     {
+     "D "  : "WLAN Passwort",
+     "GB"  : "WLAN password",
+     "Cz"  : " ???",
+     },     
+ "1035":       
+     {
+     "D "  : "WLAN Einstellung gespeichert",
+     "GB"  : "WLAN setting stored",
+     "Cz"  : " ???",
+     },       
+ "1050":       
+     {
+     "D "  : "Reset to factory Wirklich???",
+     "GB"  : "add Mastercard",
+     "Cz"  : " ???",
+     },     
+ "1055":       
+     {
+     "D "  : "Reset erfolgreich",
+     "GB"  : "add Mastercard",
+     "Cz"  : " ???",
+     },         
+ "1060":       
+     {
+     "D "  : "Updates suchen",
+     "GB"  : "Check for updates",
+     "Cz"  : " ???",
+     },     
+ "1070":   
+     {
+     "D "  : "Statistik",
+     "GB"  : "Statistics",
+     "Cz"  : " ???",
+     },     
+ "1080":   
+     {
+     "D "  : "aktuelle IP",
+     "GB"  : "current IP",
+     "Cz"  : " ???",
+     },     
+ # Verlassen des Editiermenues  
+ "1100":        
+     {
+     "D "  : ["VERLASSEN",
+              "Speichern und verlassen",
+              "Speichern"
+              "Änderungen verwerfen und verlassen"],
+     "GB"  : ["EXIT",
+              "Exit and Save changes",
+              "Save changes",
+              "Exit and revert changes"],
+     "Cz"  : ["VERLASSEN",
+              "Speichern und velassen",
+              "Speichern",
+              "Änderun-gen ver-wer-fen"],
+     },
+ "1101":     # Hilfetext "Speichern und Verlassen"
+     {
+     "D "  : "Spei-chern und ver-las-sen: Die Än-de-run-gen wer-den ge-spei-chert. Das Edi-tier-menü wird ver-las-sen. Die Musik-wieder-ga-be wird fort-ge-setzt.",
+     "GB"  : "Exit and Save chan-ges: Save the chan-ges. We leave the the edit-men-ue. Mu-sic con-tin-ues.",
+     "Cz"  : "???",
+     },     
+ "1102":     # Hilfetext "Speichern"
+     {
+     "D "  : "Spei-chern: Die Än-de-run-gen wer-den ge-spei-chert. Es wird im Edi-tier-menü ge-blie-ben.",
+     "GB"  : "Save the chan-ges. We re-main in the edit-men-ue.",
+     "Cz"  : "???",
+     },     
+ "1103":     # Hilfetext "Änderungen verwerfen"
+     {
+     "D "  : "Än-der-un-gen ver-wer-fen: Alle Än-de-run-gen wer-den zu-rück-ge-setzt. Das Edi-tier-menü wird ver-las-sen. Die Musik-wieder-ga-be wird fort-ge-setzt. ", 
+     "GB"  : "Exit and Re-vert chan-ges: All changes are reverted. We leave the the edit-men-ue. Mu-sic con-tin-ues.",
+     "Cz"  : "???",
+     },      
+ "1120":     # Hilfetext Bestaetigung
+     {
+     "D "  : "  Wirklich? "
+     "GB"  : "  Sure? "
+     "Cz"  : "???",
+     },      
+ "1130":       # Erfolgsmedung Speichern
+     {
+     "D "  : "Speichern der Einstellungen erfolgreich.",
+     "GB"  : "Changes were saved.",
+     "Cz"  : "",
+     },
+ "1131":       # Misserfolgsmeldung Speichern
+     {
+     "D "  : "Speichern der Einstellungen gescheitert.",
+     "GB"  : "Failed to save the changes.",
+     "Cz"  : "",
+     },
+ "1210":       # 
+     {
+     "D "  : "Mit jeder Taste zurueck zur Musik.",
+     "GB"  : "Press any key to continue.",
+     "Cz"  : "S kazdym klicem zpet k hudbe.",
+     },
+
+ "000":       # 
+     {
+     "D "  : "",
+     "GB"  : " ???",
+     "Cz"  : " ???",
+     },
+
+  "morning_limit":     # Anzeigetext obere Zeile bei Zeitunterschreitung am Morgen
+    {
+     "D "  : "Es ist noch zu früh, Mäuschen.",
+     "GB"  : "Way too early, little bird. ",
+     "Cz"  : "???",
+    },
+  "evening_limit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
+    {
+     "D "  : "Zu spät am Abend für Hörbücher.",
+     "GB"  : "It is too late to play. ",
+     "Cz"  : "???",
+    },
+  "daily_limit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
+    {
+     "D "  : "Genug für heute.",
+     "GB"  : "Enough for today.",
+     "Cz"  : "???",
+    },
+}

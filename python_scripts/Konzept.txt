@@ -1,0 +1,119 @@
+RFID Auslesen:
+==============
+
+- eigener Timer --> unabhaengige Zykluszeit. 
+- unabhaengig vom State auslesen, wenn Karte erkannt -> Flag F_RFID setzen, RFID notieren. 
+- Reaktion auf RFID im state geregelt
+- im Allgemeinen Wechsel nach LOADLIST initiieren, dort wird geprüft, was wir haben und wohin die Reise geht. 
+- Flag F_RFID wird nach Auswerten zurückgesetzt. 
+- Wird die RFID nicht abgearbeitet, muss das F_RFID auch irgendwie gelöscht werden. Alte RFID bleibt nicht ewig sthen, um irgenwann
+  in ferner Zukunft abgearbeitet zu werden. 
+
+
+SHUTDOWN:
+=========
+
+- Tasendruck anhand vom gesetzen GPIO_SHUTDOWN erkannt.
+- PLAY: Immer sofort aktuelle Position speichern!
+- Callback überprüft, ob Taster gedrückt und lang genug gedrückt wurde. 
+- Warten in schleife mit 10ms:
+- Es wird auf den Timeout, das die Taste lang genug gedrückt wurde gewartet. --> Shutdown
+- es wird auf das Loslassen gewartet vor Timeout --> nix
+- Wenn Shutdown erkannt wurde: 
+  - F_shutdown=True   (--> Dieser Flag wird NIE zurückgesetzt)
+  - Im nächsten Zyklus Wechsel nach SHUTDOWN 
+
+- Sollte die ONOFF-shim einen Shutdown erkennen, python aber nicht --> Shutdown nach einer Minute!
+- Kriterien so setzen, dass Python vor der shim den Shutdown erkennt. 
+
+
+Allgemeine Tasten
+=================
+
+- F_Button auf den Wert der Taste setzen. 
+- N_Button gibt wieder, wie oft eine Taste seit dem letzten Abarbeiten erkannt wurde. 
+
+
+- allgemeiner callback: 
+  F_Button == Tasten_ID:
+    N_Button += 1          ( bzw. bei Volume oder Pause den Wert der Drehrichtung)
+- F_Button != Tasten_ID:
+    F_Button = Tasten_ID
+    N_Button = 1
+
+F_Button wird jeden Zyklus nach dem State-spezifischen Codeteil zurückgesetzt, N_Button=0. 
+
+--> mehrere Impulse der Drehgeber pro Zyklus verarbeitbar. 
+--> gesammelte Reaktion im naechsten Zyklus. 
+--> allgemeine Funkton für Reaktionene auf Tasten, incl LED_ACTION
+
+States: 
+=======
+
+- in jedem Zyklus wird ein NEWSTATE gesetzt. Auswerten von NEWSTATE:
+  STATE = NEWSTATE
+  NEWSTATE = -1
+- wurde kein state gesetzt, erzeugt das sofort einen Fehler! 
+  
+
+DIsplayanforderungen
+====================
+
+Basisfunktionen
+---------------
+
+- Laufschrift in allen 3 Zeilen möglich, flexibel 
+- Text über 2 Zeilen möglich, zur Not als Laufschrift. 
+- Funktion, die Laufschrift zu stoppen
+- Funktion WritePos(string, x,y)
+- Laufschrift weiterschieben
+
+Fest zu definierende Darstellungen: TODO
+
+
+- Darstellung Musikwiedergabe, fester Satz an Input, feste Formatierung
+  1. + 2. Zeile Playistenname (>32 Zeichen Laufschrift Zeile 1, sonst umgebrochen)
+ 
+- Allgemeiner Infostring, Anzahl und welche Zeilen bitcodiert, 
+  1 bis 7, Option: alles loeschen, Option: Laufschrift. --> es gibt 3 Zeilenorientierte 
+  Laufschriftinstanzen!
+
+- Editmenue: Zuordnung Playlisten: feste Formstierung
+  ( bis 32 Zeichen --> Zeile 1+2, sonst Laufschrift Zeile 1), unten "Karte anhalten" bzw. Anzeige der UID
+
+- Editmenue: Übersicht der Playlisten: 
+  1. Zeile Playlistname, 
+  2. Zeile hinterlegte UID
+  3. Zeile angelegte Karte???
+
+- Editmenue: Kartenabfrage
+  1. + 2. + 3. Zeile: Playlistenname,
+  sonst: "Karte anlegen" 
+  "Playlist wird angezeigt" 
+
+- Editmenue: settings aendern --> festes Display!
+
+- allgemeine Funktion: update_laufschrift() 
+  
+
+  Displayanzeige Konkret
+  ======================
+  
+  - Playlisten je nach Laenge in 1 oder 2 Zeilen
+  - Zeilentrenner mit "---" statt Leerzeichen im Namen
+  - Zweite Zeile auch mit Laufschrift, wenn getrennt wurden. 
+  
+ Logik Darstellung Playlisten: 
+    a) Zeilentrenner vorhanden? Ja --> 1. Zeile anzeigen, 2.Zeile anzeigen 
+                                Nö --> b)
+    b) bisherige Logik: kleiner 32 Zeichen --> Komplett, sonst in der 1. Zeile mit Laufschrift.
+    c) immer Playlist_disp überschreiben: erste Zeile bei vorhandenem Trenner, 
+       sonst ersten 16 Zeichen.  
+    
+    
+ Logik Darstellung Playlisten/Titel:
+    a) 1. Zeile immer die Playliste, bis zum Trenner "---" oder 16 Zeichen ohne Laufschrift. 
+    b) Titelname mit "no title"? 
+    ja --> leere Zeile
+    nö --> Titelname in Laufschrift
+                                

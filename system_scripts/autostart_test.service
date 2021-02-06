@@ -1,0 +1,15 @@
+[Unit]
+Description=Test der autostartfunktion. 
+After=local-fs.target
+Before=network.target
+
+
+[Service]
+ExecStart=/usr/bin/python3 /home/dietpi/python_scripts/test_scripts/test_autostart.py
+StandardOutput=inherit
+StandardError=inherit
+Restart=no
+User=dietpi
+
+[Install]
+WantedBy=network.target
