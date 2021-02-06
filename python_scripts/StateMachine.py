@@ -2234,11 +2234,13 @@ class StateMachine():
 
         return_stuff = p.communicate()
         ascii_str = return_stuff[0].decode('ascii')
+        self.logger.info(ascii_str)
 
         # aktuele revisionsnummer erfragen
         p = subprocess.Popen(["git", "rev-parse", "--short", "HEAD"], stdout=subprocess.PIPE)
         return_stuff = p.communicate()
         rev_num = return_stuff[0].decode('ascii')
+        self.logger.info(rev_num)
 
         self.LCD.clear()
         self.LCD.clear_data()
