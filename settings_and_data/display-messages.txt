@@ -341,9 +341,15 @@
      "GB"  : "add Mastercard",
      "Cz"  : " ???",
      },         
- "1060":       
+ "1060":       # Update erfolgreich 
      {
-     "D "  : "Updates suchen",
+     "D "  : "Update erfolgreich",
+     "GB"  : "Check for updates",
+     "Cz"  : " ???",
+     },     
+ "1061":       # Kein Update 
+     {
+     "D "  : "Kein Update",
      "GB"  : "Check for updates",
      "Cz"  : " ???",
      },     

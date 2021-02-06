@@ -1901,7 +1901,7 @@ class StateMachine():
         # - Mastercards
         # - WLAN (Name+Passwort)  
         # - resetFactorySettings  default-Dateien anlegen, im Felerfall diese im Init laden
-        # - Update mit Guthub TODO: rausfinden, wie das geht...
+        # - Update mit Guthub
         # - Nutzerstatistik
         self.newstate = 1010
 
@@ -1922,7 +1922,7 @@ class StateMachine():
                     # - History loeschen
                     self.newstate = 1050   
                 elif self.list_index == 4:
-                    # Updates suchen, todo
+                    # Updates suchen
                     self.newstate = 1060   
                 elif self.list_index == 5:
                     # Nutzerstatistik
@@ -2225,8 +2225,40 @@ class StateMachine():
         self._run_helptext(1050)
 
     def DO_ST_1060(self):
-        # Updates suchen, todo
-        self.newstate = 1005
+
+        p = subprocess.Popen(["git", "pull", "origin", "main"], stdout=subprocess.PIPE)
+
+        return_stuff = p.communicate()
+        ascii_str = return_stuff[0].decode('ascii')
+
+        # aktuele revisionsnummer erfragen
+        p = subprocess.Popen(["git", "rev-parse", "--short", "HEAD"], stdout=subprocess.PIPE)
+        return_stuff = p.communicate()
+        rev_num = return_stuff[0].decode('ascii')
+
+        self.LCD.clear()
+        self.LCD.clear_data()
+
+        if ascii_str.find('Aktualisiere')>0:
+            # Es wurde wirklich was aktualisiert
+            self.LCD.write_lines(self.msg_dict["1060"][self.lg], 0, 1)
+        else:
+            # es wurde nix aktualisiert, oder kein Internet???
+            self.LCD.write_lines(self.msg_dict["1061"][self.lg], 0, 1)
+
+        self.LCD.write_single_line(f"Rev: {rev_num}", 1)
+        self.LCD.write_single_line(self.generate_footer(next=False, prev=False,updown=False, pause='OK'), 2)
+
+        self.newstate = 1065
+
+    def DO_ST_1065(self):
+        # Nach dem Quittieren zurueck eine Ebene hoeher
+        self.newstate = 1065
+
+        if self.F_button == self.BU_PAUSE:
+            self.newstate = 1005
+            self.F_update_display = True
+            self.list_index = 4
 
     def DO_ST_1070(self):
         # Nutzerstatistik anzeigen
