@@ -423,6 +423,7 @@ class StateMachine():
                         1059 : self.DO_ST_1059,
                         1060 : self.DO_ST_1060,
                         1065 : self.DO_ST_1065,
+                        1069 : self.DO_ST_1069,
                         1070 : self.DO_ST_1070,
                         1075 : self.DO_ST_1075,
                         1080 : self.DO_ST_1080,
@@ -914,8 +915,12 @@ class StateMachine():
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     def _load_helptext(self, helptextnum):
-        # hilfetext laden, Zeilentrenner verarbeiten
-        self.help_list = split_lines(copy.deepcopy(self.msg_dict[str(helptextnum+self.list_index)][self.lg]), self.linewidth)
+        # hilfetext laden, dan weiterreichen
+        self.__load_helptext(copy.deepcopy(self.msg_dict[str(helptextnum+self.list_index)][self.lg]))
+
+    def __load_helptext(self, text):
+        # Basisfunktion, die jeden beliebigen Text in den Helptext formatiert
+        self.help_list = split_lines(text, self.linewidth)
         self.add_footer_help()
         self.help_index = 0
         self.F_update_display = True
@@ -2249,7 +2254,7 @@ class StateMachine():
         # Rueckgabe von git 1:1 auf das Display zaubern. 
         self.LCD.write_lines(ascii_str, 0, 1)
         self.LCD.write_single_line(f"Rev: {rev_num}", 1)
-        self.LCD.write_single_line(self.generate_footer(next=False, prev=False,updown=False, pause='OK'), 2)
+        self.LCD.write_single_line(self.generate_footer(next="HELP", prev=False,updown=False, pause='OK'), 2)
 
         self.newstate = 1065
 
@@ -2261,6 +2266,20 @@ class StateMachine():
             self.newstate = 1005
             self.F_update_display = True
             self.list_index = 4
+
+        elif self.F_button == self.BU_NEXT:
+                # zur Hilfe gehen
+            p = subprocess.Popen(["git", "shortlog"], stdout=subprocess.PIPE)
+            return_stuff = p.communicate()
+            ascii_str = return_stuff[0].decode('utf-8')
+            lines = ascii_str.split('\n')
+
+            # am Ende sind 2 Leerzeilen, die davor ist der letzte aktuelle Commit
+            self.__load_helptext(lines[-3])
+            self.newstate = 1069   
+
+    def DO_ST_1069(self):
+        self._run_helptext(1065)
 
     def DO_ST_1070(self):
         # Nutzerstatistik anzeigen
