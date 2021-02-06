@@ -2244,14 +2244,8 @@ class StateMachine():
 
         self.LCD.clear()
         self.LCD.clear_data()
-
-        if ascii_str.find('Bereits aktuell')>0:
-            # es wurde nix aktualisiert, oder kein Internet???
-            self.LCD.write_lines(self.msg_dict["1061"][self.lg], 0, 1)
-        else:
-            # Es wurde wirklich was aktualisiert
-            self.LCD.write_lines(self.msg_dict["1060"][self.lg], 0, 1)
-
+        # Rueckgabe von git 1:1 auf das Display zaubern. 
+        self.LCD.write_lines(ascii_str, 0, 1)
         self.LCD.write_single_line(f"Rev: {rev_num}", 1)
         self.LCD.write_single_line(self.generate_footer(next=False, prev=False,updown=False, pause='OK'), 2)
 
