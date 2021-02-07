@@ -2011,7 +2011,7 @@ class StateMachine():
         # mittlere Zeile fuer den Input:
         self.LCD.write_single_line(self.input.get_display_string(), 1)
 
-        self.LCD.write_single_line(self.generate_footer(pause="SW", next="OK", updown=False, leftright=True), 2)
+        self.LCD.write_single_line(self.generate_footer(pause="SW", next="OK", updown=True, leftright=False), 2)
 
     def DO_ST_1031(self):
         # Eingabemaske des WLAN-Namens
@@ -2075,7 +2075,7 @@ class StateMachine():
         # mittlere Zeile fuer den Input:
         self.LCD.write_single_line(self.input.get_display_string(), 1)
         # Hilfezeile anders als sonst
-        self.LCD.write_single_line(self.generate_footer(pause="SW", next="OK", updown=False, leftright=True), 2)
+        self.LCD.write_single_line(self.generate_footer(pause="SW", next="OK", updown=True, leftright=False), 2)
 
     def DO_ST_1033(self):
         # Eingabemaske des WLAN-Passwortes
