@@ -1,6 +1,6 @@
    # UID aller hinterlegten Mastercards
    [
-    "114492432092"
-
+    "114492432092"     # Perso
+    "410196924164"     # Schluesselbund
     ]
 
