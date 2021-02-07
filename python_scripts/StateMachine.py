@@ -2024,11 +2024,11 @@ class StateMachine():
                 self.input.change_charset()
             
             # Zeichen durchgehen
-            if self.F_button == self.BU_VOLUME_ROTATION:
+            if self.F_button == self.BU_PAUSE_ROTATION:
                 self.input.change_index(self.N_button)
             
             # Curserposition wechseln
-            if self.F_button == self.BU_PAUSE_ROTATION:
+            if self.F_button == self.BU_VOLUME_ROTATION:
                 if self.N_button > 0:
                     for i in range(self.N_button):
                         self.input.cursor_right()
@@ -2088,11 +2088,11 @@ class StateMachine():
                 self.input.change_charset()
             
             # Zeichen durchgehen
-            if self.F_button == self.BU_VOLUME_ROTATION:
+            if self.F_button == self.BU_PAUSE_ROTATION:
                 self.input.change_index(self.N_button)
             
             # Curserposition wechseln
-            if self.F_button == self.BU_PAUSE_ROTATION:
+            if self.F_button == self.BU_VOLUME_ROTATION:
                 if self.N_button > 0:
                     for i in range(abs(self.N_button)):
                         self.input.cursor_right()
