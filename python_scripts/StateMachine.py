@@ -467,6 +467,7 @@ class StateMachine():
         if self.F_button != button_id:
             self.F_button = button_id
             self.N_button = direction
+            self.logger.info(f'button_id: {button_id}')
         else:
             # Taste bereits vorgemerkt, Anzahl anpassen
             self.N_button += direction
