@@ -1016,6 +1016,8 @@ class StateMachine():
         self.TIMER_LED = self.init_timer(self.duration_LED_action)
         self.TIMER_AUTOSHUTDOWN = self.init_timer(self.timeout_shutdown)
         self.TIMER_MESSAGE = self.init_timer(self.message_display)
+        # allgemeinen Timer zum Debuggen 
+        self.TIMER_DEBUG = self.init_timer(self.message_display)
         # Zaehler fuer das warten auf MPD
         self.init_counter=0
 
@@ -1214,8 +1216,12 @@ class StateMachine():
                 # Pause ausloesen und in den Zustand ST_PAUSE wechseln
                 if self._CheckConnection():
                     self.cl.pause(1)
+                self.LCD.quick_update_state('pause')
                 self.newstate = self.ST_PAUSE
                 self.time_manager.stop()
+                # Displayupdate erzwingen
+                self.F_update_display = True
+
             elif self.F_button == self.BU_PAUSE_ROTATION:
                 # im Titel spulen. auch zum vorherigen Titel moeglich
                 new_pos = float(self.info['elapsed_time']) + self.N_button*self.shuffle_step
@@ -1278,8 +1284,11 @@ class StateMachine():
         if self.F_button == self.BU_PAUSE:
             # Pause beenden
 
+
             if self._CheckConnection():
                 self.cl.pause(0)
+                
+            self.LCD.quick_update_state('play')
 
             self.newstate = 250
             self.F_update_display = True
@@ -1293,6 +1302,7 @@ class StateMachine():
 
         # Displayupdate bei Anforderung --> Aenderungen bei Volume!
         if self.F_update_display or ((self.cur_disp_page == self.DISP_MESSAGE) and not self._validMessage()):
+
             self._writePlay()
             self.start_timer(self.TIMER_DISPLAY)
             self.F_update_display = False

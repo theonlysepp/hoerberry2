@@ -209,6 +209,13 @@ class DisplayHandler(doglcd.DogLCD):
         else:
             self.write("error: Datenlaenge")
 
+    def quick_update_state(self,state, col=3, row=2):
+        # an die Position pos das Zeichen fuer den Wiedergabezustand schreiben
+        # state ist: 'play', 'pause', 'stop' oder 'notavail'
+        self.setCursor(col, row)
+        if state in state_dict.keys():
+            self._write_state(state)
+
             
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
 # interne Teilfunktionen
@@ -265,6 +272,7 @@ class DisplayHandler(doglcd.DogLCD):
 
     def _write_state(self, data):
         # Zeichen nicht schreiben, sondernden Platzhalter aktualisieren?
+        # 
 
         self.createChar(0, symbols[state_dict[data]])
             
