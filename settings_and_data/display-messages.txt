@@ -1,10 +1,4 @@
 {
- "000":       # Vorlage
-     {
-     "D "  : "Fehler:",
-     "GB"  : "error:",
-     "Cz"  : "chyba:",
-     },
  "100":        # Text fuer Zustand 100, Zeile 0
      {
      "D "  : "Hallo",
@@ -14,7 +8,7 @@
  "400":     # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
      {
      "D "  : "Bitte Playliste anlegen.        Bereit zum Starten.",
-     "GB"  : "Please choose a playlist ",
+     "GB"  : "Please choose a playlist.       Ready for music. ",
      "Cz"  : "???",
      },
  "500":       
@@ -23,14 +17,14 @@
      "GB"  : "unknown card ",
      "Cz"  : "neznama karta",
      },
- "510":       
+ "510":     # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF 
      {
-     "D "  : 'Playliste bereits geladen',
-     "GB"  : "playlist is already loaded",
+     "D "  : 'Playliste       bereits geladen',
+     "GB"  : "playlist is al- ready loaded",
      "Cz"  : "???",
      },
  "600":        # Text fuer Zustand 600, Zeile 0
-     {
+     {      # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF 
      "D "  : "Auf Wiedersehen",
      "GB"  : "byebye",
      "Cz"  : "???",
@@ -48,8 +42,8 @@
               "settings",
               "base settings"],
      "Cz"  : ["EDIT MENUE ",
-              "Verlassen"
-              "Playlisten verwalten",
+              "Verlassen-todo"
+              "Playlisten verwalten- todo",
               "Einstellungen",
               "Grundeinstellungen"],
      },
@@ -59,22 +53,22 @@
      "GB"  : "Lea-ve the menu with SAVE or CAN-CEL.",
      "Cz"  : "???",
      },
- "702":     # Hilfetext "Playlisten Verwalten"
+ "702":     # Hilfetext "Playlisten Verwalten": Playlisten verwalten: RFID-Karten den Playlisten zuordnen. Zuordnugn der Karten überprüfen und korrigieren.
      {
-     "D "  : "Play-list-en ver-wal-ten: RFID-Kar-ten den Play-list-en zu-ord-nen.",
+     "D "  : "Play-list-en ver-wal-ten: RFID-Kar-ten den Play-list-en zu-ord-nen. Zu-ord-nung der Kar-ten über-prü-fen und kor-ri-gie-ren.",
      "GB"  : "Play-list ma-nag-ment: assign RFID-Cards to the play-lists.",
      "Cz"  : "???",
      },
- "703":      # Hilfetext "Settings"
+ "703":      # Hilfetext "Einstellungen"  Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Nutzungsbegrenzung.
      {
-     "D "  : "Ein-stell-un-gen für die An-zei-ge im Dis-play und das Ab-spie-len der Mu-sik.",
+     "D "  : "Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Be-grenz-ung der Nut-zung.",
      "GB"  : "Set-tings for dis-play and mu-sic.",
      "Cz"  : "???",
      },
- "704":     # Hilfetext " Base Settings
+ "704":     # Hilfetext " Grundeinstellungen
      {
-     "D "  : "Grund-ein-stel-lun-gen: WLAN, Master-card, Up-dates",
-     "GB"  : "bae settings: IP, WLAN, master-cards, up-dates",
+     "D "  : "Grund-ein-stel-lun-gen: WLAN, Master-card, Up-dates und so ein Kram",
+     "GB"  : "bae settings: IP, WLAN, master-cards, up-dates and stuff",
      "Cz"  : "???",
      },
      # Startbildschirm Zuordnung der Karten
@@ -83,32 +77,32 @@
      "D "  : ["PLAYLISTEN:",
               "RFID zuordnen",
               "RFID korrigieren",
-              "Playliste anzeigen"], 
+              "Karte lesen"], 
      "GB"  : ["PLAYLISTS:",
               "- add RFID",
               "- correct RFID",
-              "- show playlist"], 
+              "- read card"], 
      "CZ"  : ["PLAYLISTEN:",
               "- zuordnen",
               "- korrigieren",
               "- anzeigen"], 
      },
- "801":     # Hilfetext "RFID zuordnen"
+ "801":     # Hilfetext "RFID zuordnen": RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. Die Kartennummer wird kurz angezeigt. Nach erfolgreicher Zuweisung wird dem Playlistennamen ein '-' vorangestellt.
      {
-     "D "  : "RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. An-hal-ten ein-er Mast-er-Card führt zum Ver-las-sen des Edi-tier-me-nues.",
-     "GB"  : "Play-list manag-ment: assign a unique RFID to each new playlist. For that, put the card to the reader. This card will then be assigned to the currently selec-ted play-list. A mast-er-card will lea-ve the menu.",
+     "D "  : "RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. Die Kar-ten-num-mer wird kurz an-ge-zeigt. Nach er-folg-rei-cher Zu-wei-sung wird dem Play-listen-na-men ein '-' vor-an-ge-stellt. ",
+     "GB"  : "Play-list manag-ment: assign a unique RFID to each new playlist. For that, put the card to the reader. This card will then be assigned to the currently selec-ted play-list. The card num-ber is shown brief-ly. Af-ter suc-ces-full assig-ne-ment, a '-' is add-ed in front of the name.",
      "Cz"  : "???",
      },     
- "802":     # Hilfetext "RFID korrigieren"
+ "802":     # Hilfetext "RFID korrigieren": 
      {
      "D "  : "RFID kor-rigie-ren: Alle Play-list-en de-nen ei-ne Kar-te zu-ge-ord-net ist wer-den auf-ge-list-et. An-hal-ten ei-ner RFID-Kar-te über-schrei-bt die al-te Zu-ord-nung.", 
      "GB"  : "correct RFID: A list of all play-lists with a RFID is shown. Put-ting a card to the reader up-date the set-ting for the high-lighted play-list.",
      "Cz"  : "???",
      },     
- "803":     # Hilfetext "Playlisten anzeigen:"
+ "803":     # Hilfetext "Karte lesen:"
      {
-     "D "  : "Play-listen an-zei-gen: Ist der Kar-te ei-ne Play-liste zu-ge-ord-net, wird der Ti-tel der Play-li-ste an-ge-zeigt.",
-     "GB"  : "display play-list: Put a card to the reader. The assigned play-list is shown.",
+     "D "  : "Karte lesen: Ist der Kar-te ei-ne Play-liste zu-ge-ord-net, wird der Ti-tel der Play-li-ste an-ge-zeigt.",
+     "GB"  : "read card: Put a card to the reader. The assigned play-list will be shown.",
      "Cz"  : "???",
      },     
  "820":       
@@ -124,24 +118,24 @@
      "Cz"  : " ???",
      },
  "840":       
-     {
-     "D "  : ["PLAYLISTE anzeigen",
+     {       # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
+     "D "  : ["Karte lesen",
               "Karte anhalten"], 
-     "GB"  : ["display playlist",
+     "GB"  : ["read card",
               "add card"], 
-     "Cz"  : ["Testovani prirazeni",
-                "add card"],
+     "Cz"  : ["???",
+                "???add card"],
      },
  "845_master":       
      {
-     "D "  : "Masterkarte!",
+     "D "  : "Mastercard!",
      "GB"  : "Mastercard!",
      "Cz"  : " ???",
      },
  "845":       
-     {
-     "D "  : "unbekannte RFID",
-     "GB"  : "unknown RFID",
+     {      # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
+     "D "  : "unbekannte Karte",
+     "GB"  : "unknown card",
      "Cz"  : " ???",
      },
 
@@ -156,69 +150,69 @@
 
  "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Sekunden Pause oder Stop automatisch aus.
      {
-     "D "  : "Time-out Shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den Pau-se oder Stop au-to-ma-tisch aus.",
+     "D "  : "Time-out Shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den bei Pau-se oder Stop au-to-ma-tisch aus.",
      "GB"  : "Time-out Shut-down: The Hoerberry will shut down after xxx seconds of idle time. (pause or stop)",
      "Cz"  : "todo",
      },
  "907":       # Time-out Back-light: Dauer der Hintergrundbeleuchtung, falls das Display nur bei Aktion beleuchtet wird. 
      {
-     "D "  : "Time-out Back-light: Dauer der Hin-ter-grund-be-leuch-tung, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
-     "GB"  : "Time-out Back-light: Du-ra-tion of the back-ground ligh-ting if the dis-play is only illumi-na-ted du-ring ac-tion",
-     "Cz"  : "Time-out Back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
+     "D "  : "Timeout Back-light: Dauer der Hin-ter-grund-be-leuch-tung, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
+     "GB"  : "Timeout Back-light: Du-ra-tion of the back-ground ligh-ting if the dis-play is only illumi-na-ted du-ring ac-tion",
+     "Cz"  : "Timeout Back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
      },
  "909":       # "Vol-Max:  Maximal erlaubt Lautstärke in %. Im Display erscheint beim maximal erlaubter Lautstaerke immer 100%. Die Kinder sind ja nicht doof."
      {
      "D "  : "Vol-Max: Maxi-mal er-lau-bt Laut-stä-rke in %. Im Dis-play er-scheint beim maxi-mal er-laub-ter Laut-stä-rke im-mer 100%. Die Kin-der sind ja nicht doof.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "GB"  : "???",
+     "Cz"  : "???",
      },
- "910":       # vol_step: Vol-Step: Schrittweite der Lautstärke in % pro Raste
+ "910":       # vol_step: Schrittweite der Lautstärke in % pro Raste
      {
-     "D "  : "Vol-Step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "D "  : "Vol Step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
+     "GB"  : "Vol Step: Volume step size in % per notch",
+     "Cz"  : "VOl Step: Velikost kroku objemu v% na zářez",
      },
- "911":       # vol_step_quick: Vol-Step: Schrittweite der Lautstärke in % pro Raste, bei schneller Veränderung. 
+ "911":       # vol_step_quick: Schrittweite der Lautstärke in % pro Raste, bei schneller Veränderung. 
      {
-     "D "  : "Vol-Step-Quick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "D "  : "Vol StepQuick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
+     "GB"  : "Vol StepQuick: Step size of the volume in% per notch, with rapid change.",
+     "Cz"  : "Vol StepQuick: Velikost kroku objemu v% na zářez, s rychlou změnou.",
      },
- "901":       # Backlight mode: back-light: Beleuchtung des Display. /"On-Button/" bedeutet, dass bei einer Eingabe (Taste oder Karte) die Beleuchtung kurz angeschatet wird.
+ "901":       # Backlight mode: Beleuchtung des Display. /"On-Button/" bedeutet, dass bei einer Eingabe (Taste oder Karte) die Beleuchtung kurz angeschatet wird.
      {
-     "D "  : "back-light: Be-leuch-tung des Dis-play. 'On-But-ton' be-deu-tet, dass bei ei-ner Ein-ga-be (Ta-ste oder Kar-te) die Be-leuch-tung kurz an-ge-schal-tet wird.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "D "  : "back light: Be-leuch-tung des Dis-play. 'On-But-ton' be-deu-tet, dass bei ei-ner Ein-ga-be (Ta-ste oder Kar-te) die Be-leuch-tung kurz an-ge-schal-tet wird.",
+     "GB"  : "back light: Illu-mi-na-tion of the dis-play. 'On-Button' means that the ligh-ting is swit-ched on brief-ly when an in-put is made (key or card)",
+     "Cz"  : "back light: Osvetleni displeje. 'On-But-ton' znamena, ze se osvetleni kratce rozsviti, kdyz je proveden vstup (klic nebo karta)",
      },
  "902":       # daily-limit: Höchstdauer pro Tag in Minuten. Danach wird keine Musik mehr abgespielt. Bei jeder Eingabe wird gesagt, dass der Hoerberry für den Rest des Tages gesperrt ist. 
      {
-     "D "  : "daily-limit: Höchstdauer pro Tag in Mi-nu-ten. Da-nach wird kei-ne Mu-sik mehr ab-ge-spielt. Bei je-der Ein-ga-be wird ge-sagt, dass der Hoer-ber-ry für den Rest des Ta-ges ge-sperrt ist.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "D "  : "daily limit: Höchstdauer pro Tag in Mi-nu-ten. Da-nach wird kei-ne Mu-sik mehr ab-ge-spielt. Bei je-der Ein-ga-be wird ge-sagt, dass der Hoer-ber-ry für den Rest des Ta-ges ge-sperrt ist.",
+     "GB"  : "daily limit: Maximum duration per day in minutes. After that, no more music will be played. With every input, it will tell that the Hoer-ber-ry is bloc-ked for the rest of the day. ",
+     "Cz"  : "daily limit: Maximalni doba trvani za den v minutach. Pote jiz nebude prehravana zadna hudba. U kazdeho zaznamu se rika, ze Hoerberry je po zbytek dne uzamcen.",
      },
  "903":       # evening-limit: Keine Musikwiedergabe nach dieser Uhrzeit erlaubt. Nur mit WLAN möglich, sonst kennt der Hoerberry die Uhrzeit nicht.
      {
-     "D "  : "evening-limit: Kei-ne Mu-sik-wie-der-ga-be nach die-ser Uhr-zeit er-laubt. Nur mit WLAN mög-lich, sonst kennt der Hoe-rbe-rry die Uhr-zeit nicht.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "D "  : "evening limit: Kei-ne Mu-sik-wie-der-ga-be nach die-ser Uhr-zeit er-laubt. Nur mit WLAN mög-lich, sonst kennt der Hoe-rbe-rry die Uhr-zeit nicht.",
+     "GB"  : "evening limit: No mu-sic play-back allowed af-ter this time. On-ly pos-sible with WLAN, other-wise the Hoer-ber-ry will not know the time.",
+     "Cz"  : "evening limit: Po teto dobe neni povoleno prehravani hudby. Mozne pouze s WLAN, jinak Hoerberry nezna cas.",
      },
  "904":       # Sprache: Sprache der Displayanzeige.
      {
      "D "  : "Spra-che: Spra-che der Dis-play-an-zei-ge.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "GB"  : "Sprache: Language of the display",
+     "Cz"  : "Sprache: Jazyk displeje ",
      },
  "905":       # Morning-limit: Keine Musikwiedergabe vor dieser Uhrzeit erlaubt. Nur mit WLAN möglich, sonst kennt der Hoerberry die Uhrzeit nicht.
      {
      "D "  : "morning-limit: Kei-ne Mu-sik-wie-der-ga-be vor die-ser Uhr-zeit er-laubt. Nur mit WLAN mög-lich, sonst kennt der Hoer-ber-ry die Uhr-zeit nicht.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "GB"  : "morning limit: No mu-sic play-back allowed be-fore this time. On-ly poss-ible with WLAN, other-wise the Hoer-be-rry will not know the time.",
+     "Cz"  : "morning limit: Pred touto dobou neni povoleno prehravani hudby. Mozne pouze s WLAN, jinak Hoerberry nezna cas.",
      },
  "906":       # shuffle step: Schrittweite des Spulens in Sekunden pro Raste.
      {
      "D "  : "shuffle step: Schritt-wei-te des Spu-lens in Se-kun-den pro Raste.",
-     "GB"  : "ready to read the card - ",
-     "Cz"  : "pripraven ke cteni karty - ",
+     "GB"  : "shuffle step: In-cre-ment of win-ding in sec-onds per notch.",
+     "Cz"  : "shuffle step: Prirustek vinuti v sekundach na jeden zarez.",
      },
 # Startbildschirm Grundeinstellungen
  "1000":      
@@ -226,9 +220,9 @@
      "D "  : ["Grundeinstellung",
               "Mastercard hinzufügen",
               "WLAN",
-              "Reset to factory settings",
+              "Zurücksetzen auf Fabrikeinstellung",
               "Updates suchen",
-              "Nutzungsstatistik",
+              "Statistik",
               "aktuelle IP" ], 
      "GB"  : ["Base Settings:",
               "add MASTERCARDs",
@@ -242,7 +236,7 @@
               "WLAN",
               "Reset to factory settings",
               "Updates suchen",
-              "Nutzungsstatistik",
+              "Statistik",
               "aktuelle IP" ], 
      },   
  "1001":     # Hilfetext "Mastercard"
@@ -257,9 +251,9 @@
      "GB"  : "WLAN einrichten, TODO.",
      "Cz"  : "WLAN einrichten, TODO.",
      },     
- "1003":     # Hilfetext "Reset:"
+ "1003":     # Hilfetext "Auf Fabrikeinstellung zurücksetzen:"
      {
-     "D "  : "Reset to factory: Alle Einstellungen zuruecksetzen? RFID-Zuordnung, Einstellungen, Nutzerinfo?",
+     "D "  : "Auf Fabrikeinstellung zurücksetzen: Alle Einstellungen zuruecksetzen? RFID-Zuordnung, Einstellungen, Nutzerinfo?",
      "GB"  : "add Mastercard",
      "Cz"  : " ???",
      },    
@@ -269,7 +263,7 @@
      "GB"  : "Updates suchen, TODO.",
      "Cz"  : "Updates suchen, TODO.",
      },     
- "1005":     # Hilfetext "Statistics:"
+ "1005":     # Hilfetext "Statistik:"
      {
      "D "  : "Benutzerstatistik, TODO.",
      "GB"  : "Benutzerstatistik, TODO.",
