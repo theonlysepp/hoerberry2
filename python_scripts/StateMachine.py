@@ -471,6 +471,7 @@ class StateMachine():
         else:
             # Taste bereits vorgemerkt, Anzahl anpassen
             self.N_button += direction
+            self.logger.info(f'N_button: {self.N_button}')
         
         # LED_ACTION einschalten! 
         GPIO.output(self.PINS[PIN_LED], GPIO.HIGH)
@@ -1291,7 +1292,6 @@ class StateMachine():
             self.LCD.quick_update_state('play')
 
             self.newstate = 250
-            # self.F_update_display = True
 
         elif self.F_button == self.BU_VOLUME_ROTATION:
             # Latstaerke nur leiser stellen
@@ -2032,7 +2032,9 @@ class StateMachine():
         if self.F_button != self.BU_NONE:
             # Zeichentabelle wechseln
             if self.F_button == self.BU_PAUSE:
-                self.input.change_charset()
+                # Wenn der Button schnell betaetigt wird --> mehrfach ausfuehren!
+                for i in range(self.N_button):
+                    self.input.change_charset()
             
             # Zeichen durchgehen
             if self.F_button == self.BU_PAUSE_ROTATION:
@@ -2243,7 +2245,6 @@ class StateMachine():
         self._run_helptext(1050)
 
     def DO_ST_1060(self):
-        # TODO: Git update jedesmal beim Starten des Editiermenue durchfuehren?
         # Information des letzten Commits als Hilfetext anzeigbaer gestalten?
         # ins Verzeichnis des Repositories wechseln
         os.chdir(self.cfg_gl['foname_repo'])
