@@ -1287,11 +1287,11 @@ class StateMachine():
 
             if self._CheckConnection():
                 self.cl.pause(0)
-                
+
             self.LCD.quick_update_state('play')
 
             self.newstate = 250
-            self.F_update_display = True
+            # self.F_update_display = True
 
         elif self.F_button == self.BU_VOLUME_ROTATION:
             # Latstaerke nur leiser stellen
