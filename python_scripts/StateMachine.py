@@ -1051,9 +1051,9 @@ class StateMachine():
 
 
             msg = self.msg_dict["100"][self.lg]
-            #self._writeMessage(msg+self.list_user(), 0,3)
+            self._writeMessage(msg+self.list_user(), 0,3)
             # temporaer: IP beim Start anzeigen. WEnn die verfuegbar --> alles schon vor dem Netzwerk!
-            self._writeMessage(get_ip_address(), 0,3)
+            self.logger.info(f'IP: {get_ip_address()}')
 
             # Begruessungsansage abspielen, einmalig wirklich nur beim Hochfaren, nicht nach dem Editiermenue
             # MPD bei Bedarf stoppen
