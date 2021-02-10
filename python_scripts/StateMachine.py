@@ -174,11 +174,17 @@ import socket
 
 # function to get ip address of given interface
 def get_ip_address():
-    ip_address = ''
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8",80))
-    ip_address = s.getsockname()[0]
-    s.close()
+    try:
+        ip_address = ''
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8",80))
+        ip_address = s.getsockname()[0]
+        s.close()
+    except OSError:
+        ip_address = "no conecction, no IP"
+    except:
+        ip_address = "other error getting IP"
+
     return ip_address
 
 # Konstanten: Positonsnummern im self.PIN array
