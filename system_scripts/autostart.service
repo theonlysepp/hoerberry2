@@ -1,7 +1,7 @@
 [Unit]
 Description=Starten der Hauptdatei zum Abspielen der Musik
-After=local-fs.target mpd.target
-Before=network.target
+#After=local-fs.target mpd.target
+#Before=network.target
 
 
 [Service]
