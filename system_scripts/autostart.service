@@ -14,4 +14,5 @@ Restart=no
 User=dietpi
 
 [Install]
-WantedBy=network.target
+#WantedBy=network.target
+WantedBy=basic.target

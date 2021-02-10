@@ -1011,6 +1011,8 @@ class StateMachine():
         # letztes Datum und abgespielte zeit laden                                        
         self.load_uptime()
 
+        # beim MPD schonmal anklingeln, TODO: ob das was nützt?
+        self._CheckConnection()
 
         # UID-zu-Playlist-Verzeichnis laden
         self.uid_dict = load_file(self.cfg_gl['fname_uid_list'], self.cfg_gl['fname_dflt_uid_list'])
@@ -1046,8 +1048,12 @@ class StateMachine():
         # Ansage nur beim Einschalten, denn dann ist noch kein laststate definiert
         if self.laststate == self.NO_NEWSTATE:
             # Begruessungsbildschirm an alle Benutzer
+
+
             msg = self.msg_dict["100"][self.lg]
-            self._writeMessage(msg+self.list_user(), 0,3)
+            #self._writeMessage(msg+self.list_user(), 0,3)
+            # temporaer: IP beim Start anzeigen. WEnn die verfuegbar --> alles schon vor dem Netzwerk!
+            self._writeMessage(get_ip_address(), 0,3)
 
             # Begruessungsansage abspielen, einmalig wirklich nur beim Hochfaren, nicht nach dem Editiermenue
             # MPD bei Bedarf stoppen
