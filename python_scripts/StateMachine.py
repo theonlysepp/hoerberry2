@@ -50,7 +50,7 @@ def update_all_playlists(Music_path, Playlist_path):
     # Die Dateistruktur in Music_Path in eine MPD-taugliche Liste
     # von Playlisten im Ordner Playlist_path anlegen. 
 
-    music_file_endings = ('.mp3','.m4a')     # zulaesige Dateiendungen fuer Musiktitel
+    music_file_endings = ('.mp3','.m4a', '.wav', '.wma','.aac' )     # zulaesige Dateiendungen fuer Musiktitel
     pl_file_ending = ".m3u"
 
     # Vorhandene Musik und Playlisten laden
