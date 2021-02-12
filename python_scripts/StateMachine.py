@@ -195,11 +195,11 @@ PIN_PREV = 2
 
 def block_wifi():
     # WLAN blockieren mit Software
-    subprocess.Popen('sudo rfkill block wifi'.split(), stdout=subprocess.PIPE)
+    subprocess.Popen(['sudo', 'rfkill', 'block', 'wifi'], stdout=subprocess.PIPE)
 
 def unblock_wifi():
     # WLAN blockieren mit Software
-    subprocess.Popen('sudo rfkill unblock wifi'.split(), stdout=subprocess.PIPE)
+    subprocess.Popen(['sudo', 'rfkill', 'unblock', 'wifi'], stdout=subprocess.PIPE)
 
 
 
