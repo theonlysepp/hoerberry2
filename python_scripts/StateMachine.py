@@ -2474,6 +2474,8 @@ class StateMachine():
             elif self.list_index == 3:
                 # nur Verlassen, laden der alten Einstellungen erfolgt im INIT
                 self.newstate = 100 
+                unblock_wifi()
+                self.logger.info('wifi wieder eingeschaltet!')
 
     def DO_ST_1130(self):
         # Beide Varianten mit Speichern abhandeln, Speicherergebnis ins Display zaubern, 
