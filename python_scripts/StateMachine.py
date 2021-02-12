@@ -1017,7 +1017,9 @@ class StateMachine():
         self.Timeout_backLight  = self._getval('timeout_backLight')
         self.timeout_shutdown   = self._getval('timeout_shutdown') * 60 
         self.lg                 = self._getval('language')
-        self.wlan               = self._getval('wlan')
+        self.wlansetting        = self._getval('wlan')
+
+        self.wlan = True    # WLAN zu beginn aktiv
         # und noch die drei Zeitlimits...
 
         self.time_manager = TimeManager(self._getval('daily_limit')*60,   # im Editiermenue in Minuten, hier aber als Sekunden benoetigt
@@ -1042,6 +1044,7 @@ class StateMachine():
         self.TIMER_MESSAGE = self.init_timer(self.message_display)
         # allgemeinen Timer zum Debuggen 
         self.TIMER_DEBUG = self.init_timer(self.message_display)
+        self.TIMER_WLAN = self.init_timer(self.cfg_gl['wlanshutdown'])
         # Zaehler fuer das warten auf MPD
         self.init_counter=0
 
@@ -1162,11 +1165,6 @@ class StateMachine():
         # playliste laden und komplett im Display anzeigen, immer weiter nach 250!
         self.newstate = 250
 
-        # WLAN abschalten im Musikbetrieb. Achtung: nach derzeitigem Stand nicht vernuenftig umkehrbar,
-        # nur mit Neustart wieder OK. 
-        if self.wlan == 'off':
-            block_wifi()
-            self.logger.info('WLAN abgeschaltet!')
 
         # abfrage, ob diese Playliste bereits abgespielt wird
         if self.playlist_request == self.info['playlist']:
@@ -2660,6 +2658,15 @@ class StateMachine():
             self._remove_GPIO()
             self._init_GPIO()
             self.logger.info("GPIOs zurueckgesetzt")
+
+        # WLAN abschalten im Musikbetrieb. Achtung: nach derzeitigem Stand nicht vernuenftig umkehrbar,
+        # nur mit Neustart wieder OK. 
+        if (self.state < 700):
+            if (self.wlansetting == 'off') and (self.wlan==True):
+                if self.elapsed_time(self.TIMER_WLAN):
+                    block_wifi()
+                    self.logger.info('WLAN abgeschaltet!')        
+
 
         # zum Abschluss die Zykluszeit schlafen
         time.sleep(self.cycletime)
