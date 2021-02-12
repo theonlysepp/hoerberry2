@@ -1000,6 +1000,9 @@ class StateMachine():
     def DO_ST_100(self):
         self.newstate = 150
 
+        # hier WLAN einschaöten, sonst bleibt das imme raus
+        unblock_wifi()
+
         # komplette Settings laden (aktuelle Werte + Wertebereich )
         self.setup = load_file(self.cfg_gl['fname_setup'], self.cfg_gl['fname_dflt_setup'])
         self.logger.info('self.setup:')
