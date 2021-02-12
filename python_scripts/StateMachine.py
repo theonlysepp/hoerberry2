@@ -193,6 +193,16 @@ PIN_NEXT = 1
 PIN_PREV = 2
 
 
+def block_wifi():
+    # WLAN blockieren mit Software
+    subprocess.Popen('sudo rfkill block wifi'.split(), stdout=subprocess.PIPE)
+
+def unblock_wifi():
+    # WLAN blockieren mit Software
+    subprocess.Popen('sudo rfkill unblock wifi'.split(), stdout=subprocess.PIPE)
+
+
+
 class StateMachine():
 # - die Button-callbacks als Methoden
 # - verwaltet den MPD-Client
@@ -989,6 +999,9 @@ class StateMachine():
     def DO_ST_100(self):
         self.newstate = 150
 
+        # Test
+        unblock_wifi():
+
         # komplette Settings laden (aktuelle Werte + Wertebereich )
         self.setup = load_file(self.cfg_gl['fname_setup'], self.cfg_gl['fname_dflt_setup'])
         self.logger.info('self.setup:')
@@ -1443,6 +1456,10 @@ class StateMachine():
         # Anzeige der Hilfe fuer das Editiermenue, im Hintergrund das Musikverzeichnis aktualisieren,
         # die Liste der Playlisten erstellen und die nicht zugeordneten Playlisten rausfiltern
         self.newstate = 705
+
+
+        # Test: 
+        block_wifi()
 
         # Musikwiedergabe stoppen, aktuelle Position speichern
         if self.info['state'] == 'play':
