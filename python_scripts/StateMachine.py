@@ -198,7 +198,8 @@ def block_wifi():
     subprocess.Popen(['sudo', 'rfkill', 'block', 'wifi'], stdout=subprocess.PIPE)
 
 def unblock_wifi():
-    # WLAN blockieren mit Software
+    # WLAN blockieren mit Software: entsperren
+    # todo: leider mit kryptischem Geraeteneman und ohne IP, daher derzeit nicht verwendet
     subprocess.Popen(['sudo', 'rfkill', 'unblock', 'wifi'], stdout=subprocess.PIPE)
 
 
@@ -999,9 +1000,6 @@ class StateMachine():
     def DO_ST_100(self):
         self.newstate = 150
 
-        # Test
-        unblock_wifi()
-
         # komplette Settings laden (aktuelle Werte + Wertebereich )
         self.setup = load_file(self.cfg_gl['fname_setup'], self.cfg_gl['fname_dflt_setup'])
         self.logger.info('self.setup:')
@@ -1016,6 +1014,7 @@ class StateMachine():
         self.Timeout_backLight  = self._getval('timeout_backLight')
         self.timeout_shutdown   = self._getval('timeout_shutdown') * 60 
         self.lg                 = self._getval('language')
+        self.wlan               = self._getval('wlan')
         # und noch die drei Zeitlimits...
 
         self.time_manager = TimeManager(self._getval('daily_limit')*60,   # im Editiermenue in Minuten, hier aber als Sekunden benoetigt
@@ -1159,6 +1158,12 @@ class StateMachine():
     def DO_ST_200(self):
         # playliste laden und komplett im Display anzeigen, immer weiter nach 250!
         self.newstate = 250
+
+        # WLAN abschalten im Musikbetrieb. Achtung: nach derzeitigem Stand nicht vernuenftig umkehrbar,
+        # nur mit Neustart wieder OK. 
+        if self.wlan == 'off':
+            block_wifi()
+            self.logger.info('WLAN abgeschaltet!')
 
         # abfrage, ob diese Playliste bereits abgespielt wird
         if self.playlist_request == self.info['playlist']:
@@ -1456,10 +1461,6 @@ class StateMachine():
         # Anzeige der Hilfe fuer das Editiermenue, im Hintergrund das Musikverzeichnis aktualisieren,
         # die Liste der Playlisten erstellen und die nicht zugeordneten Playlisten rausfiltern
         self.newstate = 705
-
-
-        # Test: 
-        block_wifi()
 
         # Musikwiedergabe stoppen, aktuelle Position speichern
         if self.info['state'] == 'play':
@@ -2474,7 +2475,6 @@ class StateMachine():
             elif self.list_index == 3:
                 # nur Verlassen, laden der alten Einstellungen erfolgt im INIT
                 self.newstate = 100 
-                unblock_wifi()
                 self.logger.info('wifi wieder eingeschaltet!')
 
     def DO_ST_1130(self):

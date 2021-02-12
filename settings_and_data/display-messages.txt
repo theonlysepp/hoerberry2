@@ -148,36 +148,6 @@
  # Achtung: die Nummerieung der folgenden Entraege 90x ergibt sich aus der alphabetischen Sortierung der 
  # Elemente -->  "Backlight mode" ist das erste Element der Liste, daher "901"!  
 
- "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Sekunden Pause oder Stop automatisch aus.
-     {
-     "D "  : "Time-out Shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den bei Pau-se oder Stop au-to-ma-tisch aus.",
-     "GB"  : "Time-out Shut-down: The Hoerberry will shut down after xxx seconds of idle time. (pause or stop)",
-     "Cz"  : "todo",
-     },
- "907":       # Time-out Back-light: Dauer der Hintergrundbeleuchtung, falls das Display nur bei Aktion beleuchtet wird. 
-     {
-     "D "  : "Timeout Back-light: Dauer der Hin-ter-grund-be-leuch-tung, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
-     "GB"  : "Timeout Back-light: Du-ra-tion of the back-ground ligh-ting if the dis-play is only illumi-na-ted du-ring ac-tion",
-     "Cz"  : "Timeout Back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
-     },
- "909":       # "Vol-Max:  Maximal erlaubt Lautstärke in %. Im Display erscheint beim maximal erlaubter Lautstaerke immer 100%. Die Kinder sind ja nicht doof."
-     {
-     "D "  : "Vol-Max: Maxi-mal er-lau-bt Laut-stä-rke in %. Im Dis-play er-scheint beim maxi-mal er-laub-ter Laut-stä-rke im-mer 100%. Die Kin-der sind ja nicht doof.",
-     "GB"  : "???",
-     "Cz"  : "???",
-     },
- "910":       # vol_step: Schrittweite der Lautstärke in % pro Raste
-     {
-     "D "  : "Vol Step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
-     "GB"  : "Vol Step: Volume step size in % per notch",
-     "Cz"  : "VOl Step: Velikost kroku objemu v% na zářez",
-     },
- "911":       # vol_step_quick: Schrittweite der Lautstärke in % pro Raste, bei schneller Veränderung. 
-     {
-     "D "  : "Vol StepQuick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
-     "GB"  : "Vol StepQuick: Step size of the volume in% per notch, with rapid change.",
-     "Cz"  : "Vol StepQuick: Velikost kroku objemu v% na zářez, s rychlou změnou.",
-     },
  "901":       # Backlight mode: Beleuchtung des Display. /"On-Button/" bedeutet, dass bei einer Eingabe (Taste oder Karte) die Beleuchtung kurz angeschatet wird.
      {
      "D "  : "back light: Be-leuch-tung des Dis-play. 'On-But-ton' be-deu-tet, dass bei ei-ner Ein-ga-be (Ta-ste oder Kar-te) die Be-leuch-tung kurz an-ge-schal-tet wird.",
@@ -213,6 +183,42 @@
      "D "  : "shuffle step: Schritt-wei-te des Spu-lens in Se-kun-den pro Raste.",
      "GB"  : "shuffle step: In-cre-ment of win-ding in sec-onds per notch.",
      "Cz"  : "shuffle step: Prirustek vinuti v sekundach na jeden zarez.",
+     },
+ "907":       # Time-out Back-light: Dauer der Hintergrundbeleuchtung, falls das Display nur bei Aktion beleuchtet wird. 
+     {
+     "D "  : "Timeout Back-light: Dauer der Hin-ter-grund-be-leuch-tung, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
+     "GB"  : "Timeout Back-light: Du-ra-tion of the back-ground ligh-ting if the dis-play is only illumi-na-ted du-ring ac-tion",
+     "Cz"  : "Timeout Back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
+     },
+ "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Sekunden Pause oder Stop automatisch aus.
+     {
+     "D "  : "Time-out Shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den bei Pau-se oder Stop au-to-ma-tisch aus.",
+     "GB"  : "Time-out Shut-down: The Hoerberry will shut down after xxx seconds of idle time. (pause or stop)",
+     "Cz"  : "todo",
+     },
+ "909":       # "Vol-Max:  Maximal erlaubt Lautstärke in %. Im Display erscheint beim maximal erlaubter Lautstaerke immer 100%. Die Kinder sind ja nicht doof."
+     {
+     "D "  : "Vol-Max: Maxi-mal er-lau-bt Laut-stä-rke in %. Im Dis-play er-scheint beim maxi-mal er-laub-ter Laut-stä-rke im-mer 100%. Die Kin-der sind ja nicht doof.",
+     "GB"  : "???",
+     "Cz"  : "???",
+     },
+ "910":       # vol_step: Schrittweite der Lautstärke in % pro Raste
+     {
+     "D "  : "Vol Step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
+     "GB"  : "Vol Step: Volume step size in % per notch",
+     "Cz"  : "VOl Step: Velikost kroku objemu v% na zářez",
+     },
+ "911":       # vol_step_quick: Schrittweite der Lautstärke in % pro Raste, bei schneller Veränderung. 
+     {
+     "D "  : "Vol StepQuick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
+     "GB"  : "Vol StepQuick: Step size of the volume in% per notch, with rapid change.",
+     "Cz"  : "Vol StepQuick: Velikost kroku objemu v% na zářez, s rychlou změnou.",
+     },
+ "912":       # WLAN: WLAN nach dem Starten mit Beginn der Musik abschalten. Achtung: Einschalten des WLAN geht nur mit Neustart
+     {
+     "D "  : "WLAN: WLAN nach dem Star-ten mit Be-ginn der Mu-sik ab-schal-ten. Ach-tung: Ein-schal-ten des WLAN geht nur mit Neu-start",
+     "GB"  : "WLAN: In-cre-ment of win-ding in sec-onds per notch.",
+     "Cz"  : "WLAN: Prirustek vinuti v sekundach na jeden zarez.",
      },
 # Startbildschirm Grundeinstellungen
  "1000":      
