@@ -1000,7 +1000,7 @@ class StateMachine():
         self.newstate = 150
 
         # Test
-        unblock_wifi():
+        unblock_wifi()
 
         # komplette Settings laden (aktuelle Werte + Wertebereich )
         self.setup = load_file(self.cfg_gl['fname_setup'], self.cfg_gl['fname_dflt_setup'])
