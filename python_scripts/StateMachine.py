@@ -2665,7 +2665,8 @@ class StateMachine():
             if (self.wlansetting == 'off') and (self.wlan==True):
                 if self.elapsed_time(self.TIMER_WLAN):
                     block_wifi()
-                    self.logger.info('WLAN abgeschaltet!')        
+                    self.logger.info('WLAN abgeschaltet!')    
+                    self.wlan=False    
 
 
         # zum Abschluss die Zykluszeit schlafen
