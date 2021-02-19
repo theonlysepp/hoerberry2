@@ -2403,7 +2403,7 @@ class StateMachine():
         # Hilfeanzeige Add_Mastercard  
         self._run_helptext(1005)
 
-    def DO_ST_9(self):
+    def DO_ST_1100(self):
         # Editiermenue Verlassen, mit oder ohne Speichern
         self.newstate = 1105
         # Index nur hier wirklich initialisieren!
