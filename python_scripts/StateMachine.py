@@ -1523,7 +1523,7 @@ class StateMachine():
 
         # Nummerierung, aber nicht fuer den Titel
         self.disp_list[1::] = add_numbering(self.disp_list[1::])
-        self.disp_list.append(self.generate_footer(prev='EXTI'))
+        self.disp_list.append(self.generate_footer(prev='EXIT'))
         self.F_update_display = True
 
     def DO_ST_710(self):
@@ -1610,7 +1610,7 @@ class StateMachine():
             elif self.F_button == self.BU_PREV:
                 # zum vorherigen Menue zurueck, an der richtigen Stelle rauskommen!
                 self.newstate = 705 
-                self.list_index = 2 
+                self.list_index = 1 
                 self.F_update_display = True
                 return
 
@@ -1856,7 +1856,7 @@ class StateMachine():
             elif (self.F_button == self.BU_PREV):
                 # zum vorherigen Menue zurueck, an der richtigen Stelle rauskommen!
                 self.newstate = 705 
-                self.list_index = 3
+                self.list_index = 2
                 self.F_update_display = True
                 return
 
@@ -1983,7 +1983,7 @@ class StateMachine():
             elif self.F_button == self.BU_PREV:
                 # zum vorherigen Menue zurueck, an der richtigen Stelle rauskommen!
                 self.newstate = 705 
-                self.list_index = 4 
+                self.list_index = 3
                 self.F_update_display = True
                 return
 
@@ -2403,7 +2403,7 @@ class StateMachine():
         # Hilfeanzeige Add_Mastercard  
         self._run_helptext(1005)
 
-    def DO_ST_1100(self):
+    def DO_ST_9(self):
         # Editiermenue Verlassen, mit oder ohne Speichern
         self.newstate = 1105
         # Index nur hier wirklich initialisieren!
