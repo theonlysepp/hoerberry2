@@ -1893,7 +1893,7 @@ class StateMachine():
 
         # Tastenreaktion: PREV geht zurueck nach EDIT_PAIR, Pause macht das auch, als "Bestaetigen"
         # (--> Pause nur wegen konssitenter Bedienung mit dem restlichen Menue)
-        if (self.F_button == self.BU_PREV) or (self.F_button == self.BU_PAUSE_ROTATION):
+        if (self.F_button == self.BU_PREV) or (self.F_button == self.BU_PAUSE):
             self.newstate = 910   
             self.F_update_display = True
             return
