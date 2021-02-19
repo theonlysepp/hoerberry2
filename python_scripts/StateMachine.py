@@ -1523,7 +1523,7 @@ class StateMachine():
 
         # Nummerierung, aber nicht fuer den Titel
         self.disp_list[1::] = add_numbering(self.disp_list[1::])
-        self.disp_list.append(self.generate_footer(prev=False))
+        self.disp_list.append(self.generate_footer(prev='EXTI'))
         self.F_update_display = True
 
     def DO_ST_710(self):
@@ -1534,19 +1534,19 @@ class StateMachine():
         if self.F_button != self.BU_NONE:
             if self.F_button == self.BU_PAUSE:
                 # anhand vom aktuellen Element zum naechsten Zustand
+ 
                 if self.list_index == 1: 
-                    # verlassen 
-                    self.newstate = 1100   
-                elif self.list_index == 2: 
                     self.newstate = 800   
-                elif self.list_index == 3: 
+                elif self.list_index == 2: 
                     # Musik und Displayeinstellungen 
                     self.newstate = 900   
-                elif self.list_index == 4: 
+                elif self.list_index == 3: 
                     # allgemeine Einstellungen 
                     self.newstate = 1000   
 
             elif self.F_button == self.BU_PREV:
+                # TODO: zum Verlassen-Menue!
+                self.newstate = 1100   
                 return
             elif self.F_button == self.BU_NEXT:
                 # zur Hilfe gehen
@@ -1853,7 +1853,7 @@ class StateMachine():
                 # zum Einstellen des aktuellen Elements
                 self.newstate = 950
 
-            elif self.F_button == self.BU_PREV:
+            elif (self.F_button == self.BU_PREV):
                 # zum vorherigen Menue zurueck, an der richtigen Stelle rauskommen!
                 self.newstate = 705 
                 self.list_index = 3
@@ -1885,14 +1885,15 @@ class StateMachine():
         # Mittlere Zeile mit den Werten
         self.LCD.write_single_line(self.get_val_string(), 1)
         # Fusszeile
-        self.LCD.write_single_line(self.generate_footer(pause=False, updown=False,leftright=True), 2)
+        self.LCD.write_single_line(self.generate_footer(pause='OK', updown=False,leftright=True), 2)
 
     def DO_ST_955(self):
         # Einstellungen der jeweiligen Kategorie vornehmen, Wert veraendern
         self.newstate = 955
 
-        # Tastenreaktion: PREV geht zurueck nach EDIT_PAIR
-        if self.F_button == self.BU_PREV:
+        # Tastenreaktion: PREV geht zurueck nach EDIT_PAIR, Pause macht das auch, als "Bestaetigen"
+        # (--> Pause nur wegen konssitenter Bedienung mit dem restlichen Menue)
+        if (self.F_button == self.BU_PREV) or (self.F_button == self.BU_PAUSE_ROTATION):
             self.newstate = 910   
             self.F_update_display = True
             return

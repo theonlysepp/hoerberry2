@@ -32,40 +32,31 @@
  "700":        # Text fuer Zustand 700, Zeile 0
      {
      "D "  : ["EDITIERMENUE",
-              "Verlassen"
               "Playlisten verwalten",
               "Einstellungen",
               "Grundeinstellungen"], 
      "GB"  : ["EDIT MENUE ",
-              "Exit"
               "manage playlists",
               "settings",
               "base settings"],
      "Cz"  : ["EDIT MENUE ",
-              "Verlassen-todo"
               "Playlisten verwalten- todo",
               "Einstellungen",
               "Grundeinstellungen"],
      },
- "701":     # Hilfetext "Verlassen"
-     {
-     "D "  : "Edi-tier-men-ue mit Spei-chern oder Ab-bruch ver-las-sen",
-     "GB"  : "Lea-ve the menu with SAVE or CAN-CEL.",
-     "Cz"  : "???",
-     },
- "702":     # Hilfetext "Playlisten Verwalten": Playlisten verwalten: RFID-Karten den Playlisten zuordnen. Zuordnugn der Karten überprüfen und korrigieren.
+ "701":     # Hilfetext "Playlisten Verwalten": Playlisten verwalten: RFID-Karten den Playlisten zuordnen. Zuordnugn der Karten überprüfen und korrigieren.
      {
      "D "  : "Play-list-en ver-wal-ten: RFID-Kar-ten den Play-list-en zu-ord-nen. Zu-ord-nung der Kar-ten über-prü-fen und kor-ri-gie-ren.",
      "GB"  : "Play-list ma-nag-ment: assign RFID-Cards to the play-lists.",
      "Cz"  : "???",
      },
- "703":      # Hilfetext "Einstellungen"  Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Nutzungsbegrenzung.
+ "702":      # Hilfetext "Einstellungen"  Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Nutzungsbegrenzung.
      {
      "D "  : "Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Be-grenz-ung der Nut-zung.",
      "GB"  : "Set-tings for dis-play and mu-sic.",
      "Cz"  : "???",
      },
- "704":     # Hilfetext " Grundeinstellungen
+ "703":     # Hilfetext " Grundeinstellungen
      {
      "D "  : "Grund-ein-stel-lun-gen: WLAN, Master-card, Up-dates und so ein Kram",
      "GB"  : "bae settings: IP, WLAN, master-cards, up-dates and stuff",

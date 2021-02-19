@@ -12,7 +12,7 @@
 
 import hjson
 # Pinbelegung laden
-with open('/home/dietpi/settings_and_data/pinbelegung.ini','r') as fobj:
+with open('/home/dietpi/user_data/pinbelegung.ini','r') as fobj:
      pins = hjson.load(fobj)   
 
 
