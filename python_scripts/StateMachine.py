@@ -847,6 +847,8 @@ class StateMachine():
                     
             except ConnectionRefusedError:
                 return False
+            except FileNotFoundError:
+                self.logger.error('MPD connection error: file not found')
 
             # wenn keine Verbindung besteht --> nochmal versuchen, 
             if iterations>0:
