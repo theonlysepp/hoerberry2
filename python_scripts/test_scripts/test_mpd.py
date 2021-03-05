@@ -11,7 +11,7 @@ client.timeout = 10                # network timeout in seconds (floats allowed)
 client.idletimeout = None          # timeout for fetching the result of the idle command is handled seperately, default: None
 
 
-client.connect("localhost", 6600)  # connect to localhost:6600 muss ggf vor jedem 
+client.connect('/var/run/mpd/socket')  # connect to localhost:6600 muss ggf vor jedem 
                                    # Befehl an den client wiederholt werden. MPD bricht die
                                    # Verbindung selbsstandig ab nach einiger Zeit. 
 

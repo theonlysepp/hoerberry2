@@ -263,7 +263,7 @@ class StateMachine():
         # zentrales Objekt das verwaltet wird: der MPD-CLient!!!
         self.cl = mpd.MPDClient()
         try:
-            self.cl.connect('localhost',6600)
+            self.cl.connect('/var/run/mpd/socket')
         except:
             self.logger.info('__init__: MPD-Client nicht da')
 
@@ -843,7 +843,7 @@ class StateMachine():
         except mpd.ConnectionError:
             self.logger.info('no connection mpd, but try to')
             try:
-                self.cl.connect("localhost", 6600) 
+                self.cl.connect('/var/run/mpd/socket') 
                     
             except ConnectionRefusedError:
                 return False
