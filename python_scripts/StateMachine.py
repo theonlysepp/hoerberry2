@@ -18,6 +18,8 @@ import mpd
 import subprocess
 
 import os
+from pathlib import Path
+
 import sys
 import copy
 from random import shuffle, randint
@@ -83,7 +85,8 @@ def update_all_playlists(Music_path, Playlist_path):
             os.remove(j+pl_file_ending) 
             print(f'Playlist ohne Musik geloescht: {j}')
             
-    p = subprocess.Popen(["sudo", "mpc", "update"], stdout=subprocess.PIPE)
+    subprocess.Popen(["sudo", "mpc", "update"], stdout=subprocess.PIPE)
+
 
 def load_file(filename, filename_dflt):
     # Informationen mittel HJSON aus einer Datei einlesen und zurueckgeben
@@ -358,10 +361,22 @@ class StateMachine():
 
 
         # Ansagetexte laden
-        with open(self.cfg_gl['fname_audio_msg'],'r') as fobj:    
-            self.sound_msg = hjson.load(fobj)    
+        try:
+            self.sound_msg = {}
+
+            p=Path(self.cfg_gl['fname_audio_msg'])
+
+            # alle passenden Dateien zur Suchmaske ausgeben
+            for i in ['ok','daily_limit','morning_limit','evening_limit','hello','goodbye','AutoShutdown']:
+                self.sound_msg[i] = list(p.glob(f'{i}*.mp3'))
+ 
             self.logger.info("self.sound_msg:")               
-            self.logger.info(self.sound_msg)               
+            self.logger.info(self.sound_msg)        
+
+        except:
+            # Dictionary der Datei nicht geladen, leeres dictionary erstellen
+            self.sound_msg = {'ok':[], 'daily_limit':[], 'morning_limit':[], 'evening_limit':[], 'hello':[], 'goodbye':[]}       
+            self.logger.error('fname_audio_msg nicht geladen!')
 
         # Sprachnachrichten fuer das Display laden, in allen Sprachen
         with open(self.cfg_gl['fname_messages']) as fobj:
@@ -567,7 +582,7 @@ class StateMachine():
         # Abfragen, ob bald Ausgeschaltet wird, im WAIT und PAUSE
 
         if int(self.remaining_time(self.TIMER_AUTOSHUTDOWN)) == 60:
-            self.play_sound_msg('warning')
+            self.play_sound_msg('AutoShutdown')
 
         if self.elapsed_time(self.TIMER_AUTOSHUTDOWN):
             self.newstate = self.ST_SHUTDOWN
@@ -670,7 +685,7 @@ class StateMachine():
         new_volume = max(0, new_volume)
         new_volume = min(self.vol_max, new_volume)
 
-        p = subprocess.Popen(["sudo", "amixer", "set", "Master", '{:02d}%'.format(new_volume)], stdout=subprocess.PIPE)
+        subprocess.Popen(["sudo", "amixer", "set", "Master", '{:02d}%'.format(new_volume)], stdout=subprocess.PIPE)
 
         self.info['volume'] = new_volume
 
@@ -685,9 +700,13 @@ class StateMachine():
         # eine zufaellige davon abspielen
         subprocess.Popen(["sudo", "amixer", "set", "Master", '{:02d}%'.format(self.msg_vol)], stdout=subprocess.PIPE)
 
-        # subprocess.Popen(["sudo", "mpg123", auswahl[randint(0,len(auswahl)-1)] ], stdout=subprocess.PIPE)
-        # Soundmessages mit call ausgeben, weil es solgne wartet, bis es fertig ist. SOnst kriegt MPD Probleme...
-        subprocess.call(f'sudo mpg123 {auswahl[randint(0,len(auswahl)-1)]}', shell=True)
+        # Soundmessages mit call ausgeben, weil es solagne wartet, bis es fertig ist. Sonst kriegt MPD Probleme...
+        # den vollen Pfad ausgeben mit .resolve()
+        if len(auswahl) > 0:
+            subprocess.call(f'sudo mpg123 {auswahl[randint(0,len(auswahl)-1)].resolve()}', shell=True)
+        else:
+            self.logger.error(f'play_sound_msg: Keine Wiedergabedatei fuer Aktion: {list_name}')
+
         # Lautstaerke der Musikwiedergabe sofort wiederherstellen
         self.adjust_volume(0)
 

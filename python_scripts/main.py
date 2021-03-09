@@ -150,8 +150,6 @@ GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)
 
 
 logger.info('Intialisierungen beendent')
-logger.error('test: Error msg')
-logger.debug('test: debug msg')
 
 #-------------------------------------------------------------------------------------------------------------
 # Hauptschleife
