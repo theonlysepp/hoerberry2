@@ -499,11 +499,11 @@ class StateMachine():
         if self.F_button != button_id:
             self.F_button = button_id
             self.N_button = direction
-            #self.logger.info(f'button_id: {button_id}')
+            self.logger.info(f'button_id: {button_id}')
         else:
             # Taste bereits vorgemerkt, Anzahl anpassen
             self.N_button += direction
-            #self.logger.info(f'N_button: {self.N_button}')
+            self.logger.info(f'N_button: {self.N_button}')
         
         # LED_ACTION einschalten! 
         GPIO.output(self.PINS[PIN_LED], GPIO.HIGH)
@@ -729,6 +729,7 @@ class StateMachine():
             return True
         except:
             # Nicht erfolgreich geladen
+            self.logger.error('load_position nicht erfolgreich.')
             return False
 
     def save_to_file(self):
@@ -759,6 +760,7 @@ class StateMachine():
             with open(self.cfg_gl['fname_uptime'], 'r') as fobj:
                 self.time_manager.load(fobj)
         except FileNotFoundError:
+            self.logger.error('load_uptime nicht erfolgreich, default geladen')
             with open(self.cfg_gl['fname_dflt_uptime'], 'r') as fobj:
                 self.time_manager.load(fobj)
 
@@ -925,6 +927,9 @@ class StateMachine():
             self.LCD.write_single_line(self.disp_list[self.list_index+1], 2, blink=0,ls=False)
         except IndexError:
             self.logger.error(f'{self.state}: IndexError _write_disp_list')
+        except:
+            self.logger.error(f'{self.state}: sonstiger Fehler _write_disp_list')
+
 
     def _write_help_list(self):
         # aktuell relevante Zeilen fuer die Hilfeanzeige darstellen
@@ -1155,14 +1160,14 @@ class StateMachine():
         try:
             self.cl.clear() 
         except:
-            self.logger.info('Fehler: self.cl.clear() ')
+            self.logger.error('Fehler: self.cl.clear() ')
             self.newstate = 400
             return
 
         try: 
             self.cl.load(self.info['playlist'])
         except:
-            self.logger.info("Fehler: self.cl.load(self.info['playlist']) ")
+            self.logger.error("Fehler: self.cl.load(self.info['playlist']) ")
             self.newstate = 400
             return
 
@@ -1170,7 +1175,7 @@ class StateMachine():
             self.cl.play(self.info['song_number'])
         except:
             # wenn der richtige Titel nicht 
-            self.logger.info("Fehler: self.cl.play(self.info['song_number']) ")
+            self.logger.error("Fehler: self.cl.play(self.info['song_number']) ")
             self.newstate = 400
             return
 
@@ -1178,7 +1183,7 @@ class StateMachine():
             self.cl.seekcur(self.info['elapsed_time'])
         except:
             # Fehler beim vorspulen koennen ignoriert werden, lediglich anzeigen!
-            self.logger.info("Fehler: self.cl.seekcur(self.info['elapsed_time']) ")
+            self.logger.error("Fehler: self.cl.seekcur(self.info['elapsed_time']) ")
 
     def DO_ST_200(self):
         # playliste laden und komplett im Display anzeigen, immer weiter nach 250!
@@ -2273,7 +2278,7 @@ class StateMachine():
             try:
                 subprocess.call(f'sudo rm {self.cfg_gl[f_name]}', shell=True)
             except:
-                self.logger.info(f'Entfernen gescheitert: {f_name}')
+                self.logger.error(f'Entfernen gescheitert: {f_name}')
 
 
         # Bestaetigung senden, dass gerade alles zurueckgesetzt wurde    
@@ -2516,6 +2521,7 @@ class StateMachine():
             self.save_to_file()
             self.LCD.write_lines(self.msg_dict["1130"][self.lg], 0,3)
         except:
+            self.logger.error(f'{self.state}: Speihern nicht erfolgreich')
             self.LCD.write_single_line(self.msg_dict["1131"][self.lg], 0,3)
         time.sleep(1.0)
 

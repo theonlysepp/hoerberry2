@@ -161,7 +161,7 @@ class TimeManager():
             if self._decode(datetime.now()) in self.data:
                 self.uptime += self.data[self._decode(datetime.now())]
         except KeyError:
-            self.logger.info('data nicht gefunden')
+            self.logger.error('time_manager.load: data nicht gefunden')
 
     def _decode(self, o):
         # decoder fuer das Speichern mit Json, umwandeln in sowas: 
