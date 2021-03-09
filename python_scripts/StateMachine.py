@@ -360,18 +360,18 @@ class StateMachine():
 
 
 
-        # Ansagetexte laden
         try:
+            # Ansagetexte laden
             self.sound_msg = {}
 
-            p=Path(self.cfg_gl['fname_audio_msg'])
+            p=Path(self.cfg_gl['foname_audio_msg'])
 
             # alle passenden Dateien zur Suchmaske ausgeben
             for i in ['ok','daily_limit','morning_limit','evening_limit','hello','goodbye','AutoShutdown']:
                 self.sound_msg[i] = list(p.glob(f'{i}*.mp3'))
- 
-            self.logger.info("self.sound_msg:")               
-            self.logger.info(self.sound_msg)        
+    
+                self.logger.info("self.sound_msg:")               
+                self.logger.info(self.sound_msg)        
 
         except:
             # Dictionary der Datei nicht geladen, leeres dictionary erstellen
