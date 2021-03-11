@@ -395,6 +395,8 @@ class StateMachine():
         self.timeout_shutdown   = 1200            # in Sekunden
         self.lg                 = 'D '            # Sprachwahl
 
+        # Flag fuer updates, mit "git status" zu Beginn des Editiermenue zu erfragen
+        self.updates_available = 0
 
         # timer-Variablen erstellen
         self.timer_start=[]
@@ -1504,7 +1506,16 @@ class StateMachine():
         # Ab hier wird gearbeitet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         # Erster Schritt: 
-        # veraltet und entfernt
+        # nach update suchen
+        p=subprocess.Popen(['git', 'status'], stdout=subprocess.PIPE)
+        ascii_return = p.communicate()[0][0:70].decode('ascii')
+        self.logger.info(f'Rueckgabe von git status: {ascii_return}')
+        if ascii_return.find('Ihr Branch ist auf demselben Stand wie') == -1 :
+            # Updates vorhanden
+            self.updates_available = 1
+        else:
+            self.updates_available = 0
+
 
         # Zweiter Schritt: Playlistendateien ohne Musik loeschen, 
         # fuer Musik ohne Playlistdatei diese erstellen
@@ -1545,7 +1556,12 @@ class StateMachine():
         # Elemente fuer die Listenanzeige laden, Displayupdate anstossen
         self.disp_list = copy.deepcopy(self.msg_dict["700"][self.lg])
         # Kopfzeile kriegt die IP mit rangehaengt: (auf der zweiten Seite)
-        self.disp_list[0] = self.disp_list[0].center(self.linewidth) + get_ip_address() 
+        # und zeigt optional stat Editiermenue die Updates an. 
+        if self.updates_available:
+            self.disp_list[0] = self.msg_dict["updates"][self.lg] + get_ip_address() 
+        else:
+            self.disp_list[0] = self.disp_list[0].center(self.linewidth) + get_ip_address() 
+
 
         # Nummerierung, aber nicht fuer den Titel
         self.disp_list[1::] = add_numbering(self.disp_list[1::])
@@ -2303,11 +2319,14 @@ class StateMachine():
         self._run_helptext(1050)
 
     def DO_ST_1060(self):
+        # Nach Updates suchen
+
         # Information des letzten Commits als Hilfetext anzeigbaer gestalten?
         # ins Verzeichnis des Repositories wechseln
         os.chdir(self.cfg_gl['foname_repo'])
 
         p = subprocess.Popen(["git", "pull", "origin", "main"], stdout=subprocess.PIPE)
+        self.updates_available = 0
 
         return_stuff = p.communicate()
         ascii_str = return_stuff[0].decode('ascii')

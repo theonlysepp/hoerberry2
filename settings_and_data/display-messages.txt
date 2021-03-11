@@ -428,4 +428,11 @@
      "GB"  : "Enough for today.",
      "Cz"  : "???",
     },
+  "updates":       # Anzeigetext Editiermenue, Kopfzeile
+    # Updates 
+    {        #1234567890123456
+     "D "  : "Updates vorhande",
+     "GB"  : "updates availabl",
+     "Cz"  : "???",
+    },
 }
