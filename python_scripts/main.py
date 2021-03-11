@@ -73,6 +73,12 @@ if len(sys.argv)>1:
 else:               
      loglevel=settings_gl['Logging_Level']     
 
+# leere alte logfiles loeschen
+from pathlib import Path
+f_list = list(Path(settings_gl['logfile']).glob('*.log'))
+[ i.unlink() for i in f_list if (i.stat().st_size == 0) ]
+
+
 # mit oder ohne logfile
 if settings_gl['logfile'] != 'None':
      logfile = settings_gl['logfile']+'logfile_{}.log'.format(timestamp)
