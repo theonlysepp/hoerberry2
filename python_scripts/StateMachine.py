@@ -1515,6 +1515,7 @@ class StateMachine():
             self.updates_available = 1
         else:
             self.updates_available = 0
+            
 
 
         # Zweiter Schritt: Playlistendateien ohne Musik loeschen, 
