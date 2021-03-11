@@ -57,6 +57,8 @@ def update_all_playlists(Music_path, Playlist_path):
 
     # Vorhandene Musik und Playlisten laden
     musiclist = os.listdir(Music_path)
+
+
     playlistlist = read_playlists(Playlist_path)
 
     # im Playlistpath arbeiten
@@ -64,7 +66,7 @@ def update_all_playlists(Music_path, Playlist_path):
 
     for i in musiclist:
 
-        if i not in playlistlist:
+        if os.path.isdir(i) and (i not in playlistlist):
             print(i, playlistlist)
             # Musikdateien auslesen und Playliste erzeugen
             f = open(i+pl_file_ending, "w")
