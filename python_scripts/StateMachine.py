@@ -1455,8 +1455,12 @@ class StateMachine():
         # Position speichern, Musik stoppen, runterfahren
         self.newstate = 650
         
-        self.save_current_position()
-        self.save_uptime()
+        try:
+            self.save_current_position()
+            self.save_uptime()
+        except:
+            self.logger.error('Fehler Abspeichern aktuelle Position')
+
 
         # MPD anhalten
         if self._CheckConnection():
@@ -1466,12 +1470,18 @@ class StateMachine():
                 self.logger.info("mpd beim Runterfahren nicht mehr erreichbar")
 
         # Verabschiedung von allen Benutzern
-        shuffle(self.user)
-        msg = self.msg_dict["600"][self.lg]
-        self._writeMessage(msg+self.list_user(), 0,3)
-  
+        try:
+            shuffle(self.user)
+            msg = self.msg_dict["600"][self.lg]
+            self._writeMessage(msg+self.list_user(), 0,3)
+        except:
+            self.logger.error('Fehler Anzeige Goodbye')
+
         # Goodbye-Ansage
-        self.play_sound_msg('goodbye')
+        try:
+            self.play_sound_msg('goodbye')
+        except:
+            self.logger.error('Fehler message googdbye')
 
         # selber den Shutdown des Raspi anstossen, nicht auf die ONOFF-shim warten
         subprocess.Popen(["sudo", "shutdown", "-h", "0"], stdout=subprocess.PIPE)
