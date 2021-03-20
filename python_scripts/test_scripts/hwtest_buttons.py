@@ -14,18 +14,56 @@
 # Prellen nur bei langem Tastendruck, dann aber in der SW keine "Reaktion"
 
 
+# Pfad zu den Modulen hinzufuegen, sollten immer im uebergeordneten Verzeichnis liegen
+# fuer den Import von Rot_ENC
+from pathlib import Path
+import sys
+import hjson
+
+# alle relevanten Pfade erzeugen
+p_test_skripts=Path('.').absolute()
+p_python = p_test_skripts.parent
+p_github = p_python.parent
+p_settings = Path(p_github, 'settings_and_data')
+
+# Pfad fuer den Modulimport von ROT_ENC hinzufuegen
+sys.path.append(str(p_python))
+
+
+# einmalig der allgemeine Ort von basesettings.ini,
+path_basesettings = Path(p_settings,'base_settings.ini')
+
+# Grundeinstellungen laden
+with open(path_basesettings,'r') as fobj:
+    temp_dict = hjson.load(fobj)
+    settings_gl = temp_dict['global']
+
+# Pinbelegung laden und in die Variablen schreiben
+with open(settings_gl['fname_pinbelegung'],'r') as fobj:
+    pins = hjson.load(fobj)   
  
+    BuNextPIN = pins['BuNextPIN'] 
+    BuPrevPIN = pins['BuPrevPIN']
+
+    VolumePIN_DT = pins['VolumePIN_DT']
+    VolumePIN_CLK = pins['VolumePIN_CLK']
+
+    PausePIN_SW = pins['PausePIN_SW']
+    PausePIN_DT = pins['PausePIN_DT']
+    PausePIN_CLK = pins['PausePIN_CLK']
+
+    SHUTDOWN_PIN = pins['SHUTDOWN_PIN']
+
+
 import RPi.GPIO as GPIO
 from ROT_ENC import ROT_ENC
 import os, time
 
-# Pinbelegung laden
-from pinbelegung_testscripts import *
+
+
 # Pinbelegung gemaess Gesamtplan
 GPIO.setmode(GPIO.BOARD)
 
-# LED 
-GPIO.setup(LED_ACTION_PIN, GPIO.OUT)
 
 # allgemeine Testparameter
 bt = 20        # bouncetime in ms, kein neues Ausloesen des calbacks inerhalb der Zeit
@@ -84,6 +122,11 @@ GPIO.add_event_detect(BuPrevPIN,GPIO.FALLING,callback=BuPrevPressed,bouncetime=b
 # Pause, Knopfdruck
 GPIO.setup(PausePIN_SW,GPIO.IN)
 GPIO.add_event_detect(PausePIN_SW,GPIO.FALLING,callback=PausePressed,bouncetime=bt)
+
+# Volume, Knopfdruck
+GPIO.setup(SHUTDOWN_PIN,GPIO.IN)
+GPIO.add_event_detect(SHUTDOWN_PIN,GPIO.FALLING,callback=VolumePressed,bouncetime=bt)
+
 
 # Drehgeber
 # KyVol

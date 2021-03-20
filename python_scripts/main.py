@@ -15,6 +15,7 @@ import sys
 import hjson
 
 # einmalig der allgemeine Ort von basesettings.ini
+# TOOD: relativer Pfad, bezogen auf den aktuellen Ort
 path_basesettings = '/home/dietpi/hoerberry2/settings_and_data/base_settings.ini'
 
 # Grundeinstellungen laden
