@@ -16,7 +16,8 @@
 
  
 import RPi.GPIO as GPIO
-import time
+from ROT_ENC import ROT_ENC
+import os, time
 
 # Pinbelegung laden
 from pinbelegung_testscripts import *
@@ -30,11 +31,6 @@ GPIO.setup(LED_ACTION_PIN, GPIO.OUT)
 bt = 20        # bouncetime in ms, kein neues Ausloesen des calbacks inerhalb der Zeit
 bt_sc = 0.005  # softwaredebounce von mir: solange muss der Eingang stabil anliegen, in Sekunden 
 
-def LEDblink(blinktime):
-    # LED fuer kurze Zeit blinken lassen, blinktime in Sekunden
-    GPIO.output(LED_ACTION_PIN, GPIO.HIGH)
-    time.sleep(blinktime)
-    GPIO.output(LED_ACTION_PIN, GPIO.LOW)
 
 def buttoncallback(channel, message):
     # allgemeie Reaktionsfunktion
@@ -42,9 +38,26 @@ def buttoncallback(channel, message):
     if GPIO.input(channel)==GPIO.LOW:
         print('channel: {:}'.format(channel) )
         print('Button {} pressed'.format(message))
-        LEDblink(0.05)
     else:
         print('prelllllllen Button {}'.format(message))
+
+
+def drehVolume(pin, direction):
+    
+    print("DrehVolume pin {}".format(pin))
+    print("DrehVolume {}".format(direction))
+
+        
+def pressedVolume(pin):
+     print("DrehVolume pressed")
+     
+def drehPause(pin, direction):
+    print("DrehPause pin {}".format(pin))
+    print("DrehPause {}".format(direction))
+        
+def pressedPause(pin):
+     print("DrehPause pressed") 
+
 
 # Beide Knoepfe sollen gleich reagieren
 def BuNextPressed(channel):
@@ -72,12 +85,30 @@ GPIO.add_event_detect(BuPrevPIN,GPIO.FALLING,callback=BuPrevPressed,bouncetime=b
 GPIO.setup(PausePIN_SW,GPIO.IN)
 GPIO.add_event_detect(PausePIN_SW,GPIO.FALLING,callback=PausePressed,bouncetime=bt)
 
+# Drehgeber
+# KyVol
+volume = ROT_ENC(VolumePIN_CLK, VolumePIN_DT, drehVolume, 
+                        debounce=15, debounce_extra=1, sleeptime=0.001)
+volume.start()
+
+# KyPause
+pause = ROT_ENC(PausePIN_CLK, PausePIN_DT, drehPause, 
+                        debounce=15, debounce_extra=1, sleeptime=0.001)
+pause.start()
+
+
+print('Test fuer die Platine Buttons:')
+print('Tasten PREV und NEXT und PAUSE')
+print('Drehgeber PAUSE und VOLUME')
+
 
 try:
     while True:
         time.sleep(10)
         print('Ten seconds...')
 finally:
+    volume.stop()
+    pause.stop()
     print('Stopping GPIO monitoring...')
     GPIO.cleanup()
     print('Program ended.')
