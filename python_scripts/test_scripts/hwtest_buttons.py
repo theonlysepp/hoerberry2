@@ -3,16 +3,13 @@
 
 # Testablauf zum Ueberpruefen, ob die Hardware korrekt verbunden ist und funktioniert
 # 
-# Fuer die Knoepfe BuNext und BuPrev
+# Fuer alle Taster und Drehgeber (=alle Elemente der Platine Buttons)
 # 
 # Verkabelung gemaeß allgemeiner Pinbelegung:
 # - Ein Tasterpin zum GPIO-PIN
 # - EIn Tasterpin zum GND
 # Der Eingangs-GPIO liegt normalerweise auf 3.3V, durch Tastendruck wird er auf GND runtergezogen
 # 
-# Mit der Einstellung und den vandalismustatern erfolgreich getestet. 
-# Prellen nur bei langem Tastendruck, dann aber in der SW keine "Reaktion"
-
 
 # Pfad zu den Modulen hinzufuegen, sollten immer im uebergeordneten Verzeichnis liegen
 # fuer den Import von Rot_ENC
