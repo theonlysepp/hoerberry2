@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+
 # Pfad zu den Modulen hinzufuegen, sollten immer im uebergeordneten Verzeichnis liegen
 # fuer den Import von Rot_ENC
 from pathlib import Path
@@ -48,6 +49,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(LED_ACTION_PIN, GPIO.OUT, initial=GPIO.HIGH)
 
+print('Test der Displayplatine: Display, Backlight, LED gelb und gruen')
 
 # mit backlight
 # alte Belegung mit GPIO.setmode(GPIO-BMC)
