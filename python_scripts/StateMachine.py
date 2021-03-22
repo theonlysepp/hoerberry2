@@ -38,7 +38,6 @@ from time_manager import TimeManager
 from TextInput import TextInput
    
 
-
 def read_playlists(path):
     # anhand der Dateinamen im Verzeichnis eine Liste aller (musiktechnisch)
     # vorhandene Playlisten erzeugen
@@ -46,46 +45,51 @@ def read_playlists(path):
         
     playlistlist = os.listdir(path)
     # Dateiendung der Playlisten entfernen
-    return [ i.replace(pl_file_ending, "") for i in playlistlist]
+    return [ i.replace(pl_file_ending, "") for i in playlistlist if i.endswith(pl_file_ending)]
+    
     
 def update_all_playlists(Music_path, Playlist_path):
     # Die Dateistruktur in Music_Path in eine MPD-taugliche Liste
-    # von Playlisten im Ordner Playlist_path anlegen. 
+    # von Playlisten-Dateien im Ordner Playlist_path anlegen. 
+    # Die bisherigen dateien werden vorher komplett geloescht, es wird alles neu geschrieben.
+    # Damit werden Veränderungne von einzelnen Titeln innerhalb eines Musikordners auch erkannt. 
+    # Dauer bei ca. 100 Playlisten: 0.6 Sekunden
+    # Am Schluss dann mpd updaten!
 
+    start = time.time()
     music_file_endings = ('.mp3','.m4a', '.wav', '.wma','.aac' )     # zulaesige Dateiendungen fuer Musiktitel
     pl_file_ending = ".m3u"
 
     # Vorhandene Musik und Playlisten laden
-    musiclist = os.listdir(Music_path)
+
+    # nur alle Ordner im Musikverzeichnis!!!
+    # nur lokale Ordnernamen, der Rest ist im MPD als Default-Musikordner festgelegt!
+    os.chdir(Music_path)
+    music_path = Path('.')
+    musiclist = [e for e in music_path.iterdir() if e.is_dir()]
+
+    # Aufraumen aller alten Playlisten 
+    for j in list(Path(Playlist_path).glob('*.m3u')):
+        os.remove(j) 
 
 
-    playlistlist = read_playlists(Playlist_path)
-
-    # im Playlistpath arbeiten
-    os.chdir(Playlist_path)
-
+    # Alle Musikdateien des Ordners auslesen, 
+    # sortieren, 
+    # Dateinamen in die palylistendatei schreiben
     for i in musiclist:
 
-        if os.path.isdir(i) and (i not in playlistlist):
-            print(i, playlistlist)
-            # Musikdateien auslesen und Playliste erzeugen
-            f = open(i+pl_file_ending, "w")
-            # nur Musikdateien verwenden.
-            songs = os.listdir(Music_path+"/"+i)        
-            songs = [ii for ii in songs if ii.endswith(music_file_endings)] 
-            songs.sort()
+        # nur Musikdateien verwenden.
+        songs = list(i.glob('*.*'))  
+        songs = [str(ii) for ii in songs]   
+        songs = [ii for ii in songs if ii.endswith(music_file_endings)] 
+        songs.sort()
+        with open(Path(Playlist_path,str(i)+pl_file_ending), "w") as fobj:
             
-            # jeweils komplett schreiben: "Ordnername/Dateiname.mp3\n"
             for xx in songs:
-                f.write('{}/{}\n'.format(i,xx))
-            f.close()
-            print("playlist erzeugt: {}".format(i))       
-    
-    # Aufraumen von alten Playlists ohne Musik
-    for j in playlistlist:
-        if j not in musiclist:
-            os.remove(j+pl_file_ending) 
-            print(f'Playlist ohne Musik geloescht: {j}')
+                fobj.write(f'{xx}\n')
+                
+    print(f'playlisten erzeugt')  
+    print(f'benötigte Zeit: {start-time.time()}')   
             
     subprocess.Popen(["sudo", "mpc", "update"], stdout=subprocess.PIPE)
 
