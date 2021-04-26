@@ -2695,11 +2695,11 @@ class StateMachine():
             self.LCD.update_ls() 
 
         # Im Editiermenue und eine Mastercard erkannt --> GPIOs neu initialisieren!
-        if (self.state >= 700) and (self.state < 1200) and (self.F_RFID in self.MasterCardID):
+        #if (self.state >= 700) and (self.state < 1200) and (self.F_RFID in self.MasterCardID):
             # Mastercard im Editiermenue erkannt!
-            self._remove_GPIO()
-            self._init_GPIO()
-            self.logger.info("GPIOs zurueckgesetzt")
+            #self._remove_GPIO()
+            #self._init_GPIO()
+            #self.logger.info("GPIOs zurueckgesetzt")
 
         # WLAN abschalten im Musikbetrieb. Achtung: nach derzeitigem Stand nicht vernuenftig umkehrbar,
         # nur mit Neustart wieder OK. 
