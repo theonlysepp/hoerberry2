@@ -15,3 +15,4 @@ User=dietpi
 
 [Install]
 WantedBy=network.target
+WantedBy=basic.target

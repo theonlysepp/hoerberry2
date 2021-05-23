@@ -17,15 +17,15 @@ def add_wlan(wlanname, password):
   
     ascii_str = return_stuff[0].decode('ascii')
 
-    # Position aller Zeilenumbrueche erstellen
-    newlines = list(find_all(ascii_str, '\n\t'))
+    line_list = ascii_str.splitlines()
     # Zeile mit dem Passwort in Klartext rausschmeissen
-    string_to_file = ascii_str[0:newlines[1]] + ascii_str[newlines[2]::]
-    print(string_to_file)
+    for i in line_list:
+        if i[0:4] == '#psk':
+            del(line_list[i])
 
     # in die Datei schreiben
     with open('/etc/wpa_supplicant/wpa_supplicant.conf','a') as fobj:
-             fobj.write(string_to_file)
+             fobj.writelines(line_list)
 
 
 if __name__ == "__main__":
