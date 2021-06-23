@@ -632,7 +632,11 @@ class StateMachine():
         return f'{prev_str.ljust(4)} {up_str} {pause_str} {down_str} {next_str.rjust(4)}'
 
     def add_footer_help(self):
-        # Fusszeile fuer die Hilfe hinzufuegen  
+        # Fusszeile fuer die Hilfe hinzufuegen, 
+        # + sicherstellen, dass der Hilfetext 2 Zeilen lang ist.   
+        while len(self.help_list) < 2:
+            self.help_list.append(" ")
+
         self.help_list.append(self.generate_footer(pause=False, next=False))
 
     def update_MPD_info(self):
@@ -2360,11 +2364,14 @@ class StateMachine():
             return_stuff = p.communicate()
             ascii_str = return_stuff[0].decode('utf-8')
             lines = ascii_str.split('\n')
-            # am Ende sind 2 Leerzeilen, die davor ist der letzte aktuelle Commit
-            # self.__load_helptext(lines[-3])  -> leider aber manchmal Fehler
+            self.logger.info(lines)
 
-            # sichere Variante
-            self.__load_helptext(ascii_str)
+            # am Ende sind 2 Leerzeilen, die davor ist der letzte aktuelle Commit
+            if len(lines) > 2:
+                self.__load_helptext(lines[-3])
+            else:
+                self.__load_helptext("no help available")
+
             self.newstate = 1069   
 
     def DO_ST_1069(self):
