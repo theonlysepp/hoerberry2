@@ -648,6 +648,9 @@ class StateMachine():
         if self._CheckConnection():
             currentsong = self.cl.currentsong()
             status = self.cl.status()
+        else:
+            status = {}
+
         
         # jetzt beschissene Rueckgsben vom MPD-Client abfangen
         try:
@@ -2357,9 +2360,11 @@ class StateMachine():
             return_stuff = p.communicate()
             ascii_str = return_stuff[0].decode('utf-8')
             lines = ascii_str.split('\n')
-
             # am Ende sind 2 Leerzeilen, die davor ist der letzte aktuelle Commit
-            self.__load_helptext(lines[-3])
+            # self.__load_helptext(lines[-3])  -> leider aber manchmal Fehler
+
+            # sichere Variante
+            self.__load_helptext(ascii_str)
             self.newstate = 1069   
 
     def DO_ST_1069(self):
