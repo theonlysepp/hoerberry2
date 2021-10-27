@@ -105,7 +105,12 @@ from StateMachine import StateMachine
 # Rotary encoder
 from ROT_ENC import ROT_ENC
 
-
+# todo: remote debugging ermoeglichen. Aber wartet er immer hier???
+import debugpy
+# Allow other computers to attach to debugpy at this IP address and port.
+debugpy.listen((StateMachine.get_ip_address(), 5678))
+# Pause the program until a remote debugger is attached
+debugpy.wait_for_client()
 
 #-------------------------------------------------------------------------------
 # Hardware initialisieren
