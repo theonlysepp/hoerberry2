@@ -2798,8 +2798,7 @@ class StateMachine():
                         self.cl.previous()  
                     except:
                          self.logger.error("Fehler 1350: self.cl.previous() ")
-                         self.cl.stop()
-                         self.newstate = 400
+
             elif self.F_button == self.BU_NEXT:
                 # Titel vor, (falls moeglich)
                 if self._check_next():
@@ -2807,8 +2806,7 @@ class StateMachine():
                         self.cl.next()
                     except:
                          self.logger.error("Fehler 1350: self.cl.next() ")
-                         self.cl.stop()
-                         self.newstate = 400
+
             elif self.F_button == self.BU_PAUSE:
                 # Pause ausloesen und in den Zustand ST_PAUSE wechseln
                 self.cl.pause(1)

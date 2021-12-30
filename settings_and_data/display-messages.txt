@@ -410,19 +410,19 @@
      "Cz"  : " ???",
      },
 
-  "morning_limit":     # Anzeigetext obere Zeile bei Zeitunterschreitung am Morgen
+  "morninglimit":     # Anzeigetext obere Zeile bei Zeitunterschreitung am Morgen
     {
      "D "  : "Es ist noch zu früh, Mäuschen.",
      "GB"  : "Way too early, little bird. ",
      "Cz"  : "???",
     },
-  "evening_limit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
+  "eveninglimit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
     {
      "D "  : "Zu spät am Abend für Hörbücher.",
      "GB"  : "It is too late to play. ",
      "Cz"  : "???",
     },
-  "daily_limit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
+  "dailylimit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
     {
      "D "  : "Genug für heute.",
      "GB"  : "Enough for today.",
