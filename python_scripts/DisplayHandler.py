@@ -85,6 +85,8 @@ class DisplayHandler(doglcd.DogLCD):
         self.ls_active = 0      # bitcodiert, 0 bis 63, welche Zeilen bei Laufschriftaktualisierung geschrieben werden sollen
         self.ls_blink = 0       # bitcodiert, 0 bis 8, welche Zeilen bei Laufschriftaktualisierung blinken sollen
         self.title = ''
+        self.radio_name = ''
+        self.radio_title = ''
 
         # Statzeile des jeweiligen Laufschritobjektes. Erst die einzeiligen, dann die zweizeiligen, dann das dreizeilige
         self.ls_startlines = [0,1,2,0,1,0]
@@ -99,6 +101,28 @@ class DisplayHandler(doglcd.DogLCD):
         self._write_title_num(info['song_number'])
         self._write_state(info['state'])
         self.write_time(info['elapsed_time'])
+        self._write_volume(info['volume_disp'])
+
+
+    def write_radio_info(self, info):
+        # default mpd-Informationen waehrend Internetradio:
+        # Name der Radiostation
+
+        if self.radio_name == info['name'] and self.radio_title == info['title']:
+            self.update_ls() 
+        else:
+            # Name des Radios anpassen 
+            if self.radio_name != info['name']:
+                self.radio_name = info['name']
+                self.write_lines(self.radio_name, 0, 1)
+            # aktuell abgespielten Titel anpassen 
+            if self.radio_title != info['title']:
+                self.radio_title = info['title']
+                self.write_lines(self.radio_title, 1, 1)
+
+        # Zeile mit der Datenanzeige: 
+        self._write_title_num(info['song_number'])
+        self._write_state(info['state'])
         self._write_volume(info['volume_disp'])
 
 
@@ -135,7 +159,6 @@ class DisplayHandler(doglcd.DogLCD):
 
 
     def write_lines(self, data, start_line, num_lines=1, blink=0):
-        # Einzelzeile schreiben, wenn zu kurz mit Leerzeichen auffuellen,
         # wenn zu lang als Laufschrift schreiben
         if blink: 
             self.ls_blink = self.ls_blink|(1<<start_line)
@@ -232,7 +255,7 @@ class DisplayHandler(doglcd.DogLCD):
             self.write_lines(temp_title, 0, 2)
         else:
             # Laufschrift aktualisieren
-            self.update_ls()   
+            self.update_ls()    
 
     def _cleartitle(self):
         # vom Titel die fuehrende Nummerierung entfernen, Leerzeichen einfuegen und das Ergebnis zurueckgeben
@@ -268,12 +291,10 @@ class DisplayHandler(doglcd.DogLCD):
             data = int(data)
             self.write('{:02d}'.format(data)+' '+chr(0))
         except ValueError:
-            self.write(data[0:2]+' '+chr(0))
+            self.write(data[0:2])
 
     def _write_state(self, data):
-        # Zeichen nicht schreiben, sondernden Platzhalter aktualisieren?
-        # 
-
+        # Zeichen nicht schreiben, sondernden auch Platzhalter aktualisieren
         self.createChar(0, symbols[state_dict[data]])
             
 
@@ -300,8 +321,10 @@ class DisplayHandler(doglcd.DogLCD):
 
     def clear_data(self):
         # interner Speicher zuruecksetzen, um neue Displaydarstellung
-        # zu erzwingen, TODO: hier muss mal die Playlist rein
+        # zu erzwingen, 
         self.title = ""
+        self.radio_title = ""
+        self.radio_name = ""
         self.ls_active = 0
 
 
@@ -328,26 +351,26 @@ if __name__ == "__main__":
     info0 =     {'volume'       : 33,
                 'playlist'     : '',          # Playlistname
                 'state'    : 'play',          # stop, pause, play
-                'song_number'  : 7,
+                'song_number'  : '7',
                 'elapsed_time' : 123,
                 'title'        : '01_Felix_in_Afrika_mit sehr_langem Titel und Laufschrift',
-                'len_playlist' : 8            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
+                'len_playlist' : '8'            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
                 }  
     info1 =     {'volume'       : 34,
                 'playlist'     : '',          # Playlistname
                 'state'    : 'play',          # stop, pause, play
-                'song_number'  : 6,
+                'song_number'  : '6',
                 'elapsed_time' : 123,
                 'title'        : '02_Felix_in_Afrika_',
-                'len_playlist' : 8            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
+                'len_playlist' : '8'            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
                 }  
     info2 =     {'volume'       : 34,
                 'playlist'     : '',          # Playlistname
                 'state'    : 'play',          # stop, pause, play
-                'song_number'  : 6,
+                'song_number'  : '6',
                 'elapsed_time' : 123,
                 'title'        : '02_Felix_in_Afrika_zwo_zeilen_lang',
-                'len_playlist' : 8            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
+                'len_playlist' : '8'            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
                 }  
     lcd.write_info(info0)
 

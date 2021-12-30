@@ -105,12 +105,6 @@ from StateMachine import StateMachine
 # Rotary encoder
 from ROT_ENC import ROT_ENC
 
-# todo: remote debugging ermoeglichen. Aber wartet er immer hier???
-import debugpy
-# Allow other computers to attach to debugpy at this IP address and port.
-debugpy.listen((StateMachine.get_ip_address(), 5678))
-# Pause the program until a remote debugger is attached
-debugpy.wait_for_client()
 
 #-------------------------------------------------------------------------------
 # Hardware initialisieren
@@ -141,24 +135,41 @@ sm = StateMachine(RFID_reader, lcd, [LED_ACTION_PIN,BuNextPIN,BuPrevPIN],
 
 
 # KyVol
-volume = ROT_ENC(VolumePIN_CLK, VolumePIN_DT, sm.OnVolumeRotary, 
-                        debounce=15, debounce_extra=1, sleeptime=0.001)
-volume.start()
+try:
+     volume = ROT_ENC(VolumePIN_CLK, VolumePIN_DT, sm.OnVolumeRotary, 
+                         debounce=15, debounce_extra=1, sleeptime=0.001)
+     volume.start()
+except RuntimeError:
+     logger.error('RuntimeError Button: volume rotary encoder')
+     # todo: was machen wir denn dann? Neustart, nochmal versuchen?     
 
 # KyPause
-pause = ROT_ENC(PausePIN_CLK, PausePIN_DT, sm.OnPauseRotary, 
-                        debounce=15, debounce_extra=1, sleeptime=0.001)
-pause.start()
+try:
+     pause = ROT_ENC(PausePIN_CLK, PausePIN_DT, sm.OnPauseRotary, 
+                         debounce=15, debounce_extra=1, sleeptime=0.001)
+     pause.start()
+except RuntimeError:
+     logger.error('RuntimeError Button: pause rotary encoder')
+     # todo: was machen wir denn dann? Neustart, nochmal versuchen?     
+
 
 # PauseButton
 GPIO.setup(PausePIN_SW,GPIO.IN)
-GPIO.add_event_detect(PausePIN_SW, GPIO.FALLING, bouncetime=200)
-GPIO.add_event_callback(PausePIN_SW, sm.OnPauseButton)
+try:
+     GPIO.add_event_detect(PausePIN_SW, GPIO.FALLING, bouncetime=200)
+     GPIO.add_event_callback(PausePIN_SW, sm.OnPauseButton)
+except RuntimeError:
+     logger.error('RuntimeError Button: PausePIN_SW')
+     # todo: was machen wir denn dann? Neustart, nochmal versuchen?
 
 # Taste Shutdown indirekt, nicht der VolumePIN_SW, sondern der HIGH gesetzte GPIO der onoff-shim
 GPIO.setup(SHUTDOWN_PIN,GPIO.IN)
-GPIO.add_event_detect(SHUTDOWN_PIN, GPIO.FALLING, bouncetime=200)
-GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)
+try:
+     GPIO.add_event_detect(SHUTDOWN_PIN, GPIO.FALLING, bouncetime=200)
+     GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)
+except RuntimeError:
+     logger.error('RuntimeError Button: SHUTDOWN_PIN')
+     # todo: was machen wir denn dann? Neustart, nochmal versuchen?
 
 
 logger.info('Intialisierungen beendent')

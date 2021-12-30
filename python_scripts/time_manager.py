@@ -16,9 +16,9 @@ class TimeManager():
 
     # Konstanten
     status_ok            = 'ok'
-    status_daily_limit   = 'daily_limit'
-    status_morning_limit = 'morning_limit'
-    status_evening_limit = 'evening_limit'
+    status_daily_limit   = 'dailylimit'
+    status_morning_limit = 'morninglimit'
+    status_evening_limit = 'eveninglimit'
 
     def __init__(self, daily_limit, morning_limit, evening_limit, uptimeinit=0):
         # 

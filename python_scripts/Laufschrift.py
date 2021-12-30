@@ -2,7 +2,6 @@
 # beliebigen Laufschrifttest fuer eine Displayfeld erzeugen
 # bei zu kurzen strings wird fuer das Feld passend aufgefuellt, so dass (ohne 
 # Laufschrift) der komplette Platz als String zurueckgegeben wird. 
-# TODO: universellen Trenner, fortlaufender Betrieb
 
 MODE_FIX   = 0       # garnicht weiterschalten
 MODE_FLOAT = 1       # einzeln weiterschalten
@@ -34,7 +33,6 @@ class Laufschrift():
     def setbase(self, new_string):
         # komplett neuen String in der Laufschrift darstellen, wenn er neu ist
         # dazu alles zuruecksetzen
-        # TODO: mehrere Strings uebergeben, mit selben Trenner unterteilen
         if new_string != self.base_string:
             self.base_string = new_string
             

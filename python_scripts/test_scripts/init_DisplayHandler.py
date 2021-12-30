@@ -61,18 +61,18 @@ lcd.begin(doglcd.DOG_LCD_M163, 0x28)
 info =     {'volume'       : 33,
             'playlist'     : '',          # Playlistname
             'state'    : 'play',          # stop, pause, play
-            'song_number'  : 7,
+            'song_number'  : '7',
             'elapsed_time' : 123,
             'title'        : '0123456789AB',
-            'len_playlist' : 8            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
+            'len_playlist' : '8'            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
             }  
 info1 =     {'volume'       : 34,
             'playlist'     : '',          # Playlistname
             'state'    : 'play',          # stop, pause, play
-            'song_number'  : 8,
+            'song_number'  : '8',
             'elapsed_time' : 124,
             'title'        : '01_Name der Playliste_sehr_lang',
-            'len_playlist' : 8            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
+            'len_playlist' : '8'            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
             }  
 
 uid0 = "123456789123"

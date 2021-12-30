@@ -18,6 +18,8 @@ import mpd
 import subprocess
 
 import os
+import shutil    # kopieren von Dateien
+
 from pathlib import Path
 
 import sys
@@ -31,6 +33,10 @@ import time
 import hjson
 
 import logging
+
+# wlan und intenet
+import socket
+from pythonping import ping
 
 # meine Klassen
 from RFID_READER_PN532 import RFID_READER_PN532
@@ -58,19 +64,33 @@ def update_all_playlists(Music_path, Playlist_path):
 
     start = time.time()
     music_file_endings = ('.mp3','.m4a', '.wav', '.wma','.aac' )     # zulaesige Dateiendungen fuer Musiktitel
-    pl_file_ending = ".m3u"
+    pl_file_ending = '.m3u'
 
     # Vorhandene Musik und Playlisten laden
 
     # nur alle Ordner im Musikverzeichnis!!!
     # nur lokale Ordnernamen, der Rest ist im MPD als Default-Musikordner festgelegt!
-    os.chdir(Music_path)
-    music_path = Path('.')
+
+    music_path = Path(Music_path)
+    playlist_path = Path(Playlist_path)
+
     musiclist = [e for e in music_path.iterdir() if e.is_dir()]
 
+    # Internetradio: alle Datein auf Ebene der Ordner (mit Endung einer Playliste!)
+    # mit Hinweis auf Internetradio versehen!
+    radiolist = [e for e in music_path.iterdir() if e.is_file() and e.suffix in pl_file_ending]
+    print('radiolist:')
+    print(radiolist)
+
     # Aufraumen aller alten Playlisten 
-    for j in list(Path(Playlist_path).glob('*.m3u')):
-        os.remove(j) 
+    for j in list(playlist_path.glob('*.m3u')):
+        j.unlink() 
+
+    # Erst Internetradio: Dateien kopieren und umbenennen 
+    # ( Zieldateipfad wird erstellt, dann gefuellt )
+    for i in radiolist:
+        target = playlist_path / (i.stem + '_InternetRadio' + i.suffix)
+        target.write_text(i.read_text())
 
 
     # Alle Musikdateien des Ordners auslesen, 
@@ -79,19 +99,24 @@ def update_all_playlists(Music_path, Playlist_path):
     for i in musiclist:
 
         # nur Musikdateien verwenden.
-        songs = list(i.glob('*.*'))  
-        songs = [str(ii) for ii in songs]   
-        songs = [ii for ii in songs if ii.endswith(music_file_endings)] 
+        songs = [str(ii) for ii in list(i.glob('*.*')) if ii.suffix in music_file_endings ]   
         songs.sort()
-        with open(Path(Playlist_path,str(i)+pl_file_ending), "w") as fobj:
-            
-            for xx in songs:
-                fobj.write(f'{xx}\n')
-                
+
+        # Playlistendatei anlegen und mit Liste der songs fuellen
+        target = playlist_path / (i.stem+pl_file_ending)
+        pl_text = ''
+        for xx in songs:
+            pl_text += f'{xx}\n'
+        target.write_text(pl_text)
+    
+
     print(f'playlisten erzeugt')  
     print(f'benötigte Zeit: {start-time.time()}')   
+
+
             
     subprocess.Popen(["sudo", "mpc", "update"], stdout=subprocess.PIPE)
+
 
 
 def load_file(filename, filename_dflt):
@@ -178,8 +203,7 @@ def days_since(str_date):
     delta =  date.fromisoformat(str_date) - date.today()
     return delta.days
 
-# import required modules
-import socket
+
 
 # function to get ip address of given interface
 def get_ip_address():
@@ -189,10 +213,8 @@ def get_ip_address():
         s.connect(("8.8.8.8",80))
         ip_address = s.getsockname()[0]
         s.close()
-    except OSError:
-        ip_address = "no conecction, no IP"
     except:
-        ip_address = "other error getting IP"
+        ip_address = "no conecction, no IP"
 
     return ip_address
 
@@ -249,6 +271,7 @@ class StateMachine():
     ST_EDIT_CORR = 1000
     ST_EDIT_SET = 1100
     ST_BLOCKED = 1200
+    ST_INTERNET_RADIO = 1300
 
     NO_DISP = 0
     DISP_PLAY = 1
@@ -314,6 +337,7 @@ class StateMachine():
 
         # Variablen fuer das Editiermenue
         self.playlists = {}          # Liste aller Playlisten: {Playlist : UID}
+        self.playlist_internetradio = False  # Playliste ist Internetrasio?
         self.def_playlists = {}              # alle Playlisten mit RFID, {playlist1:UID1, playlist2:UID2, ...}
         self.undef_playlists = {}            # alle undefinierten Playlisten
         self.temp_uid_dict = {}  
@@ -331,13 +355,14 @@ class StateMachine():
         # Infoliste, die vom Display abgefragt wird und in Datei abgespeichert wird. Es werden immer alle Eintraege erwartet.
         self.info =     {'volume'       : 0,
                          'volume_disp'  : 0,       # Volumen fuer das Display, max immer bei 100%
-                         'state'    : '',          # stop, pause, play
-                         'song_number'  : 0,
+                         'state'        : '',          # stop, pause, play
+                         'song_number'  : '0',
                          'elapsed_time' : 0.0,
-                         'title'        : '',
-                         'len_playlist' : 0,            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
+                         'title'        : '-',
+                         'len_playlist' : '-1',            # Anzahl der Titel in der Playlist fuer zyklisches Verhalten bei NEXT
                          'playlist'     : self.NO_PLAYLIST,
-                         'duration'     : 0.0          # Dauer des aktuellen titels
+                         'duration'     : 0.0,          # Dauer des aktuellen titels
+                         'name'         : 'unbekannt', # Name des Internetradios
                          }        
 
         # allgemeine Paramtrierung laden
@@ -366,23 +391,31 @@ class StateMachine():
 
 
 
-        try:
-            # Ansagetexte laden
-            self.sound_msg = {}
+        #try:
+        # Ansagetexte laden
+        self.sound_msg = {}
 
-            p=Path(self.cfg_gl['foname_audio_msg'])
+        p=Path(self.cfg_gl['foname_audio_msg'])
 
-            # alle passenden Dateien zur Suchmaske ausgeben
-            for i in ['ok','daily_limit','morning_limit','evening_limit','hello','goodbye','AutoShutdown']:
-                self.sound_msg[i] = list(p.glob(f'{i}*.mp3'))
-    
-                self.logger.info("self.sound_msg:")               
-                self.logger.info(self.sound_msg)        
+        # todo: Ansagetexttypen automatisch aus den vorhandenen Dateinamen erzeugen, (regular expressions)
+        for i in p.iterdir():
+            # nur Namensteil vor dem Nummerntrenner, also von "hallo_1.mp3" nur "hallo"
+            naked = i.name.split('_')[0]
+            # fuer neue Namensteile einen Eintrag erzeugen
+            if not naked in self.sound_msg.keys():
+                self.sound_msg[naked] = []
 
-        except:
-            # Dictionary der Datei nicht geladen, leeres dictionary erstellen
-            self.sound_msg = {'ok':[], 'daily_limit':[], 'morning_limit':[], 'evening_limit':[], 'hello':[], 'goodbye':[]}       
-            self.logger.error('fname_audio_msg nicht geladen!')
+        # alle passenden Dateien zur Suchmaske ausgeben
+        for i in self.sound_msg.keys():
+            self.sound_msg[i] = list(p.glob(f'{i}*.mp3'))
+
+            self.logger.info(f'self.sound_msg[{i}]:')               
+            self.logger.info(self.sound_msg[i])        
+
+        # except:
+        #     # Dictionary der Datei nicht geladen, leeres dictionary erstellen
+        #     self.sound_msg = {}       
+        #     self.logger.error('fname_audio_msg nicht geladen!')
 
         # Sprachnachrichten fuer das Display laden, in allen Sprachen
         with open(self.cfg_gl['fname_messages']) as fobj:
@@ -478,6 +511,8 @@ class StateMachine():
                         1195 : self.DO_ST_1195,
                         1200 : self.DO_ST_1200,
                         1250 : self.DO_ST_1250,
+                        1300 : self.DO_ST_1300,
+                        1350 : self.DO_ST_1350,
         }
 
         # Eingabemaske erstellen
@@ -592,6 +627,7 @@ class StateMachine():
 
         if self.elapsed_time(self.TIMER_AUTOSHUTDOWN):
             self.newstate = self.ST_SHUTDOWN
+            self.logger.info('checkShutdown: Timeout Autoshutdown')
 
 
     def generate_footer(self, prev="BACK", updown=True, pause="OK", next="HELP", leftright=False):
@@ -653,6 +689,7 @@ class StateMachine():
             currentsong = self.cl.currentsong()
             status = self.cl.status()
         else:
+            currentsong = {}
             status = {}
 
         
@@ -676,6 +713,11 @@ class StateMachine():
             self.info['title'] = currentsong['title']
         except KeyError:
             self.info['title'] = '-'
+
+        try:
+            self.info['name'] = currentsong['name']
+        except KeyError:
+            self.info['name'] = 'unbekanntes Radio'
 
         try: 
             self.info['len_playlist'] = status['playlistlength']
@@ -717,6 +759,7 @@ class StateMachine():
         # den vollen Pfad ausgeben mit .resolve()
         if len(auswahl) > 0:
             subprocess.call(f'sudo mpg123 {auswahl[randint(0,len(auswahl)-1)].resolve()}', shell=True)
+            self.logger.debug(f'play_sound_msg: {auswahl[randint(0,len(auswahl)-1)].resolve()}')
         else:
             self.logger.error(f'play_sound_msg: Keine Wiedergabedatei fuer Aktion: {list_name}')
 
@@ -784,6 +827,26 @@ class StateMachine():
         # abgespielte Zeitdauer und Datum speichern
         with open(self.cfg_gl['fname_uptime'], 'w') as fobj:
             self.time_manager.save(fobj)
+    def _check_prev(self):
+        # gibt es einen Titel vor dem aktuellen? Rueckgabe bool!
+        # einfach: sind wir in Titel > 1 
+        # True: es gibt einen vorherigen Titel der Playliste
+        # False: kein weiterer Titel
+        if self.info['song_number'].isnumeric():
+            return int(self.info['song_number']) > 0
+        else:
+            return False
+    def _check_next(self):
+        # gibt es einen Titel nach dem aktuellen? Rueckgabe bool!
+        # title < len_playlist
+        # True: es gibt eine weiteren Titel der Playliste
+        # False: kein weiterer Titel
+        if self.info['song_number'].isnumeric() and self.info['len_playlist'].isnumeric():
+            # song_number beginnt bei 0, len_playlist immer bei 1
+            return int(self.info['song_number']) < ( int(self.info['len_playlist']) - 1 )
+        else:
+            return False
+
 
     def _rescale_volume_disp(self):
         # Volume fuer das Display skalieren, so dass Maximum immer mit 100% angezeigt wird
@@ -836,6 +899,16 @@ class StateMachine():
 
         return val_range[(index+offset) % len(val_range)]
 
+    def _check_internet(self):
+        # rueckgabe, ob WLAN-Verbindung zu irgendwas besteht
+        status, result = subprocess.getstatusoutput("ping -c1 -w2 8.8.8.8")
+
+        if status == 0:
+            return True
+        else:
+            return False
+
+
     def get_val_string(self):
         # String fuer das Editiermenue mit den Einstellungen erzeugen
         dv = []
@@ -878,6 +951,7 @@ class StateMachine():
             self.logger.info('no connection mpd, but try to')
             try:
                 self.cl.connect("localhost", 6600) 
+                time.sleep(0.05)
                     
             except ConnectionRefusedError:
                 return False
@@ -914,6 +988,16 @@ class StateMachine():
         self.LCD.write_info(self.info)
         self.logger.debug("250: self.LCD.write_info(self.info)")
         self.logger.debug(self.info)
+
+    def _writeRadio(self):
+        # Playliste und Titel fuer die Wiedergabe Internetradio
+        if self.cur_disp_page != self.DISP_PLAY:
+            self.LCD.clear()
+            self.LCD.clear_data()
+            self.cur_disp_page = self.DISP_PLAY
+        
+        self.LCD.write_radio_info(self.info)
+
 
     def _validMessage(self):
         # prueft, ob gerade noch eine message angezeigt werden soll
@@ -1030,6 +1114,16 @@ class StateMachine():
         GPIO.remove_event_detect(self.PINS[PIN_NEXT])
         GPIO.remove_event_detect(self.PINS[PIN_PREV])
 
+    def _reset_info(self):
+        # Inhalt von self.info zuruecksetzen (bis auf die Lautstaerke)
+        self.info['state'] = 'stop'
+        self.info['song_number'] = '0'
+        self.info['elapsed_time'] = 0.0
+        self.info['len_playlist'] = '-1'
+        self.info['playlist'] = '0'
+        self.info['duration'] = 0.0
+        self.info['name'] = 'unbekannt'
+          
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # ++++++++++++++++++++++++ Zustandsfunktionen +++++++++++++++++++++++++++++++
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1037,7 +1131,7 @@ class StateMachine():
     def DO_ST_100(self):
         self.newstate = 150
 
-        # hier WLAN einschaöten, sonst bleibt das imme raus
+        # hier WLAN einschalten, sonst bleibt das imme raus
         unblock_wifi()
 
         # komplette Settings laden (aktuelle Werte + Wertebereich )
@@ -1065,9 +1159,6 @@ class StateMachine():
         # letztes Datum und abgespielte zeit laden                                        
         self.load_uptime()
 
-        # beim MPD schonmal anklingeln, TODO: ob das was nützt?
-        self._CheckConnection()
-
         # UID-zu-Playlist-Verzeichnis laden
         self.uid_dict = load_file(self.cfg_gl['fname_uid_list'], self.cfg_gl['fname_dflt_uid_list'])
 
@@ -1079,6 +1170,7 @@ class StateMachine():
         self.TIMER_LED = self.init_timer(self.duration_LED_action)
         self.TIMER_AUTOSHUTDOWN = self.init_timer(self.timeout_shutdown)
         self.TIMER_MESSAGE = self.init_timer(self.message_display)
+        self.TIMER_WLAN_CHECK = self.init_timer(self.cfg_gl['wlan_check'])
         # allgemeinen Timer zum Debuggen 
         self.TIMER_DEBUG = self.init_timer(self.message_display)
         self.TIMER_WLAN = self.init_timer(self.cfg_gl['wlanshutdown'])
@@ -1167,7 +1259,16 @@ class StateMachine():
 
 
     def DO_ST_170(self):
-        self.newstate = 250
+        if 'InternetRadio' in self.info['playlist']:
+            # der 1300 muss durchlaufen werden, um die Internetverbindung abzufragen
+            # Es muss keine Startposition geladen werden, daher tun wir so, als sei geradie
+            # diese Karte angelegt worden.
+            self.newstate = 1300
+            self.playlist_request = self.info['playlist']
+            return
+        else: 
+            # laden der alten Position abarbeiten
+            self.newstate = 250
 
         # hier landet man nur, wenn die Verbindung OK ist. 
         try:
@@ -1185,10 +1286,14 @@ class StateMachine():
             return
 
         try:
-            self.cl.play(self.info['song_number'])
+            if self.info['song_number'].isnumeric():
+                self.cl.play(self.info['song_number'])
+            else:
+                self.cl.play()
         except:
             # wenn der richtige Titel nicht 
             self.logger.error("Fehler: self.cl.play(self.info['song_number']) ")
+            self.logger.error(str(self.info))
             self.newstate = 400
             return
 
@@ -1240,21 +1345,18 @@ class StateMachine():
             # irgendeine Abbruchbedingung ist erfuellt --> Abspielen beenden!
 
             # temporaere debugmeldungen:
-
-            self.logger.info('self.time_manager:')
-            self.logger.info(self.time_manager.morning_limit)
-            self.logger.info(self.time_manager.now)
-            self.logger.info(self.time_manager.get_uptime())
-            self.logger.info(self.time_manager.evening_limit)
-            self.logger.info(self.time_manager.now > self.time_manager.evening_limit)
-            self.logger.info(self.time_manager.sync)
+            # self.logger.info('self.time_manager:')
+            # self.logger.info(self.time_manager.morning_limit)
+            # self.logger.info(self.time_manager.now)
+            # self.logger.info(self.time_manager.get_uptime())
+            # self.logger.info(self.time_manager.evening_limit)
+            # self.logger.info(self.time_manager.now > self.time_manager.evening_limit)
+            # self.logger.info(self.time_manager.sync)
             self.newstate = self.ST_BLOCKED
-            self.time_manager.stop()
             return
 
         if self.F_RFID != self.NO_RFID:
             self.newstate = self.ST_LOADLIST
-            self.time_manager.stop()
             return
 
         # automatischen Wechsel nach WAIT veranlassen, wenn die Playliste
@@ -1266,48 +1368,46 @@ class StateMachine():
         if self.F_button != self.BU_NONE or (self.elapsed_time(self.TIMER_DISPLAY) and not self._validMessage()):
             self.update_MPD_info()
             self.F_update_display = True
+            
+            # normale Playliste
             if self.info['state'] != 'play':
                 self.newstate = self.ST_WAIT
-                self.time_manager.stop()
                 return
 
         # jetzt erst die Tastereingabe verarbeiten
         if self.F_button != self.BU_NONE:
+            self._CheckConnection()
+
             if self.F_button == self.BU_PREV:
                 # Kommando an MPD schicken, dass Titel zurueck
-                if self._CheckConnection():
-                    self.cl.previous()   
+                self.cl.previous()   
             elif self.F_button == self.BU_NEXT:
                 # Titel vor
-                if self._CheckConnection():
-                    self.cl.next()
+                self.cl.next()
             elif self.F_button == self.BU_PAUSE:
                 # Pause ausloesen und in den Zustand ST_PAUSE wechseln
-                if self._CheckConnection():
-                    self.cl.pause(1)
+                self.cl.pause(1)
                 self.LCD.quick_update_state('pause')
                 self.newstate = self.ST_PAUSE
-                self.time_manager.stop()
                 # Displayupdate erzwingen
                 self.F_update_display = True
 
             elif self.F_button == self.BU_PAUSE_ROTATION:
                 # im Titel spulen. auch zum vorherigen Titel moeglich
+                # Spulen zum naechsten Titel macht MPD automatisch...
                 new_pos = float(self.info['elapsed_time']) + self.N_button*self.shuffle_step
 
-                if (new_pos < 0.0) and int(self.info['song_number']) > 0:
+                if (new_pos < 0.0) and self._check_prev():
                     # zum letzten Titel zurueckspringen, und dort passen shuffeln,
                     # sofern wir nicht beim ersten Titel sind. 
-                    if self._CheckConnection():
-                        self.cl.previous()  
-                        self.update_MPD_info()
+                    self.cl.previous()  
+                    self.update_MPD_info()
 
-                        self.cl.seekcur('{0:f}'.format(self.info['duration'] + new_pos) )
+                    self.cl.seekcur('{0:f}'.format(self.info['duration'] + new_pos) )
                 else:
                     new_pos = max(0.0,new_pos)
                     # normales Spulen innerhalb des Titels
-                    if self._CheckConnection():
-                        self.cl.seekcur('{0:f}'.format(new_pos) )
+                    self.cl.seekcur('{0:f}'.format(new_pos) )
 
             elif self.F_button == self.BU_VOLUME_ROTATION:
                 # Volume nach Anzahl der Schritte anpassen.
@@ -1322,10 +1422,6 @@ class StateMachine():
 
         # Displayupdate bei Anforderung
         if self.F_update_display or ((self.cur_disp_page == self.DISP_MESSAGE) and not self._validMessage()):
-            # Gesamtdarstellung des Titels loeschen!
-            if self.cur_disp_page == self.DISP_MESSAGE:
-                self.LCD.clear()
-                self.LCD.clear_data()
             self._writePlay()
             self.start_timer(self.TIMER_DISPLAY)
             self.F_update_display = False
@@ -1353,27 +1449,21 @@ class StateMachine():
         if self.F_button == self.BU_PAUSE:
             # Pause beenden
 
-
-            if self._CheckConnection():
-                self.cl.pause(0)
+            self._CheckConnection()
+            self.cl.pause(0)
 
             self.LCD.quick_update_state('play')
 
-            self.newstate = 250
+            if 'InternetRadio' in self.info['playlist']:
+                self.newstate = 1350
+            else: 
+                self.newstate = 250
 
         elif self.F_button == self.BU_VOLUME_ROTATION:
-            # Latstaerke nur leiser stellen
+            # Latstaerke nur leiser stellen, display sofort anpassen
             if self.N_button < 0:
                 self.adjust_volume(self.N_button * self.vol_step)
-                self.F_update_display = True
-
-
-        # Displayupdate bei Anforderung --> Aenderungen bei Volume!
-        if self.F_update_display or ((self.cur_disp_page == self.DISP_MESSAGE) and not self._validMessage()):
-
-            self._writePlay()
-            self.start_timer(self.TIMER_DISPLAY)
-            self.F_update_display = False
+                self.LCD._write_volume(self.info['volume_disp'])
 
         # automatischen shutdown ueberwachen
         self.checkShutdown()
@@ -1381,23 +1471,20 @@ class StateMachine():
 
     def DO_ST_400(self):
         # Wartezustand WAIT
+        # huebscheres Display, z,B. warte auf karte
         self.newstate = 450
-        # --> "keine Playlist" speichern
-        self.info['playlist'] = self.NO_PLAYLIST
-        self.info['state']    = 'stop'
-        self.info['elapsed time'] = 0.0
-        self.info['song_number'] = 0
-        self.info['title'] = self.msg_dict["400"][self.lg]
-
-        self.save_current_position()        
+       
         self.start_timer(self.TIMER_AUTOSHUTDOWN)
 
         self.time_manager.stop()
         self.save_uptime()
 
+        self._reset_info()
+
         # Display schreiben, 
         self.LCD.clear()
-        self._writePlay()
+        self._writeMessage(self.msg_dict["400"][self.lg])
+        # todo: timer autoshutdown anzeigen...
 
     def DO_ST_450(self):
         # Wartezustand von WAIT
@@ -1408,20 +1495,8 @@ class StateMachine():
         if self.F_RFID != self.NO_RFID:
             self.newstate = self.ST_LOADLIST
 
-
         # automatischen shutdown ueberwachen
         self.checkShutdown()
-
-        if  (self.cur_disp_page == self.DISP_MESSAGE) and not self._validMessage():
-            self._writePlay()
-
-        # Wechsel zum Hinzufuegen von Masterkarten, wenn die Tasten VOR und ZURUECK und 
-        # zuletzt PAUSE gleichzeitg gedrueckt werden.
-        if self.F_button == self.BU_PAUSE:
-            if (GPIO.input(self.PINS[PIN_PREV])== GPIO.LOW) and (GPIO.input(self.PINS[PIN_NEXT])== GPIO.LOW):
-                self.newstate = 1300
-                self.logger.info('Wechsel nach AddMastercard erkannt.')
-
         
 
     def DO_ST_500(self):
@@ -1444,18 +1519,24 @@ class StateMachine():
             # es ist ein Element der bekannten Playlisten
             self.playlist_request = self.uid_dict[self.F_RFID]
 
+            # hier bestimmen, ob es ein Radio ist, ggf auch nur ein Update des bestehenden Status
+            self.playlist_internetradio = self.playlist_request.endswith('InternetRadio')
+
+            # neu laden, oder einfach fortsetzen
             if self.playlist_request == self.info['playlist']:
                 self.newstate = self.laststate
                 self._writeMessage(self.msg_dict["510"][self.lg],0,3)
             else:
-                self.newstate = self.ST_PLAY
+                if self.playlist_internetradio:
+                    self.newstate = self.ST_INTERNET_RADIO
+                else:
+                    self.newstate = self.ST_PLAY
 
         else:
-            # unbekannte Playlist 
+            # unbekannte Karte 
             self.newstate = self.laststate
             self.logger.info("unbekannte PL:"+str(self.F_RFID))
             self._writeMessage(self.msg_dict["500"][self.lg])
-
 
         # hiermit ist diese Information verarbeitet und wird wieder zurueckgesetzt. 
         self.F_RFID = self.NO_RFID
@@ -1474,11 +1555,11 @@ class StateMachine():
 
 
         # MPD anhalten
-        if self._CheckConnection():
-            try:
-                self.cl.stop()
-            except mpd.base.ConnectionError:
-                self.logger.info("mpd beim Runterfahren nicht mehr erreichbar")
+        self._CheckConnection()
+        try:
+            self.cl.stop()
+        except mpd.base.ConnectionError:
+            self.logger.info("mpd beim Runterfahren nicht mehr erreichbar")
 
         # Verabschiedung von allen Benutzern
         try:
@@ -1512,8 +1593,8 @@ class StateMachine():
 
         # Musikwiedergabe stoppen, aktuelle Position speichern
         if self.info['state'] == 'play':
-            if self._CheckConnection():
-                self.cl.pause(1)
+            self._CheckConnection()
+            self.cl.pause(1)
         self.save_current_position()
 
         self.time_manager.stop()
@@ -1592,9 +1673,9 @@ class StateMachine():
                     self.newstate = 1000   
 
             elif self.F_button == self.BU_PREV:
-                # TODO: zum Verlassen-Menue!
                 self.newstate = 1100   
                 return
+
             elif self.F_button == self.BU_NEXT:
                 # zur Hilfe gehen
                 self.newstate = 790  
@@ -2577,8 +2658,8 @@ class StateMachine():
         # Funktion wie bei Pause:
         # Musikwiedergabe stoppen
         self.save_current_position()
-        if self._CheckConnection():
-            self.cl.pause(1)
+        self._CheckConnection()
+        self.cl.pause(1)
         
 
         self.LCD.clear_data()
@@ -2631,11 +2712,125 @@ class StateMachine():
                 # sonst immer hier verbleiben, ja nach aktuellem Sperrgrund eine 
                 # passende, aber zufaellige Ansage durchfuehren
                 self.play_sound_msg(self.time_manager.status)
-        
 
+    def DO_ST_1300(self):
+        # So wie Zusatand 200, aber für Internetradio
+        # laden und komplett im Display anzeigen, immer weiter nach 250!
+        self.newstate = 1350
 
-                          
+        # Internetradio: keine Verbindung zum Internet testen
+        if self._check_internet() == False:
+            # abbrechen, Melsdung abspielen
+            self._CheckConnection()
+            self.cl.stop()
+            self.play_sound_msg('nointernet')
+            self.newstate = self.ST_WAIT
 
+            return    
+
+        # wird nicht bereits abgespielt, in MPD laden, sofern eine Verbindung besteht
+        if self._CheckConnection():
+            # Neue Playliste laden
+            self.info['playlist'] = self.playlist_request
+
+            self.LCD.clear()
+            self.LCD.clear_data()
+
+            self.cl.clear()            # aktuelle abspielliste loeschen, sonst wird die Playliste nur dazugeladen!
+            # Hier kommen wir auch direkt nach Neustart rein. Ein Fehlerhaftes Laden ist moeglich, wenn die letzte
+            # gespeicherte Playliste nicht mehr vorhanden ist. --> Abfangen so wie im Zustand 170!!
+            try: 
+                self.cl.load(self.info['playlist'])
+            except:
+                self.logger.error("Fehler 1300: self.cl.load(self.info['playlist']) ")
+                self.newstate = 400
+                return
+            self.cl.play()
+
+            # Kompletten Playlistennamen darstellen
+            self._writeMessage(self.playlist_request)
+
+        else: 
+            # nochmal im naechsten zyklus versuchen
+            self.newstate = 1300
+            self.logger.info('loop state 1300 wegen connection MPD')
+            return        
+
+    def DO_ST_1350(self):
+        # So wie 250, aber für Internetradio
+        # kontinuierliches Abspielen der Musik, auf Tasten reagieren, Display aktualisieren,...
+        # ohne Ereignis bleiben wir hier
+        self.newstate = 1350
+
+        # Zeitenverwaltung, ggf. Musikwiedergabe sperren
+        self.time_manager.count()
+        self.time_manager.check_status()
+        if self.time_manager.status != self.time_manager.status_ok:
+            self.newstate = self.ST_BLOCKED
+            return
+
+        if self.F_RFID != self.NO_RFID:
+            self.newstate = self.ST_LOADLIST
+            return
+
+        # auf Abbruch der Internetverbindung testen
+        if self.elapsed_time(self.TIMER_WLAN_CHECK): 
+            if self._check_internet():
+                self.start_timer(self.TIMER_WLAN_CHECK)
+            else:
+                self._CheckConnection()
+                self.cl.stop()
+                self.play_sound_msg('nointernet')
+                self.newstate = self.ST_WAIT
+                return
+
+        # jetzt erst die Tastereingabe verarbeiten
+        if self.F_button != self.BU_NONE or (self.elapsed_time(self.TIMER_DISPLAY) and not self._validMessage()):
+            self._CheckConnection()
+            self.update_MPD_info()
+            self.F_update_display = True
+
+            # Verbindung zu MPD herstellen, falls noetig. 
+
+            if self.F_button == self.BU_PREV:
+                # Kommando an MPD schicken, dass Titel zurueck (falls moeglich)
+                if self._check_prev():
+                    try:
+                        self.cl.previous()  
+                    except:
+                         self.logger.error("Fehler 1350: self.cl.previous() ")
+                         self.cl.stop()
+                         self.newstate = 400
+            elif self.F_button == self.BU_NEXT:
+                # Titel vor, (falls moeglich)
+                if self._check_next():
+                    try:
+                        self.cl.next()
+                    except:
+                         self.logger.error("Fehler 1350: self.cl.next() ")
+                         self.cl.stop()
+                         self.newstate = 400
+            elif self.F_button == self.BU_PAUSE:
+                # Pause ausloesen und in den Zustand ST_PAUSE wechseln
+                self.cl.pause(1)
+                self.LCD.quick_update_state('pause')
+                self.newstate = self.ST_PAUSE
+                
+            elif self.F_button == self.BU_VOLUME_ROTATION:
+                # Volume nach Anzahl der Schritte anpassen.
+                # bei schneller Konpfdrehung deutlich mehr reagieren
+                if abs(self.N_button) >= 3:
+                    self.adjust_volume(self.N_button * self.vol_step_Quick)
+                else:
+                    self.adjust_volume(self.N_button * self.vol_step)
+
+            self.update_MPD_info()
+
+        # Displayupdate bei Anforderung
+        if self.F_update_display or ((self.cur_disp_page == self.DISP_MESSAGE) and not self._validMessage()):
+            self._writeRadio()
+            self.start_timer(self.TIMER_DISPLAY)
+            self.F_update_display = False        
 
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # ++++++++++++++++    Ende      Zustandsfunktionen +++++++++++++++++++++++++++
