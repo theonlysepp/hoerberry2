@@ -36,7 +36,6 @@ import logging
 
 # wlan und intenet
 import socket
-from pythonping import ping
 
 # meine Klassen
 from RFID_READER_PN532 import RFID_READER_PN532

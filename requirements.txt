@@ -1,7 +1,6 @@
 hjson==3.0.1
 spidev==3.4
 python-mpd2==1.0.0
-pythonping==1.1.0
 py532lib
 RPi
 logging
