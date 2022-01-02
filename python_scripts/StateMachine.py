@@ -33,6 +33,7 @@ import time
 import hjson
 
 import logging
+import traceback
 
 # wlan und intenet
 import socket
@@ -271,6 +272,7 @@ class StateMachine():
     ST_EDIT_SET = 1100
     ST_BLOCKED = 1200
     ST_INTERNET_RADIO = 1300
+    ST_ERROR_DISPLAY = 1400
 
     NO_DISP = 0
     DISP_PLAY = 1
@@ -331,7 +333,7 @@ class StateMachine():
 
         self.F_RFID = self.NO_RFID        # Zustandsflag RFID, False oder integer
         self.F_update_display = False# Displayupdate erzwingen
-        self.error_msg = ""          # String fuer die Fehlerdarstellung im Display
+
         self.cur_disp_page = self.NO_DISP   
 
         # Variablen fuer das Editiermenue
@@ -349,6 +351,7 @@ class StateMachine():
         self.help_list = []         # Text Hilfemenue in Zeilen
         self.help_index = 0         # aktuelle Zeilennummer von Help_list in der obersten Displayanzeige
 
+        self.exception = None       # Platz fuer das Fehlerhandling
 
         # Variablem mit Informationen der Musikwiedergabe
         # Infoliste, die vom Display abgefragt wird und in Datei abgespeichert wird. Es werden immer alle Eintraege erwartet.
@@ -392,6 +395,8 @@ class StateMachine():
 
         #try:
         # Ansagetexte laden
+        # todo: sprachspezifische Ansagetexte --> 3 verschiedenen Dictionaries, fuer jede Sprache eines 
+        # in der struktur: 'hello_de_01.mp3'
         self.sound_msg = {}
 
         p=Path(self.cfg_gl['foname_audio_msg'])
@@ -512,6 +517,8 @@ class StateMachine():
                         1250 : self.DO_ST_1250,
                         1300 : self.DO_ST_1300,
                         1350 : self.DO_ST_1350,
+                        1400 : self.DO_ST_1400,
+                        1450 : self.DO_ST_1450,
         }
 
         # Eingabemaske erstellen
@@ -1060,6 +1067,21 @@ class StateMachine():
     def __load_helptext(self, text):
         # Basisfunktion, die jeden beliebigen Text in den Helptext formatiert
         self.help_list = split_lines(text, self.linewidth)
+        print(self.help_list)
+        self.add_footer_help()
+        self.help_index = 0
+        self.F_update_display = True
+        self.logger.info(self.help_list)       
+
+    def __load_errortext(self, text):
+        # Basisfunktion, die jeden beliebigen Text in den Helptext formatiert
+        text = text.replace('Traceback (most recent call last):', 'ERROR:        ')
+        text = text.replace('File "/home/dietpi/hoerberry2/python_scripts/', 'File "')
+        text = text.replace('\n', ' ')
+        text = text.replace('  ', ' ')
+
+        self.help_list = [text[i:i+self.linewidth] for i in range(0, len(text), self.linewidth)]
+
         self.add_footer_help()
         self.help_index = 0
         self.F_update_display = True
@@ -1194,8 +1216,6 @@ class StateMachine():
         # Ansage nur beim Einschalten, denn dann ist noch kein laststate definiert
         if self.laststate == self.NO_NEWSTATE:
             # Begruessungsbildschirm an alle Benutzer
-
-
             msg = self.msg_dict["100"][self.lg]
             self._writeMessage(msg+self.list_user(), 0,3)
             # temporaer: IP beim Start anzeigen. WEnn die verfuegbar --> alles schon vor dem Netzwerk!
@@ -1506,6 +1526,8 @@ class StateMachine():
         # Playliste erkannt --> PLAY, Playlist laden
         # unbekannte RFID   --> zurueck zu laststate
         # danach die ausgelesene RFID zuruecksetzen auf NO_RFID
+
+
 
         # debug
         self.logger.debug(self.uid_dict)
@@ -2793,11 +2815,15 @@ class StateMachine():
 
             if self.F_button == self.BU_PREV:
                 # Kommando an MPD schicken, dass Titel zurueck (falls moeglich)
+                # todo: Fehler beim Abspielen eines Internetradios:
+                # - warum auf dem einen ok, dem anseren aber nicht?
+                # - wie abfangen?
+                # --> eigene Fehlermeldung akustisch, dass Intenetradio nicht verfuegbar oder falsch
                 if self._check_prev():
                     try:
                         self.cl.previous()  
                     except:
-                         self.logger.error("Fehler 1350: self.cl.previous() ")
+                        self.logger.error("Fehler 1350: self.cl.previous() ")
 
             elif self.F_button == self.BU_NEXT:
                 # Titel vor, (falls moeglich)
@@ -2805,7 +2831,7 @@ class StateMachine():
                     try:
                         self.cl.next()
                     except:
-                         self.logger.error("Fehler 1350: self.cl.next() ")
+                        self.logger.error("Fehler 1350: self.cl.next() ")
 
             elif self.F_button == self.BU_PAUSE:
                 # Pause ausloesen und in den Zustand ST_PAUSE wechseln
@@ -2828,6 +2854,35 @@ class StateMachine():
             self._writeRadio()
             self.start_timer(self.TIMER_DISPLAY)
             self.F_update_display = False        
+
+    def DO_ST_1400(self):
+        # ERROR_DISPLAY
+        # Anzeige einer Fehlermeldung
+        self.newstate = 1450
+
+        self.cl.stop()
+        # Anzeige der Fehlerursache
+
+        if self.exception != None:
+            #helptext = traceback.print_exc()
+            ex = self.exception
+            helptext = ''.join(traceback.format_exception(etype=type(ex), value=ex, tb=ex.__traceback__))
+
+            # helptext = f'ERROR:          {type(ee).__name__} at line {ee.__traceback.__tb_lineno} of {__file__}: {ee}' 
+            
+        else:
+            helptext = 'ST_1400: No Exception recieved.'
+
+        self.logger.error(helptext)
+        self.__load_errortext(helptext)
+
+    def DO_ST_1450(self):
+        # ERROR_DISPLAY
+        # Anzeige einer Fehlermeldung, auf Quittieren warten
+        self.newstate = 1450
+        # auf Tasteneingabe warten, danach nach WAIT
+        self._run_helptext(400)
+        
 
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # ++++++++++++++++    Ende      Zustandsfunktionen +++++++++++++++++++++++++++
@@ -2875,7 +2930,15 @@ class StateMachine():
 
 
         # jetzt wird der Code des aktuellen Zustandes abgearbeitet. 
-        self.state_dict[self.state]()
+        try:
+            self.state_dict[self.state]()
+
+        except Exception as ex:
+            self.state = 1400
+            self.exception = ex
+            self.state_dict[self.state]()
+            # self.state_dict[1400]()
+            self.logger.debug(str(self.state)+"--> "+str('1400'))
 
         # Nacharbeitung: 
         # - Buttons zuruecksetzen
@@ -2897,13 +2960,6 @@ class StateMachine():
         if self.elapsed_time(self.TIMER_DISPLAY):
             self.start_timer(self.TIMER_DISPLAY)
             self.LCD.update_ls() 
-
-        # Im Editiermenue und eine Mastercard erkannt --> GPIOs neu initialisieren!
-        #if (self.state >= 700) and (self.state < 1200) and (self.F_RFID in self.MasterCardID):
-            # Mastercard im Editiermenue erkannt!
-            #self._remove_GPIO()
-            #self._init_GPIO()
-            #self.logger.info("GPIOs zurueckgesetzt")
 
         # WLAN abschalten im Musikbetrieb. Achtung: nach derzeitigem Stand nicht vernuenftig umkehrbar,
         # nur mit Neustart wieder OK. 

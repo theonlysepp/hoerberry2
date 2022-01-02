@@ -3,6 +3,9 @@
 # Hauptdatei, die beim Hohfahren des Pi automatisch ausgefuehrt wird.
 # Enthaelt alle Initialisierungen und die Hauptschleife fuer den RFID-Reader
 # und das Display
+#
+# Optionen:   python3 main.py loglevel
+# folgende Level sind zulaessig: INFO; DEBUG; WARNING; ERROR
 
 # Module importieren
 from RPi import GPIO
@@ -52,9 +55,6 @@ DISPLAY_CSB    = pins['DISPLAY_CSB']
 GPIO.setmode(GPIO.BOARD)
 
 
-
-     
-
 # logging, zentrale Einstellung hier
 # Logginglevel mit Kommandozeilenargument einstellbar
 # sudo python3 main.py 10       --> logging.DEBUG (nicht zu empfehlen)
@@ -68,35 +68,39 @@ import logging
 timestamp = time.strftime('%xH%HM%M')
 timestamp = timestamp.replace('/','_')
 
-
-if len(sys.argv)>1:
-     loglevel=int(sys.argv[1])     
-else:               
-     loglevel=settings_gl['Logging_Level']     
-
 # leere alte logfiles loeschen
 from pathlib import Path
 f_list = list(Path(settings_gl['logfile']).glob('*.log'))
 [ i.unlink() for i in f_list if (i.stat().st_size == 0) ]
 
+if (sys.argv[1] == "DEBUG") or (sys.argv[1] == "INFO") or (sys.argv[1] == "WARNING") or (sys.argv[1] == "ERROR"):
+     # Angabe eine Loggerlevels ueber die Konsole:
+     # Ausgage entsprechend des levels, logausgabe und Fehlerausgabe an die Konsole
+     loglevel=sys.argv[1]    
 
-# mit oder ohne logfile
-if settings_gl['logfile'] != 'None':
-     logfile = settings_gl['logfile']+'logfile_{}.log'.format(timestamp)
-     logging.basicConfig(filename=logfile,level=loglevel,
-          format='%(asctime)s : %(levelname)s : %(name)s : %(message)s')  
-else:
      logging.basicConfig(level=loglevel,
-          format='%(asctime)s : %(levelname)s : %(name)s : %(message)s')  
+               format='%(asctime)s : %(levelname)s : %(name)s : %(message)s')  
+else:               
+     # Logging und Fehlerausgabe entsprechen den base_settings
+     loglevel=settings_gl['Logging_Level']     
+
+     # mit oder ohne logfile
+     if settings_gl['logfile'] != 'None':
+          logfile = settings_gl['logfile']+'logfile_{}.log'.format(timestamp)
+          logging.basicConfig(filename=logfile,level=loglevel,
+               format='%(asctime)s : %(levelname)s : %(name)s : %(message)s')  
+     else:
+          logging.basicConfig(level=loglevel,
+               format='%(asctime)s : %(levelname)s : %(name)s : %(message)s')  
+     # Python-Fehler auch in die Datei schreiben: (der Fehler wird nach ganz oben geschrieben)
+     # optional
+     if settings_gl['errorfile'] != 'None':
+          sys.stderr = open(settings_gl['errorfile']+'errorfile_{}.log'.format(timestamp), 'w')
 
 logger = logging.getLogger(__name__)
 
 print("Logger Level main: ", logger.getEffectiveLevel())
 
-# Python-Fehler auch in die Datei schreiben: (der Fehler wird nach ganz oben geschrieben)
-# optional
-if settings_gl['errorfile'] != 'None':
-     sys.stderr = open(settings_gl['errorfile']+'errorfile_{}.log'.format(timestamp), 'w')
 
 
 # Modul MPD-CLient
@@ -179,7 +183,8 @@ logger.info('Intialisierungen beendent')
 
 
 while True:
-    sm.ubi()
+     sm.ubi()
+
 
 
                        

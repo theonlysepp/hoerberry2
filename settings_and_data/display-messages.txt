@@ -59,7 +59,7 @@
  "703":     # Hilfetext " Grundeinstellungen
      {
      "D "  : "Grund-ein-stel-lun-gen: WLAN, Master-card, Up-dates und so ein Kram",
-     "GB"  : "bae settings: IP, WLAN, master-cards, up-dates and stuff",
+     "GB"  : "base settings: IP, WLAN, master-cards, up-dates and stuff",
      "Cz"  : "???",
      },
      # Startbildschirm Zuordnung der Karten
@@ -225,9 +225,9 @@
               "add MASTERCARDs",
               "WLAN",
               "Reset to factory settings",
-              "Updates suchen",
-              "Nutzungsstatistik",
-              "aktuelle IP" ], 
+              "look for updates",
+              "user statistics",
+              "current IP" ], 
      "CZ"  : ["Base Settings:",
               "add MASTERCARDs",
               "WLAN",
@@ -256,7 +256,7 @@
      },    
  "1004":     # Hilfetext "Updates:" Bei GitHub nach Updates suchen. Kommt in Zukunft automatisch beim Start des Editiermenue.
      {
-     "D "  : "Bei GitHub nach Up-dates su-chen. Kommt in Zu-kunft au-to-ma-tisch beim Start des Edi-tier-menue.",
+     "D "  : "Bei GitHub nach Up-dates su-chen.",
      "GB"  : "Updates suchen, TODO.",
      "Cz"  : "Updates suchen, TODO.",
      },     
@@ -270,7 +270,7 @@
      {
      "D "  : "aktuelle IP, fuer Verbindung zwecks Datentransfer.",
      "GB"  : "Current IP. For data transfer",
-     "Cz"  : "aktuelle IP, fuer Verbindung zwecks Datentransfer.",
+     "Cz"  : "???",
      },     
  "1020":       
      {
@@ -287,7 +287,7 @@
  "1022":       
      {
      "D "  : "Mastercard bekannt",
-     "GB"  : "Mastercard known",
+     "GB"  : "Mastercard already known",
      "Cz"  : " ???",
      },     
  "1023":       
@@ -299,7 +299,7 @@
  "1024":       
      {
      "D "  : "Mastercard hinzugefügt",
-     "GB"  : "add Mastercard done",
+     "GB"  : "added a mastercard",
      "Cz"  : " ???",
      },     
  "1031":       
