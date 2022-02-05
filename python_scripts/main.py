@@ -55,14 +55,6 @@ DISPLAY_CSB    = pins['DISPLAY_CSB']
 GPIO.setmode(GPIO.BOARD)
 
 
-# logging, zentrale Einstellung hier
-# Logginglevel mit Kommandozeilenargument einstellbar
-# sudo python3 main.py 10       --> logging.DEBUG (nicht zu empfehlen)
-# sudo python3 main.py 20       --> logging.INFO
-# sudo python3 main.py 30       --> logging.Warning
-# sudo python3 main.py 40       --> logging.ERROR
-# Die logfile werden hier abgelegt: /home/dietpi/logfiles/
-
 import logging
 # Format des Dateinamens fuer das logging steckt hier drin
 timestamp = time.strftime('%xH%HM%M')
@@ -73,6 +65,10 @@ from pathlib import Path
 f_list = list(Path(settings_gl['logfile']).glob('*.log'))
 [ i.unlink() for i in f_list if (i.stat().st_size == 0) ]
 
+
+# logging und Fehlerausgabe aus den base_settings.ini oder mit Kommandozeilenargument:
+# python3 main.py LOGLEVEL
+# Achtung: wird ein Loglevel angegeben, werden alle Fehler auch automatisch an die Konsole geschickt! 
 if (sys.argv[1] == "DEBUG") or (sys.argv[1] == "INFO") or (sys.argv[1] == "WARNING") or (sys.argv[1] == "ERROR"):
      # Angabe eine Loggerlevels ueber die Konsole:
      # Ausgage entsprechend des levels, logausgabe und Fehlerausgabe an die Konsole

@@ -2863,17 +2863,14 @@ class StateMachine():
         self.cl.stop()
         # Anzeige der Fehlerursache
 
-        if self.exception != None:
+        if self.exception:
             #helptext = traceback.print_exc()
             ex = self.exception
             helptext = ''.join(traceback.format_exception(etype=type(ex), value=ex, tb=ex.__traceback__))
 
-            # helptext = f'ERROR:          {type(ee).__name__} at line {ee.__traceback.__tb_lineno} of {__file__}: {ee}' 
-            
         else:
             helptext = 'ST_1400: No Exception recieved.'
 
-        self.logger.error(helptext)
         self.__load_errortext(helptext)
 
     def DO_ST_1450(self):
