@@ -69,7 +69,7 @@ f_list = list(Path(settings_gl['logfile']).glob('*.log'))
 # logging und Fehlerausgabe aus den base_settings.ini oder mit Kommandozeilenargument:
 # python3 main.py LOGLEVEL
 # Achtung: wird ein Loglevel angegeben, werden alle Fehler auch automatisch an die Konsole geschickt! 
-if (sys.argv[1] == "DEBUG") or (sys.argv[1] == "INFO") or (sys.argv[1] == "WARNING") or (sys.argv[1] == "ERROR"):
+if len(sys.argv) > 1 and (sys.argv[1] in ['DEBUG', 'INFO', 'WARNING', 'ERROR']):
      # Angabe eine Loggerlevels ueber die Konsole:
      # Ausgage entsprechend des levels, logausgabe und Fehlerausgabe an die Konsole
      loglevel=sys.argv[1]    
