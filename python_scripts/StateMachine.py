@@ -233,6 +233,28 @@ def unblock_wifi():
     # todo: leider mit kryptischem Geraeteneman und ohne IP, daher derzeit nicht verwendet
     subprocess.Popen(['sudo', 'rfkill', 'unblock', 'wifi'], stdout=subprocess.PIPE)
 
+def dict_from_folder(foname):
+    # dictionary anhand der audiodateien in einem Ordner foname erstellen, fuer die Ansagetexte
+    # anhand des Dateinemens xxxx_1.mp3 wird im dictionary der key 'xxxx' erzeugt. 
+    # (getrennt wird immer der Namensteil vor dem ersten Underscore.) Der Eintrag dazu ist 
+    # eine Liste mit allen Dateien, die 'xxxx' im Dateinamen enthalten.
+    sound_msg = {}
+
+    p=Path(foname)
+
+    # todo: Ansagetexttypen automatisch aus den vorhandenen Dateinamen erzeugen, (regular expressions)
+    for i in p.iterdir():
+        # nur Namensteil vor dem Nummerntrenner, also von "hallo_1.mp3" nur "hallo"
+        naked = i.name.split('_')[0]
+        # fuer neue Namensteile einen Eintrag erzeugen
+        if not naked in sound_msg.keys():
+            sound_msg[naked] = []
+
+    # alle passenden Dateien zur Suchmaske ausgeben
+    for i in sound_msg.keys():
+        sound_msg[i] = list(p.glob(f'{i}*.mp3'))
+
+    return sound_msg     
 
 
 class StateMachine():
@@ -397,31 +419,25 @@ class StateMachine():
         # Ansagetexte laden
         # todo: sprachspezifische Ansagetexte --> 3 verschiedenen Dictionaries, fuer jede Sprache eines 
         # in der struktur: 'hello_de_01.mp3'
-        self.sound_msg = {}
+        
+        # Liste mit dictionaries fuer: 
+        # Ansagetext 'hello', Sprachindividuelle Texte fuer den Rest
+        self.sound_msg_dicts = {}
 
-        p=Path(self.cfg_gl['foname_audio_msg'])
+        # custumized Ansagetexte fuer hello verwenden, sofern darin passende Dateien vorhanden sind. 
+        if dict_from_folder(self.cfg_gl['foname_audio_msg_hello_c']) != {}:
+            self.sound_msg_dicts['hello'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_c'])
+        else:
+            # auf die default Texte zurueckgreifen
+            self.sound_msg_dicts['hello'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_d'])
 
-        # todo: Ansagetexttypen automatisch aus den vorhandenen Dateinamen erzeugen, (regular expressions)
-        for i in p.iterdir():
-            # nur Namensteil vor dem Nummerntrenner, also von "hallo_1.mp3" nur "hallo"
-            naked = i.name.split('_')[0]
-            # fuer neue Namensteile einen Eintrag erzeugen
-            if not naked in self.sound_msg.keys():
-                self.sound_msg[naked] = []
+        # jetzt die sprachspezifischen laden, 
+        # leider haesslich and die Namen der geladenen Sprache gekoppelt.
+        self.sound_msg_dicts['D '] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_D'])
+        self.sound_msg_dicts['GB'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_GB'])
+        self.sound_msg_dicts['Cz'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_Cz'])
 
-        # alle passenden Dateien zur Suchmaske ausgeben
-        for i in self.sound_msg.keys():
-            self.sound_msg[i] = list(p.glob(f'{i}*.mp3'))
-
-            self.logger.info(f'self.sound_msg[{i}]:')               
-            self.logger.info(self.sound_msg[i])        
-
-        # except:
-        #     # Dictionary der Datei nicht geladen, leeres dictionary erstellen
-        #     self.sound_msg = {}       
-        #     self.logger.error('fname_audio_msg nicht geladen!')
-
-        # Sprachnachrichten fuer das Display laden, in allen Sprachen
+        # Nachrichten fuer das Display laden, in allen Sprachen
         with open(self.cfg_gl['fname_messages']) as fobj:
             self.msg_dict = hjson.load(fobj)
 
@@ -757,7 +773,21 @@ class StateMachine():
         # In einer Liste sind typischerweise nur Elemente zu einem Thema
         # Wiergabelautstaerke anpassen
 
-        auswahl = self.sound_msg[list_name]
+        try:
+            if list_name == 'hello':
+                # fuer hello inner das dictionary hello laden, das nur den key hello hat. 
+                auswahl = self.sound_msg_dicts[list_name][list_name]
+            else:
+                # sonst das sprachspezifische dict laden, und dort die entsprechende liste raussuchen
+                auswahl = self.sound_msg_dicts[self.lg][list_name]
+        except:
+            # Gab es einen Fehler beim laden --> leere Liste, um nur die Ersatzmeldung abzuspielen
+            auswahl = []
+        
+        if auswahl = []:
+            auswahl = [self.cfg_gl['fname_no_audio]']]
+        #
+
         # eine zufaellige davon abspielen
         subprocess.Popen(["sudo", "amixer", "set", "Master", '{:02d}%'.format(self.msg_vol)], stdout=subprocess.PIPE)
 
