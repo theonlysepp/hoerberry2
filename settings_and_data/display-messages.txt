@@ -78,10 +78,10 @@
               "- korrigieren",
               "- anzeigen"], 
      },
- "801":     # Hilfetext "RFID zuordnen": RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. Die Kartennummer wird kurz angezeigt. Nach erfolgreicher Zuweisung wird dem Playlistennamen ein '-' vorangestellt.
+ "801":     # Hilfetext 
      {
-     "D "  : "RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. Die Kar-ten-num-mer wird kurz an-ge-zeigt. Nach er-folg-rei-cher Zu-wei-sung wird dem Play-listen-na-men ein '-' vor-an-ge-stellt. ",
-     "GB"  : "Play-list manag-ment: assign a unique RFID to each new playlist. For that, put the card to the reader. This card will then be assigned to the currently selec-ted play-list. The card num-ber is shown brief-ly. Af-ter suc-ces-full assig-ne-ment, a '-' is add-ed in front of the name.",
+     "D "  : "RFID zu-ord-nen: Allen neu-en Play-li-sten ei-ne ein-deu-ti-ge RFID_Kar-te zu-ord-nen. Die Kar-te da-zu an-hal-ten. Die Kar-ten-num-mer wird kurz an-ge-zeigt. Nach er-folg-rei-cher Zu-wei-sung wird dem Play-listen-na-men ein '+' vor-an-ge-stellt. ",
+     "GB"  : "Play-list manag-ment: assign a unique RFID to each new playlist. For that, put the card to the reader. This card will then be assigned to the currently selec-ted play-list. The card num-ber is shown brief-ly. Af-ter suc-ces-full assig-ne-ment, a '+' is add-ed in front of the name.",
      "Cz"  : "???",
      },     
  "802":     # Hilfetext "RFID korrigieren": 

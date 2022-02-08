@@ -1864,8 +1864,8 @@ class StateMachine():
             # aktuelle mittlere Zeile mit der Nummer ueberschreiben
             self.LCD.write_uid(self.F_RFID, 1)
             # Zeichen zur Markierung voranstellen, dass der schon versorgt ist. 
-            if self.disp_list[self.list_index][0] != '-':
-                self.disp_list[self.list_index] = '-'+self.disp_list[self.list_index]
+            if self.disp_list[self.list_index][0] != '+':
+                self.disp_list[self.list_index] = '+'+self.disp_list[self.list_index]
             time.sleep(self.sleep_uid_update)
             self.F_update_display = True   
 
