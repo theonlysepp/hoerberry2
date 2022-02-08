@@ -433,9 +433,9 @@ class StateMachine():
 
         # jetzt die sprachspezifischen laden, 
         # leider haesslich and die Namen der geladenen Sprache gekoppelt.
-        self.sound_msg_dicts['D '] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_D'])
-        self.sound_msg_dicts['GB'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_GB'])
-        self.sound_msg_dicts['Cz'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_Cz'])
+        self.sound_msg_dicts['D '] = dict_from_folder(self.cfg_gl['foname_audio_D'])
+        self.sound_msg_dicts['GB'] = dict_from_folder(self.cfg_gl['foname_audio_GB'])
+        self.sound_msg_dicts['Cz'] = dict_from_folder(self.cfg_gl['foname_audio_Cz'])
 
         # Nachrichten fuer das Display laden, in allen Sprachen
         with open(self.cfg_gl['fname_messages']) as fobj:
@@ -645,7 +645,7 @@ class StateMachine():
         # Abfragen, ob bald Ausgeschaltet wird, im WAIT und PAUSE
 
         if int(self.remaining_time(self.TIMER_AUTOSHUTDOWN)) == 60:
-            self.play_sound_msg('AutoShutdown')
+            self.play_sound_msg('autoshutdown')
 
         if self.elapsed_time(self.TIMER_AUTOSHUTDOWN):
             self.newstate = self.ST_SHUTDOWN
@@ -782,11 +782,8 @@ class StateMachine():
                 auswahl = self.sound_msg_dicts[self.lg][list_name]
         except:
             # Gab es einen Fehler beim laden --> leere Liste, um nur die Ersatzmeldung abzuspielen
-            auswahl = []
-        
-        if auswahl = []:
-            auswahl = [self.cfg_gl['fname_no_audio]']]
-        #
+            self.logger.error('keine Datei dazu gefunden')
+            auswahl = self.sound_msg_dicts[self.lg]['noaudio']
 
         # eine zufaellige davon abspielen
         subprocess.Popen(["sudo", "amixer", "set", "Master", '{:02d}%'.format(self.msg_vol)], stdout=subprocess.PIPE)
