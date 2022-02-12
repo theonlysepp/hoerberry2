@@ -772,8 +772,8 @@ class StateMachine():
         # Wiergabelautstaerke anpassen
 
         try:
-            if list_name == 'hello' and self.sound_msg_dicts['hello']<>{}:
-                # fuer hello inner das dictionary hello laden, das nur den key hello hat. 
+            if (list_name == 'hello') and (self.sound_msg_dicts['hello'] !={}):
+                # fuer hello inner das dictionary hello laden, das nur den key hello hat, sofern nicht leer.  
                 auswahl = self.sound_msg_dicts[list_name][list_name]
             else:
                 # sonst das sprachspezifische dict laden, und dort die entsprechende liste raussuchen
