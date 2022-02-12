@@ -47,13 +47,13 @@
  "701":     # Hilfetext "Playlisten Verwalten": Playlisten verwalten: RFID-Karten den Playlisten zuordnen. Zuordnugn der Karten überprüfen und korrigieren.
      {
      "D "  : "Play-list-en ver-wal-ten: RFID-Kar-ten den Play-list-en zu-ord-nen. Zu-ord-nung der Kar-ten über-prü-fen und kor-ri-gie-ren.",
-     "GB"  : "Play-list ma-nag-ment: assign RFID-Cards to the play-lists.",
+     "GB"  : "Play-list ma-nag-ment: assign RFID-Cards to the play-lists. Check and correct assign-ments.",
      "Cz"  : "???",
      },
  "702":      # Hilfetext "Einstellungen"  Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Nutzungsbegrenzung.
      {
      "D "  : "Ein-stell-un-gen für die An-zei-ge im Dis-play, das Ab-spie-len der Mu-sik und die Be-grenz-ung der Nut-zung.",
-     "GB"  : "Set-tings for dis-play and mu-sic.",
+     "GB"  : "Set-tings for dis-play, mu-sic ans limita-tions of usage.",
      "Cz"  : "???",
      },
  "703":     # Hilfetext " Grundeinstellungen
@@ -87,7 +87,7 @@
  "802":     # Hilfetext "RFID korrigieren": 
      {
      "D "  : "RFID kor-rigie-ren: Alle Play-list-en de-nen ei-ne Kar-te zu-ge-ord-net ist wer-den auf-ge-list-et. An-hal-ten ei-ner RFID-Kar-te über-schrei-bt die al-te Zu-ord-nung.", 
-     "GB"  : "correct RFID: A list of all play-lists with a RFID is shown. Put-ting a card to the reader up-date the set-ting for the high-lighted play-list.",
+     "GB"  : "correct RFID: A list of all play-lists with a RFID is shown. Put-ting a card to the reader will up-date the set-ting for the high-lighted play-list.",
      "Cz"  : "???",
      },     
  "803":     # Hilfetext "Karte lesen:"
@@ -148,7 +148,7 @@
  "902":       # daily-limit: Höchstdauer pro Tag in Minuten. Danach wird keine Musik mehr abgespielt. Bei jeder Eingabe wird gesagt, dass der Hoerberry für den Rest des Tages gesperrt ist. 
      {
      "D "  : "daily limit: Höchstdauer pro Tag in Mi-nu-ten. Da-nach wird kei-ne Mu-sik mehr ab-ge-spielt. Bei je-der Ein-ga-be wird ge-sagt, dass der Hoer-ber-ry für den Rest des Ta-ges ge-sperrt ist.",
-     "GB"  : "daily limit: Maximum duration per day in minutes. After that, no more music will be played. With every input, it will tell that the Hoer-ber-ry is bloc-ked for the rest of the day. ",
+     "GB"  : "daily limit: Maxi-mum du-ra-tion per day in minu-tes. Af-ter that, no more mu-sic will be played. With every in-put, it will tell that the Hoer-ber-ry is bloc-ked for the rest of the day. ",
      "Cz"  : "daily limit: Maximalni doba trvani za den v minutach. Pote jiz nebude prehravana zadna hudba. U kazdeho zaznamu se rika, ze Hoerberry je po zbytek dne uzamcen.",
      },
  "903":       # evening-limit: Keine Musikwiedergabe nach dieser Uhrzeit erlaubt. Nur mit WLAN möglich, sonst kennt der Hoerberry die Uhrzeit nicht.
@@ -157,11 +157,11 @@
      "GB"  : "evening limit: No mu-sic play-back allowed af-ter this time. On-ly pos-sible with WLAN, other-wise the Hoer-ber-ry will not know the time.",
      "Cz"  : "evening limit: Po teto dobe neni povoleno prehravani hudby. Mozne pouze s WLAN, jinak Hoerberry nezna cas.",
      },
- "904":       # Sprache: Sprache der Displayanzeige.
+ "904":       # language: Sprache der Displayanzeige.
      {
-     "D "  : "Spra-che: Spra-che der Dis-play-an-zei-ge.",
-     "GB"  : "Sprache: Language of the display",
-     "Cz"  : "Sprache: Jazyk displeje ",
+     "D "  : "language: Spra-che der Dis-play-an-zei-ge und An-sa-gen.",
+     "GB"  : "language: Lan-gu-age of the dis-play and the messages.",
+     "Cz"  : "language: Jazyk displeje ",
      },
  "905":       # Morning-limit: Keine Musikwiedergabe vor dieser Uhrzeit erlaubt. Nur mit WLAN möglich, sonst kennt der Hoerberry die Uhrzeit nicht.
      {
@@ -177,39 +177,39 @@
      },
  "907":       # Time-out Back-light: Dauer der Hintergrundbeleuchtung, falls das Display nur bei Aktion beleuchtet wird. 
      {
-     "D "  : "Timeout Back-light: Dauer der Hin-ter-grund-be-leuch-tung, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
-     "GB"  : "Timeout Back-light: Du-ra-tion of the back-ground ligh-ting if the dis-play is only illumi-na-ted du-ring ac-tion",
-     "Cz"  : "Timeout Back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
+     "D "  : "timeout back-light: Dauer der Hin-ter-grund-be-leuch-tung in Se-kun-den, falls das Dis-play nur bei Ak-tion be-leuch-tet wird.",
+     "GB"  : "timeout back-light: Du-ra-tion of the back-ground ligh-ting in se-conds if the dis-play is only illumi-na-ted du-ring ac-tion.",
+     "Cz"  : "timeout back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
      },
  "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Sekunden Pause oder Stop automatisch aus.
      {
-     "D "  : "Time-out Shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den bei Pau-se oder Stop au-to-ma-tisch aus.",
-     "GB"  : "Time-out Shut-down: The Hoerberry will shut down after xxx seconds of idle time. (pause or stop)",
-     "Cz"  : "todo",
+     "D "  : "time-out shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den bei Pau-se oder Stop au-to-ma-tisch aus.",
+     "GB"  : "time-out shut-down: The Hoer-ber-ry will shut down after xxx seconds of idle time. (pause or stop)",
+     "Cz"  : "time-out shut-down: todo",
      },
  "909":       # "Vol-Max:  Maximal erlaubt Lautstärke in %. Im Display erscheint beim maximal erlaubter Lautstaerke immer 100%. Die Kinder sind ja nicht doof."
      {
-     "D "  : "Vol-Max: Maxi-mal er-lau-bt Laut-stä-rke in %. Im Dis-play er-scheint beim maxi-mal er-laub-ter Laut-stä-rke im-mer 100%. Die Kin-der sind ja nicht doof.",
-     "GB"  : "???",
+     "D "  : "vol max: Maxi-mal er-lau-bt Laut-stä-rke in %. Im Dis-play er-scheint beim maxi-mal er-laub-ter Laut-stä-rke im-mer 100%. Die Kin-der sind ja nicht doof.",
+     "GB"  : "vol max: Maxi-mum vol-ume allo-wed, given in %. However, the dis-play will al-ways show this set value as 100%. The kids are smart, we have to be smar-ter.",
      "Cz"  : "???",
      },
  "910":       # vol_step: Schrittweite der Lautstärke in % pro Raste
      {
-     "D "  : "Vol Step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
-     "GB"  : "Vol Step: Volume step size in % per notch",
-     "Cz"  : "VOl Step: Velikost kroku objemu v% na zářez",
+     "D "  : "vol step: Schritt-wei-te der Laut-stär-ke in % pro Raste",
+     "GB"  : "vol step: Volume step size in % per notch.",
+     "Cz"  : "vOl step: Velikost kroku objemu v% na zářez",
      },
  "911":       # vol_step_quick: Schrittweite der Lautstärke in % pro Raste, bei schneller Veränderung. 
      {
-     "D "  : "Vol StepQuick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
-     "GB"  : "Vol StepQuick: Step size of the volume in% per notch, with rapid change.",
-     "Cz"  : "Vol StepQuick: Velikost kroku objemu v% na zářez, s rychlou změnou.",
+     "D "  : "vol step quick: Schritt-wei-te der Laut-stär-ke in % pro Raste, bei schnel-ler Ver-än-de-rung. ",
+     "GB"  : "vol step quick: Step size of the volume in % per notch, with rapid change.",
+     "Cz"  : "vol step quick: Velikost kroku objemu v% na zářez, s rychlou změnou.",
      },
  "912":       # WLAN: WLAN nach dem Starten mit Beginn der Musik abschalten. Achtung: Einschalten des WLAN geht nur mit Neustart
      {
      "D "  : "WLAN: WLAN nach dem Star-ten mit Be-ginn der Mu-sik ab-schal-ten. Ach-tung: Ein-schal-ten des WLAN geht nur mit Neu-start",
-     "GB"  : "WLAN: In-cre-ment of win-ding in sec-onds per notch.",
-     "Cz"  : "WLAN: Prirustek vinuti v sekundach na jeden zarez.",
+     "GB"  : "WLAN: Dis-able WLAN con-nection after start-up. Be aware: Re-star-ting WLAN conne-ction re-quires a re-boot of the sys-tem." ,
+     "Cz"  : "WLAN: ",
      },
 # Startbildschirm Grundeinstellungen
  "1000":      
@@ -228,7 +228,7 @@
               "look for updates",
               "user statistics",
               "current IP" ], 
-     "CZ"  : ["Base Settings:",
+     "CZ"  : ["Base Settings:",     # todo
               "add MASTERCARDs",
               "WLAN",
               "Reset to factory settings",
@@ -238,38 +238,38 @@
      },   
  "1001":     # Hilfetext "Mastercard"
      {
-     "D "  : "Eine oder meh-re-re Kar-ten als Mast-er-card ein-rich-ten",
-     "GB"  : "Add one or more cards as Mast-er-card.",
+     "D "  : "Master-card hin-zu-fü-gen: Eine oder meh-re-re Kar-ten als Mast-er-card ein-rich-ten.",
+     "GB"  : "add MASTERCARDs: Add one or more cards as Mast-er-card.",
      "Cz"  : "???",
      },     
  "1002":     # Hilfetext "WLAN:"
      {
-     "D "  : "WLAN einrichten, TODO.",
-     "GB"  : "WLAN einrichten, TODO.",
-     "Cz"  : "WLAN einrichten, TODO.",
+     "D "  : "WLAN: Name und Pass-wort für das lo-ka-le WLAN ein-rich-ten. Das Pass-wort wird ver-schlüs-selt ge-spei-chert. ",
+     "GB"  : "WLAN: Set name and pass-word for the lokal WLAN. The pass-word is sto-red en-cryp-ted.",
+     "Cz"  : "WLAN: TODO.",
      },     
  "1003":     # Hilfetext "Auf Fabrikeinstellung zurücksetzen:"
      {
-     "D "  : "Auf Fabrikeinstellung zurücksetzen: Alle Einstellungen zuruecksetzen? RFID-Zuordnung, Einstellungen, Nutzerinfo?",
-     "GB"  : "add Mastercard",
-     "Cz"  : " ???",
+     "D "  : "Zurück-set-zen auf Fa-brik-ein-stel-lung: Auf Fa-brik-ein-stel-lung zu-rück-set-zen: Alle Ein-stel-lun-gen zu-rueckset-zen? RFID Zu-ord-nung, Ein-stel-lun-gen, Nut-zerin-fo?",
+     "GB"  : "Reset to factory settings: RFID assign-ment, set-tings, sta-tis-tics.",
+     "Cz"  : "Reset to factory settings: ???",
      },    
  "1004":     # Hilfetext "Updates:" Bei GitHub nach Updates suchen. Kommt in Zukunft automatisch beim Start des Editiermenue.
      {
-     "D "  : "Bei GitHub nach Up-dates su-chen.",
-     "GB"  : "Updates suchen, TODO.",
+     "D "  : "Updates suchen: Bei GitHub nach Up-dates su-chen.",
+     "GB"  : "look for updates: In-stall up-da-tes from Git-hub, if avail-able.",
      "Cz"  : "Updates suchen, TODO.",
      },     
  "1005":     # Hilfetext "Statistik:"
      {
-     "D "  : "Benutzerstatistik, TODO.",
-     "GB"  : "Benutzerstatistik, TODO.",
+     "D "  : "Statistik: Ab-spiel-dau-er Mu-sik nach Ta-gen sor-tiert.",
+     "GB"  : "user statistics: to-tal time of music played for each day.",
      "Cz"  : "Benutzerstatistik, TODO.",
      },     
  "1006":     # Hilfetext "IP-Addresse:"
      {
-     "D "  : "aktuelle IP, fuer Verbindung zwecks Datentransfer.",
-     "GB"  : "Current IP. For data transfer",
+     "D "  : "aktuelle IP: fuer Verbindung zwecks Datentransfer.",
+     "GB"  : "Current IP: For data transfer",
      "Cz"  : "???",
      },     
  "1020":       
@@ -287,7 +287,7 @@
  "1022":       
      {
      "D "  : "Mastercard bekannt",
-     "GB"  : "Mastercard already known",
+     "GB"  : "card already known",
      "Cz"  : " ???",
      },     
  "1023":       
@@ -323,13 +323,13 @@
  "1050":       
      {
      "D "  : "Reset to factory Wirklich???",
-     "GB"  : "add Mastercard",
+     "GB"  : "Reset to factory, are you sure???",
      "Cz"  : " ???",
      },     
  "1055":       
      {
-     "D "  : "Reset erfolgreich",
-     "GB"  : "add Mastercard",
+     "D "  : "Reset erfolgreich.",
+     "GB"  : "Reset succesfull.",
      "Cz"  : " ???",
      },            
  "1070":   
@@ -352,18 +352,18 @@
               "Speichern"
               "Änderungen verwerfen und verlassen"],
      "GB"  : ["EXIT",
-              "Exit and Save changes",
+              "Exit and save changes",
               "Save changes",
               "Exit and revert changes"],
-     "Cz"  : ["VERLASSEN",
+     "Cz"  : ["VERLASSEN",   #todo
               "Speichern und velassen",
-              "Speichern",
+              "Speichern",  # todo
               "Änderun-gen ver-wer-fen"],
      },
  "1101":     # Hilfetext "Speichern und Verlassen"
      {
      "D "  : "Spei-chern und ver-las-sen: Die Än-de-run-gen wer-den ge-spei-chert. Das Edi-tier-menü wird ver-las-sen. Die Musik-wieder-ga-be wird fort-ge-setzt.",
-     "GB"  : "Exit and Save chan-ges: Save the chan-ges. We leave the the edit-men-ue. Mu-sic con-tin-ues.",
+     "GB"  : "Exit and Save chan-ges: Save the chan-ges. We leave the the edit-men-ue. Mu-sic will con-tinue.",
      "Cz"  : "???",
      },     
  "1102":     # Hilfetext "Speichern"
@@ -375,7 +375,7 @@
  "1103":     # Hilfetext "Änderungen verwerfen"
      {
      "D "  : "Än-der-un-gen ver-wer-fen: Alle Än-de-run-gen wer-den zu-rück-ge-setzt. Das Edi-tier-menü wird ver-las-sen. Die Musik-wieder-ga-be wird fort-ge-setzt. ", 
-     "GB"  : "Exit and Re-vert chan-ges: All changes are reverted. We leave the the edit-men-ue. Mu-sic con-tin-ues.",
+     "GB"  : "Exit and Re-vert chan-ges: All changes are reverted. We leave the the edit-men-ue. Mu-sic will con-tinue.",
      "Cz"  : "???",
      },      
  "1120":     # Hilfetext Bestaetigung
@@ -419,7 +419,7 @@
   "eveninglimit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
     {
      "D "  : "Zu spät am Abend für Hörbücher.",
-     "GB"  : "It is too late to play. ",
+     "GB"  : "It is too late to play.",
      "Cz"  : "???",
     },
   "dailylimit":     # Anzeigetext obere Zeile bei Zeitueberschreitung am Abend
