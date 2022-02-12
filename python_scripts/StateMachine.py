@@ -425,11 +425,9 @@ class StateMachine():
         self.sound_msg_dicts = {}
 
         # custumized Ansagetexte fuer hello verwenden, sofern darin passende Dateien vorhanden sind. 
-        if dict_from_folder(self.cfg_gl['foname_audio_msg_hello_c']) != {}:
-            self.sound_msg_dicts['hello'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_c'])
-        else:
-            # auf die default Texte zurueckgreifen
-            self.sound_msg_dicts['hello'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_d'])
+        # Falls nix hinterlegt ist, entsteht ein leeres dictionary. Im Code wird dann auf das sprachspezifische 
+        # dict zugegriffen, in dem die default Ansagen fuer 'hello' liegen.
+        self.sound_msg_dicts['hello'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_c'])
 
         # jetzt die sprachspezifischen laden, 
         # leider haesslich and die Namen der geladenen Sprache gekoppelt.
@@ -774,7 +772,7 @@ class StateMachine():
         # Wiergabelautstaerke anpassen
 
         try:
-            if list_name == 'hello':
+            if list_name == 'hello' and self.sound_msg_dicts['hello']<>{}:
                 # fuer hello inner das dictionary hello laden, das nur den key hello hat. 
                 auswahl = self.sound_msg_dicts[list_name][list_name]
             else:
