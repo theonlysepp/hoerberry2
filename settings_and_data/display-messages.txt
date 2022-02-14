@@ -181,10 +181,10 @@
      "GB"  : "timeout back-light: Du-ra-tion of the back-ground ligh-ting in se-conds if the dis-play is only illumi-na-ted du-ring ac-tion.",
      "Cz"  : "timeout back-light: Doba osvětlení pozadí, pokud je displej osvětlen pouze během akce",
      },
- "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Sekunden Pause oder Stop automatisch aus.
+ "908":       # Timeout Shutdown: Der Hoerberry schaltet sich nach xxx Minuten Pause oder Stop automatisch aus.
      {
-     "D "  : "time-out shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Se-kun-den bei Pau-se oder Stop au-to-ma-tisch aus.",
-     "GB"  : "time-out shut-down: The Hoer-ber-ry will shut down after xxx seconds of idle time. (pause or stop)",
+     "D "  : "time-out shut-down: Der Hoer-ber-ry schal-tet sich nach xxx Mi-nu-ten bei Pau-se oder Stop au-to-ma-tisch aus.",
+     "GB"  : "time-out shut-down: The Hoer-ber-ry will shut down after xxx mi-nu-tes of idle time. (pause or stop)",
      "Cz"  : "time-out shut-down: todo",
      },
  "909":       # "Vol-Max:  Maximal erlaubt Lautstärke in %. Im Display erscheint beim maximal erlaubter Lautstaerke immer 100%. Die Kinder sind ja nicht doof."
