@@ -60,10 +60,13 @@ import logging
 timestamp = time.strftime('%xH%HM%M')
 timestamp = timestamp.replace('/','_')
 
-# leere alte logfiles loeschen
 from pathlib import Path
-f_list = list(Path(settings_gl['logfile']).glob('*.log'))
-[ i.unlink() for i in f_list if (i.stat().st_size == 0) ]
+
+# leere alte logfiles und errorfiles loeschen
+for fname in ['logfile', 'errorfile']:
+     f_list = list(Path(settings_gl[fname]).glob('*.log'))
+     [ i.unlink() for i in f_list if (i.stat().st_size == 0) ]
+
 
 
 # logging und Fehlerausgabe aus den base_settings.ini oder mit Kommandozeilenargument:
