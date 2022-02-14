@@ -39,9 +39,14 @@ class ROT_ENC:
         GPIO.setup(dataPin, GPIO.IN)
 
     def start(self):
-        GPIO.add_event_detect(self.clockPin, GPIO.FALLING, bouncetime=self.DEBOUNCE)
-        GPIO.add_event_callback(self.clockPin,self._clockCallback)
-
+        try:
+            GPIO.add_event_detect(self.clockPin, GPIO.FALLING, bouncetime=self.DEBOUNCE)
+            GPIO.add_event_callback(self.clockPin,self._clockCallback)
+        except RuntimeError:
+            print('runtime error add_event_detect ROT_ENC')
+            sleep(10)
+            GPIO.add_event_detect(self.clockPin, GPIO.FALLING, bouncetime=self.DEBOUNCE)
+            GPIO.add_event_callback(self.clockPin,self._clockCallback)
 
     def stop(self):
         GPIO.remove_event_detect(self.clockPin)

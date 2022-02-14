@@ -1148,11 +1148,24 @@ class StateMachine():
         GPIO.setup(self.PINS[PIN_NEXT],GPIO.IN)
         GPIO.setup(self.PINS[PIN_PREV],GPIO.IN)
 
-        # Pins der Tasten 
-        GPIO.add_event_detect(self.PINS[PIN_NEXT], GPIO.FALLING, bouncetime=200)
-        GPIO.add_event_callback(self.PINS[PIN_NEXT], self.OnNextButton)
-        GPIO.add_event_detect(self.PINS[PIN_PREV], GPIO.FALLING,bouncetime=200)
-        GPIO.add_event_callback(self.PINS[PIN_PREV], self.OnPrevButton)
+        # Pins der Tasten. Hier kam es beim Starten sporadisch zu Fehlern. Versuch, das durch warten zu beheben.
+        try:
+            GPIO.add_event_detect(self.PINS[PIN_NEXT], GPIO.FALLING, bouncetime=200)
+            GPIO.add_event_callback(self.PINS[PIN_NEXT], self.OnNextButton)
+        except RuntimeError:
+            self.logger.error('runtime error add_event_detect PIN_NEXT')
+            time.sleep(10)
+            GPIO.add_event_detect(self.PINS[PIN_NEXT], GPIO.FALLING, bouncetime=200)
+            GPIO.add_event_callback(self.PINS[PIN_NEXT], self.OnNextButton)
+        try:
+            GPIO.add_event_detect(self.PINS[PIN_PREV], GPIO.FALLING,bouncetime=200)
+            GPIO.add_event_callback(self.PINS[PIN_PREV], self.OnPrevButton)
+        except RuntimeError:
+            self.logger.error('runtime error add_event_detect PIN_PREV')
+            time.sleep(10)
+            GPIO.add_event_detect(self.PINS[PIN_PREV], GPIO.FALLING,bouncetime=200)
+            GPIO.add_event_callback(self.PINS[PIN_PREV], self.OnPrevButton)
+
 
     def _remove_GPIO(self):
         # Pins aufraumen

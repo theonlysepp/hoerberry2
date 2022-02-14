@@ -135,23 +135,15 @@ sm = StateMachine(RFID_reader, lcd, [LED_ACTION_PIN,BuNextPIN,BuPrevPIN],
 
 
 # KyVol
-try:
-     volume = ROT_ENC(VolumePIN_CLK, VolumePIN_DT, sm.OnVolumeRotary, 
-                         debounce=15, debounce_extra=1, sleeptime=0.001)
-     volume.start()
-except RuntimeError:
-     logger.error('RuntimeError Button: volume rotary encoder')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?     
+volume = ROT_ENC(VolumePIN_CLK, VolumePIN_DT, sm.OnVolumeRotary, 
+                    debounce=15, debounce_extra=1, sleeptime=0.001)
+volume.start()
+    
 
 # KyPause
-try:
-     pause = ROT_ENC(PausePIN_CLK, PausePIN_DT, sm.OnPauseRotary, 
-                         debounce=15, debounce_extra=1, sleeptime=0.001)
-     pause.start()
-except RuntimeError:
-     logger.error('RuntimeError Button: pause rotary encoder')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?     
-
+pause = ROT_ENC(PausePIN_CLK, PausePIN_DT, sm.OnPauseRotary, 
+                    debounce=15, debounce_extra=1, sleeptime=0.001)
+pause.start()
 
 # PauseButton
 GPIO.setup(PausePIN_SW,GPIO.IN)
@@ -161,6 +153,9 @@ try:
 except RuntimeError:
      logger.error('RuntimeError Button: PausePIN_SW')
      # todo: was machen wir denn dann? Neustart, nochmal versuchen?
+     time.sleep(10)
+     GPIO.add_event_detect(PausePIN_SW, GPIO.FALLING, bouncetime=200)
+     GPIO.add_event_callback(PausePIN_SW, sm.OnPauseButton)
 
 # Taste Shutdown indirekt, nicht der VolumePIN_SW, sondern der HIGH gesetzte GPIO der onoff-shim
 GPIO.setup(SHUTDOWN_PIN,GPIO.IN)
@@ -170,6 +165,9 @@ try:
 except RuntimeError:
      logger.error('RuntimeError Button: SHUTDOWN_PIN')
      # todo: was machen wir denn dann? Neustart, nochmal versuchen?
+     time.sleep(10)
+     GPIO.add_event_detect(SHUTDOWN_PIN, GPIO.FALLING, bouncetime=200)
+     GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)
 
 
 logger.info('Intialisierungen beendent')
