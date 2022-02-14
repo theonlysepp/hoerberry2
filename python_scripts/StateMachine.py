@@ -1126,7 +1126,7 @@ class StateMachine():
                 self.logger.info(f'{self.state}: {self.F_button}, Hilfe verlassen?.')
                 return
             # in der Liste scrollen
-            elif self.F_button == self.BU_PAUSE_ROTATION:
+            elif self.F_button == self.BU_VOLUME_ROTATION:
                 self._ch_help_index(self.N_button)
                 self.F_update_display = True
             else:
@@ -1740,7 +1740,7 @@ class StateMachine():
                 self.newstate = 790  
 
             # in der Liste scrollen
-            elif self.F_button == self.BU_PAUSE_ROTATION:
+            elif self.F_button == self.BU_VOLUME_ROTATION:
                 self._ch_index(self.N_button)
                 self.F_update_display = True
 
@@ -1806,7 +1806,7 @@ class StateMachine():
                 self.newstate = 890  
 
             # in der Liste scrollen
-            elif self.F_button == self.BU_PAUSE_ROTATION:
+            elif self.F_button == self.BU_VOLUME_ROTATION:
                 self._ch_index(self.N_button)
                 self.F_update_display = True
 
@@ -1856,7 +1856,7 @@ class StateMachine():
             return
 
         # in der Liste scrollen
-        if self.F_button == self.BU_PAUSE_ROTATION:
+        if self.F_button == self.BU_VOLUME_ROTATION:
             self._ch_index(self.N_button)
             self.F_update_display = True
 
@@ -1928,7 +1928,7 @@ class StateMachine():
             return
 
         # in der Liste scrollen
-        if self.F_button == self.BU_PAUSE_ROTATION:
+        if self.F_button == self.BU_VOLUME_ROTATION:
             self._ch_index(self.N_button)
             self.F_update_display = True
             self.logger.info('drehung erkannt')
@@ -2052,7 +2052,7 @@ class StateMachine():
                 self.newstate = 990  
 
             # in der Liste scrollen
-            elif self.F_button == self.BU_PAUSE_ROTATION:
+            elif self.F_button == self.BU_VOLUME_ROTATION:
                 self._ch_index(self.N_button)
                 self.F_update_display = True
 
@@ -2088,7 +2088,7 @@ class StateMachine():
             # zur Hilfe gehen
             self.newstate = 958 
         # Zahlenwert fuer das aktuele Element veraendern
-        elif self.F_button == self.BU_PAUSE_ROTATION:
+        elif self.F_button == self.BU_VOLUME_ROTATION:
             self._ch_val(self.N_button)
             self.F_update_display = True
 
@@ -2179,7 +2179,7 @@ class StateMachine():
                 self.newstate = 1090  
 
             # in der Liste scrollen
-            elif self.F_button == self.BU_PAUSE_ROTATION:
+            elif self.F_button == self.BU_VOLUME_ROTATION:
                 self._ch_index(self.N_button)
                 self.F_update_display = True
 
@@ -2552,7 +2552,7 @@ class StateMachine():
             return
 
         # in der Liste scrollen
-        if self.F_button == self.BU_PAUSE_ROTATION:
+        if self.F_button == self.BU_VOLUME_ROTATION:
             self._ch_index(self.N_button)
             self.F_update_display = True            
 
@@ -2634,7 +2634,7 @@ class StateMachine():
                 self.newstate = 1190  
 
             # in der Liste scrollen
-            elif self.F_button == self.BU_PAUSE_ROTATION:
+            elif self.F_button == self.BU_VOLUME_ROTATION:
                 self._ch_index(self.N_button)
                 self.F_update_display = True
 
