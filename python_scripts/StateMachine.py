@@ -2468,7 +2468,7 @@ class StateMachine():
         # ins Verzeichnis des Repositories wechseln
         os.chdir(self.cfg_gl['foname_repo'])
 
-        p = subprocess.Popen(["git", "pull", "origin", "main"], stdout=subprocess.PIPE)
+        p = subprocess.Popen(["sudo", "git", "pull", "origin", "main"], stdout=subprocess.PIPE)
 
         return_stuff = p.communicate()
         ascii_str = return_stuff[0].decode('ascii')
@@ -2859,7 +2859,9 @@ class StateMachine():
                 # --> eigene Fehlermeldung akustisch, dass Intenetradio nicht verfuegbar oder falsch
                 if self._check_prev():
                     try:
-                        self.cl.previous()  
+                        # immer zurueck zum ersten Radio. Wenn eines nicht tut, dann kann man nicht darueber zurueck.
+                        # Wenn es nicht tut, wird es beim vorwaerts gehen automatisch uebersprungen.  
+                        self.cl.play(1)  
                     except:
                         self.logger.error("Fehler 1350: self.cl.previous() ")
 
