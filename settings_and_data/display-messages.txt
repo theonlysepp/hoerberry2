@@ -403,14 +403,14 @@
      "Cz"  : "S kazdym klicem zpet k hudbe.",
      },
  "1500":       # Eingangszustand zum iPod-Modus
-     {
-     "D "  : "Freie Auswahl aller Playlisten, weiter mit Pause",
+     {       #123456789ABCDEF
+     "D "  : "Playlistenwahl, weiter mit OK",
      "GB"  : "TODO",
      "Cz"  : "TODO",
      },
  "1590":     # Hilfetext Playlistenauswahl iPod-Modul
      {
-     "D "  : "Freie Wahl al-ler ab-spiel-ba-ren Play-li-sten. Be-stä-ti-gung star-tet di-rekt die-se Play-li-ste. Ab-bre-chen mit PREV."
+     "D "  : "Freie Wahl al-ler ab-spiel-ba-ren Play-li-sten. Be-stä-ti-gung star-tet di-rekt die-se Play-li-ste. Ab-bre-chen mit EXIT."
      "GB"  : "TODO"
      "Cz"  : "???",
      },      

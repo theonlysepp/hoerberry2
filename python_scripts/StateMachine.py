@@ -2973,17 +2973,14 @@ class StateMachine():
 
         # Display loeschen und neu fuellen
         self._writeMessage(self.msg_dict["1500"][self.lg], 0, 2, clear=True)
-        self._writeMessage(self.generate_footer(prev='EXIT'), 2, 1)
+        self._writeMessage(self.generate_footer(prev='EXIT'), 2, 1,clear=False)
 
 
     def DO_ST_1505(self): 
-        # Anzeige des Eingangszustads, bis irgendwas gedrueckt wird
+        # Anzeige des Eingangszustads, bis irgendwas gedrueckt wird.
+        # Auf RFID kann leider nicht reagiert werden, weil ich bei einer ungueltigen Karte 
+        # in Teufels Kueche komme.
         self.newstate = 1505
-
-        # RFID sticht alle, sofort zum Verarbeiten der Karte. Todo: klappt das auch mit der Mastercard?
-        if self.F_RFID != self.NO_RFID:
-            self.newstate = self.ST_LOADLIST
-            return
 
         if self.F_button != self.BU_NONE:
             if self.F_button == self.BU_PREV:
@@ -3007,11 +3004,9 @@ class StateMachine():
         
     def DO_ST_1555(self):
         # Auf alle Eingabe reagieren, waehrend eine Playlite angezeigt wird.
+        # Auf RFID kann leider nicht reagiert werden, weil ich bei einer ungueltigen Karte 
+        # in Teufels Kueche komme.
         self.newstate = 1555
-
-        if self.F_RFID != self.NO_RFID:
-            self.newstate = self.ST_LOADLIST
-            return
 
         if self.F_button != self.BU_NONE:
 
@@ -3044,7 +3039,7 @@ class StateMachine():
 
     def DO_ST_1595(self):
         # Hilfetext anzeigen
-        self._run_helptext(1550)   
+        self._run_helptext(1500)   
 
 
     def DO_ST_1599(self):
