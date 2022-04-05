@@ -295,6 +295,7 @@ class StateMachine():
     ST_BLOCKED = 1200
     ST_INTERNET_RADIO = 1300
     ST_ERROR_DISPLAY = 1400
+    ST_CHOOSE_PLAYLIST = 1500
 
     NO_DISP = 0
     DISP_PLAY = 1
@@ -363,6 +364,7 @@ class StateMachine():
         self.playlist_internetradio = False  # Playliste ist Internetrasio?
         self.def_playlists = {}              # alle Playlisten mit RFID, {playlist1:UID1, playlist2:UID2, ...}
         self.undef_playlists = {}            # alle undefinierten Playlisten
+        self.all_pl = {}                     # Fuer den Zustand xxx, Liste aller abspielbaren Playlisten
         self.temp_uid_dict = {}  
         self.mode_keys = []         # Liste der aktuell angezeigten Auswahlelemente
         self._index_key = 0         # Nummer des gerade im Editiermenue angezeigten Elementes
@@ -533,6 +535,13 @@ class StateMachine():
                         1350 : self.DO_ST_1350,
                         1400 : self.DO_ST_1400,
                         1450 : self.DO_ST_1450,
+                        1500 : self.DO_ST_1500,
+                        1505 : self.DO_ST_1505,
+                        1550 : self.DO_ST_1550,
+                        1555 : self.DO_ST_1555,
+                        1590 : self.DO_ST_1590,
+                        1595 : self.DO_ST_1595,
+                        1599 : self.DO_ST_1599
         }
 
         # Eingabemaske erstellen
@@ -715,6 +724,7 @@ class StateMachine():
         
         # jetzt beschissene Rueckgsben vom MPD-Client abfangen
         try:
+            # Wertebereich: 'play', 'pause', 'stop'
             self.info['state'] =  status['state']
         except KeyError:
             self.info['state'] =  '-'
@@ -2920,6 +2930,108 @@ class StateMachine():
         # auf Tasteneingabe warten, danach nach WAIT
         self._run_helptext(400)
         
+    def DO_ST_1500(self):
+        # Eingangszustand Playlistenauswahl
+        self.newstate = 1505
+        # Liste aller Playlisten aktualisieren, Titel Nummerieren
+        # aehlich State 700
+        update_all_playlists(self.cfg_gl['foname_music'],self.cfg_gl['foname_playlists']) 
+        # Liste aller abspielbaren Playlisten
+        self.all_pl = read_playlists(self.cfg_gl['foname_playlists'])
+
+        # indexierung der Playlistenelemente, hier zweckentfremdet
+        self._index_key = 0
+
+        # Display loeschen und neu fuellen
+        self.LCD.clear()
+        self.LCD.write_lines(self.msg_dict["1500"][self.lg], 0, 2)
+        self.LCD.write_single_line(self.generate_footer(prev='EXIT',), 2)
+
+    def DO_ST_1505(self): 
+        # Anzeige des Eingangszustads, bis irgendwas gedrueckt wird
+        self.newstate = 1505
+
+        # RFID sticht alle, sofort zum Verarbeiten der Karte. Todo: klappt das auch mit der Mastercard?
+        if self.F_RFID != self.NO_RFID:
+            self.newstate = self.ST_LOADLIST
+            return
+
+        if self.F_button != self.BU_NONE:
+            if self.F_button == self.BU_PREV:
+                # wieder abbbrechen, Zielzustand je nach aktuellem MPD-Zustand, wird im 1599 verarbeitet.
+                self.newstate = 1599
+
+            elif self.F_button == self.BU_NEXT:
+                # zur Hilfe gehen
+                self.newstate = 1590
+            else:
+                # zur Playlitenauswahl gehen, das erste Element anzeigen ueber alle 3 Zeilen
+                self.newstate = 1550
+
+
+    def DO_ST_1550(self):
+        # die aktuell darzustellende Playliste ueber 3 Zeilen anzeigen
+        self.newstate = 1555
+        self.LCD.clear()
+        # Anzeigetext:  "xxx/yyy: Voller Name der Playliste"
+        self.LCD.write_lines(f'{self._index_key+1}/{len(self.all_pl)}: {self.all_pl[self._index_key]}', 0, 3)
+        
+    def DO_ST_1555(self):
+        # Auf alle Eingabe reagieren, waehrend eine Playlite angezeigt wird.
+
+        if self.F_RFID != self.NO_RFID:
+            self.newstate = self.ST_LOADLIST
+            return
+
+        if self.F_button != self.BU_NONE:
+
+            if self.F_button == self.BU_PREV:
+                # verlassen, Zielsustand wird anhand von MPD entschieden
+                self.newstate = 1599
+ 
+            elif self.F_button == self.BU_NEXT:
+                # zur Hilfe
+                self.newstate = 1590
+
+            elif self.F_button == self.BU_PAUSE:
+                # Den aktuellen Titel waehlen, dann nach 200?
+                self.playlist_request = self.all_pl[self._index_key]
+                self.newstate = 200
+
+            elif self.F_button == self.BU_PAUSE_ROTATION:
+                return
+
+            elif self.F_button == self.BU_VOLUME_ROTATION:
+                # Eine andere Playliste der Liste anzeigen, Reaktion entsprechen der registrierten 
+                # Raster, aber index auf die Liste "self.all_pl" beschraenken
+                self._index_key = (self._index_key+self.N_button) % len(self.all_pl)
+                self.newstate = 1550
+
+    def DO_ST_1590(self):
+        # Hilfedatei laden, Position initialisieren
+        self.newstate = 1595
+        self._load_helptext(1590)
+
+    def DO_ST_1595(self):
+        # Hilfetext anzeigen
+        self._run_helptext(1550)   
+
+
+    def DO_ST_1599(self):
+        # Zustand des Verlassens, hier wird entschieden, wo wir hingehen
+        
+        self.update_MPD_info()
+        self.LCD.clear()
+        if self.info['state'] == 'play':
+            # todo: Abspieldisplay mit Play ???
+            self.newstate = 250
+            self._writePlay()
+        elif self.info['state'] == 'pause':
+            # todo: Abspieldisplay mit Pause
+            self.newstate = 350
+            self._writePlay()
+        else:
+            self.newstate = 400
 
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # ++++++++++++++++    Ende      Zustandsfunktionen +++++++++++++++++++++++++++
