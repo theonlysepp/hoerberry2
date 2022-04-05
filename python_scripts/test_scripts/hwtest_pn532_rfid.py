@@ -28,6 +28,7 @@ from py532lib.frame import *
 from py532lib.constants import *
 import time
  
+ 
 pn532 = Pn532_i2c()
 pn532.SAMconfigure()
 
