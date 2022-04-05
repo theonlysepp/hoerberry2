@@ -1472,7 +1472,7 @@ class StateMachine():
             elif self.F_button == self.BU_BOTH:
                 # Zur iPod-Playlistenauswahl
                 self.newstate = self.ST_CHOOSE_PLAYLIST
-                
+
             elif self.F_button == self.BU_PAUSE_ROTATION:
                 # im Titel spulen. auch zum vorherigen Titel moeglich
                 # Spulen zum naechsten Titel macht MPD automatisch...
@@ -3002,7 +3002,8 @@ class StateMachine():
         
     def DO_ST_1555(self):
         # Auf alle Eingabe reagieren, waehrend eine Playlite angezeigt wird.
-
+        self.newstate = 1555
+        
         if self.F_RFID != self.NO_RFID:
             self.newstate = self.ST_LOADLIST
             return
