@@ -1540,7 +1540,7 @@ class StateMachine():
             else: 
                 self.newstate = 250
 
-        # 
+        # zur Playlistenauswahl via iPod-Menue
         elif self.F_button == self.BU_BOTH:
             # Zur iPod-Playlistenauswahl
             self.newstate = self.ST_CHOOSE_PLAYLIST
@@ -1581,6 +1581,11 @@ class StateMachine():
 
         if self.F_RFID != self.NO_RFID:
             self.newstate = self.ST_LOADLIST
+
+        # zur Playlistenauswahl via iPod-Menue
+        elif self.F_button == self.BU_BOTH:
+            # Zur iPod-Playlistenauswahl
+            self.newstate = self.ST_CHOOSE_PLAYLIST
 
         # automatischen shutdown ueberwachen
         self.checkShutdown()
@@ -2967,9 +2972,9 @@ class StateMachine():
         self._index_key = 0
 
         # Display loeschen und neu fuellen
-        self.LCD.clear()
-        self.LCD.write_lines(self.msg_dict["1500"][self.lg], 0, 2)
-        self.LCD.write_single_line(self.generate_footer(prev='EXIT',), 2)
+        self._writeMessage(self.msg_dict["1500"][self.lg], 0, 2, clear=True)
+        self._writeMessage(self.generate_footer(prev='EXIT'), 2, 1)
+
 
     def DO_ST_1505(self): 
         # Anzeige des Eingangszustads, bis irgendwas gedrueckt wird
@@ -3003,7 +3008,7 @@ class StateMachine():
     def DO_ST_1555(self):
         # Auf alle Eingabe reagieren, waehrend eine Playlite angezeigt wird.
         self.newstate = 1555
-        
+
         if self.F_RFID != self.NO_RFID:
             self.newstate = self.ST_LOADLIST
             return
