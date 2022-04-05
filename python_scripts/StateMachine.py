@@ -279,6 +279,7 @@ class StateMachine():
     BU_PAUSE = 3
     BU_PAUSE_ROTATION = 4
     BU_VOLUME_ROTATION = 5
+    BU_BOTH = 6             # BU_PREV und BU_NEXT
 
     # Haupt-Zustaende
     ST_INIT = 100
@@ -566,7 +567,16 @@ class StateMachine():
 
     def _on_button(self, button_id, direction=+1):
         # allgemeine Vorlage zum Verarbeiten von Tasteingaben
-        if self.F_button != button_id:
+
+        # Nachtraegliche eingequetscht: Beide Taster gleichzeitig als eigene Eingabe
+        if (button_id == self.BU_PREV) and (self.F_button==self.BU_NEXT):
+            self.F_button = self.BU_BOTH
+            self.logger.info('PREV UND NEXT')
+        elif (button_id == self.BU_NEXT) and (self.F_button==self.BU_PREV):
+            self.F_button = self.BU_BOTH
+            self.logger.info('PREV UND NEXT')
+
+        elif self.F_button != button_id:
             self.F_button = button_id
             self.N_button = direction
             self.logger.info(f'button_id: {button_id}')
@@ -1459,6 +1469,10 @@ class StateMachine():
                 # Displayupdate erzwingen
                 self.F_update_display = True
 
+            elif self.F_button == self.BU_BOTH:
+                # Zur iPod-Playlistenauswahl
+                self.newstate = self.ST_CHOOSE_PLAYLIST
+                
             elif self.F_button == self.BU_PAUSE_ROTATION:
                 # im Titel spulen. auch zum vorherigen Titel moeglich
                 # Spulen zum naechsten Titel macht MPD automatisch...
@@ -1525,6 +1539,12 @@ class StateMachine():
                 self.newstate = 1350
             else: 
                 self.newstate = 250
+
+        # 
+        elif self.F_button == self.BU_BOTH:
+            # Zur iPod-Playlistenauswahl
+            self.newstate = self.ST_CHOOSE_PLAYLIST
+
 
         elif self.F_button == self.BU_VOLUME_ROTATION:
             # Latstaerke nur leiser stellen, display sofort anpassen
@@ -2888,6 +2908,10 @@ class StateMachine():
                 self.cl.pause(1)
                 self.LCD.quick_update_state('pause')
                 self.newstate = self.ST_PAUSE
+                
+            elif self.F_button == self.BU_BOTH:
+                # Zur iPod-Playlistenauswahl
+                self.newstate = self.ST_CHOOSE_PLAYLIST
                 
             elif self.F_button == self.BU_VOLUME_ROTATION:
                 # Volume nach Anzahl der Schritte anpassen.
