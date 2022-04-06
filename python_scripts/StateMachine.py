@@ -2967,8 +2967,10 @@ class StateMachine():
         # aehlich State 700
         update_all_playlists(self.cfg_gl['foname_music'],self.cfg_gl['foname_playlists']) 
         # Liste aller abspielbaren Playlisten
+        # todo: wo bleiben die Internetradios? 
         self.all_pl = read_playlists(self.cfg_gl['foname_playlists'])
         self.all_pl.sort()
+        self.logger.info(f'self.all_pl: {self.all_pl}')
 
         # Index wird nicht zurueckgesetzt, bei mehrmaligem besuchen des iPod-Menue macht man an der gleichen STelle weiter.
         # Nur abfangen, falls sich die Anzahl der Playlisten inzwischen geaendert hat.
