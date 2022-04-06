@@ -410,7 +410,7 @@
      },
  "1590":     # Hilfetext Playlistenauswahl iPod-Modul
      {
-     "D "  : "Freie Wahl al-ler ab-spiel-ba-ren Play-li-sten. Be-stä-ti-gung star-tet di-rekt die-se Play-li-ste. Ab-bre-chen mit EXIT."
+     "D "  : "Freie Wahl al-ler ab-spiel-ba-ren Play-li-sten durch Dre-hen am Laut-stär-ke-reg-ler. Be-stä-ti-gung mit OK star-tet di-rekt die-se Play-li-ste. Ab-bre-chen mit BACK."
      "GB"  : "TODO"
      "Cz"  : "???",
      },      
