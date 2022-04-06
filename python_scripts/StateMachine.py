@@ -366,6 +366,7 @@ class StateMachine():
         self.def_playlists = {}              # alle Playlisten mit RFID, {playlist1:UID1, playlist2:UID2, ...}
         self.undef_playlists = {}            # alle undefinierten Playlisten
         self.all_pl = {}                     # Fuer den Zustand xxx, Liste aller abspielbaren Playlisten
+        self.all_pl_index = 0                # Listenindex im iPod-Modus
         self.temp_uid_dict = {}  
         self.mode_keys = []         # Liste der aktuell angezeigten Auswahlelemente
         self._index_key = 0         # Nummer des gerade im Editiermenue angezeigten Elementes
@@ -2967,13 +2968,15 @@ class StateMachine():
         update_all_playlists(self.cfg_gl['foname_music'],self.cfg_gl['foname_playlists']) 
         # Liste aller abspielbaren Playlisten
         self.all_pl = read_playlists(self.cfg_gl['foname_playlists'])
+        self.all_pl.sort()
 
-        # indexierung der Playlistenelemente, hier zweckentfremdet
-        self._index_key = 0
+        # Index wird nicht zurueckgesetzt, bei mehrmaligem besuchen des iPod-Menue macht man an der gleichen STelle weiter.
+        # Nur abfangen, falls sich die Anzahl der Playlisten inzwischen geaendert hat.
+        self.all_pl_index = min(self.all_pl_index, len(self.all_pl)-1)
 
         # Display loeschen und neu fuellen
         self._writeMessage(self.msg_dict["1500"][self.lg], 0, 2, clear=True)
-        self._writeMessage(self.generate_footer(prev='EXIT'), 2, 1,clear=False)
+        self._writeMessage(self.generate_footer(updown=False), 2, 1,clear=False)
 
 
     def DO_ST_1505(self): 
@@ -3000,7 +3003,7 @@ class StateMachine():
         self.newstate = 1555
         self.LCD.clear()
         # Anzeigetext:  "xxx/yyy: Voller Name der Playliste"
-        self.LCD.write_lines(f'{self._index_key+1}/{len(self.all_pl)}: {self.all_pl[self._index_key]}', 0, 3)
+        self.LCD.write_lines(f'{self.all_pl_index+1}/{len(self.all_pl)}: {self.all_pl[self.all_pl_index]}', 0, 3)
         
     def DO_ST_1555(self):
         # Auf alle Eingabe reagieren, waehrend eine Playlite angezeigt wird.
@@ -3020,7 +3023,7 @@ class StateMachine():
 
             elif self.F_button == self.BU_PAUSE:
                 # Den aktuellen Titel waehlen, dann nach 200?
-                self.playlist_request = self.all_pl[self._index_key]
+                self.playlist_request = self.all_pl[self.all_pl_index]
                 self.newstate = 200
 
             elif self.F_button == self.BU_PAUSE_ROTATION:
@@ -3029,7 +3032,7 @@ class StateMachine():
             elif self.F_button == self.BU_VOLUME_ROTATION:
                 # Eine andere Playliste der Liste anzeigen, Reaktion entsprechen der registrierten 
                 # Raster, aber index auf die Liste "self.all_pl" beschraenken
-                self._index_key = (self._index_key+self.N_button) % len(self.all_pl)
+                self.all_pl_index = (self.all_pl_index+self.N_button) % len(self.all_pl)
                 self.newstate = 1550
 
     def DO_ST_1590(self):
