@@ -432,6 +432,7 @@ class StateMachine():
         # Falls nix hinterlegt ist, entsteht ein leeres dictionary. Im Code wird dann auf das sprachspezifische 
         # dict zugegriffen, in dem die default Ansagen fuer 'hello' liegen.
         self.sound_msg_dicts['hello'] = dict_from_folder(self.cfg_gl['foname_audio_msg_hello_c'])
+        self.sound_msg_dicts['goodbye'] = dict_from_folder(self.cfg_gl['foname_audio_msg_goodbye_c'])
 
         # jetzt die sprachspezifischen laden, 
         # leider haesslich and die Namen der geladenen Sprache gekoppelt.
@@ -795,7 +796,12 @@ class StateMachine():
         try:
             if (list_name == 'hello') and (self.sound_msg_dicts['hello'] !={}):
                 # fuer hello inner das dictionary hello laden, das nur den key hello hat, sofern nicht leer.  
-                auswahl = self.sound_msg_dicts[list_name][list_name]
+                # sowohl individuelle Ansagen als auch sprachspezifische
+                auswahl = self.sound_msg_dicts[list_name][list_name] + self.sound_msg_dicts[self.lg][list_name]
+            elif (list_name == 'goodbye') and (self.sound_msg_dicts['goodbye'] !={}):
+                # fuer goodbye inner das dictionary hello laden, das nur den key hello hat, sofern nicht leer.  
+                # sowohl individuelle Ansagen als auch sprachspezifische
+                auswahl = self.sound_msg_dicts[list_name][list_name] + self.sound_msg_dicts[self.lg][list_name]
             else:
                 # sonst das sprachspezifische dict laden, und dort die entsprechende liste raussuchen
                 auswahl = self.sound_msg_dicts[self.lg][list_name]
