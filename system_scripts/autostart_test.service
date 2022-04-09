@@ -5,11 +5,11 @@ Before=network.target
 
 
 [Service]
-ExecStart=/usr/bin/python3 /home/dietpi/python_scripts/test_scripts/test_autostart.py
+ExecStart=/usr/bin/python3 /home/pi/python_scripts/test_scripts/test_autostart.py
 StandardOutput=inherit
 StandardError=inherit
 Restart=no
-User=dietpi
+User=pi
 
 [Install]
 WantedBy=network.target

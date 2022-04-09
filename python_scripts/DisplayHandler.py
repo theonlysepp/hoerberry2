@@ -341,7 +341,7 @@ if __name__ == "__main__":
     from pinbelegung_testscripts import *
     import time
 
-    lcd = DisplayHandler(DISPLAY_SI,DISPLAY_CLK,DISPLAY_RS,DISPLAY_CSB,-1,DISPLAY_BL_PIN,'/home/dietpi/settings_and_data/base_settings.ini')
+    lcd = DisplayHandler(DISPLAY_SI,DISPLAY_CLK,DISPLAY_RS,DISPLAY_CSB,-1,DISPLAY_BL_PIN,'/home/pi/settings_and_data/base_settings.ini')
     lcd.begin(doglcd.DOG_LCD_M163, 0x28)
 
     lcd.clear()

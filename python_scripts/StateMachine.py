@@ -310,7 +310,7 @@ class StateMachine():
 
 
     def __init__(self, RFID_reader, LCD, PINS,
-                 setupfile='/home/dietpi/settings_and_data/base_settings.ini'):
+                 setupfile='/home/pi/settings_and_data/base_settings.ini'):
         # Pinreihenfolge von PINS:
         # PIN_LED  = 0
         # PIN_NEXT = 1
@@ -1128,7 +1128,7 @@ class StateMachine():
     def __load_errortext(self, text):
         # Basisfunktion, die jeden beliebigen Text in den Helptext formatiert
         text = text.replace('Traceback (most recent call last):', 'ERROR:        ')
-        text = text.replace('File "/home/dietpi/hoerberry2/python_scripts/', 'File "')
+        text = text.replace('File "/home/pi/hoerberry2/python_scripts/', 'File "')
         text = text.replace('\n', ' ')
         text = text.replace('  ', ' ')
 
