@@ -2954,6 +2954,10 @@ class StateMachine():
             ex = self.exception
             helptext = ''.join(traceback.format_exception(etype=type(ex), value=ex, tb=ex.__traceback__))
 
+            # zusaetzlich in eine separate logdatei schreiben:
+            with open(self.cfg_gl['disp_errorfile'], 'a') as fobj:
+                fobj.write(helptext)
+
         else:
             helptext = 'ST_1400: No Exception recieved.'
 
