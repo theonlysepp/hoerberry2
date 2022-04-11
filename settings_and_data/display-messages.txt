@@ -8,7 +8,7 @@
  "400":     # 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
      {
      "D "  : "Bitte Playliste anlegen.        Bereit.",
-     "GB"  : "Please choose a playlist.       Ready for music. ",
+     "GB"  : "Please choose a playlist.       Ready for music.",
      "Cz"  : "???",
      },
  "500":       
