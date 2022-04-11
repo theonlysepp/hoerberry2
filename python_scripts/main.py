@@ -155,7 +155,7 @@ try:
      GPIO.add_event_callback(PausePIN_SW, sm.OnPauseButton)
 except RuntimeError:
      logger.error('RuntimeError Button: PausePIN_SW')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?
+     # Was machen wir denn dann? Neustart, nochmal versuchen?
      time.sleep(10)
      GPIO.add_event_detect(PausePIN_SW, GPIO.FALLING, bouncetime=200)
      GPIO.add_event_callback(PausePIN_SW, sm.OnPauseButton)
@@ -167,7 +167,7 @@ try:
      GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)
 except RuntimeError:
      logger.error('RuntimeError Button: SHUTDOWN_PIN')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?
+     # Was machen wir denn dann? Neustart, nochmal versuchen?
      time.sleep(10)
      GPIO.add_event_detect(SHUTDOWN_PIN, GPIO.FALLING, bouncetime=200)
      GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)

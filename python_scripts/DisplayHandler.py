@@ -142,7 +142,7 @@ class DisplayHandler(doglcd.DogLCD):
             if self.ls_active & (1<<i):
                 self.write(value.stepget())
 
-            # TODO: noch sehr buggy hier: Zeilenblinken geht von 0 bis 2, 
+
             # # Nummerierun g der Laufschrift komplizierter-...    
             elif self.ls_blink & (1<<i):
                 # nur wenn nach Blinken notwendig ist, neu schreiben

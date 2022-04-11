@@ -242,7 +242,7 @@ def dict_from_folder(foname):
 
     p=Path(foname)
 
-    # todo: Ansagetexttypen automatisch aus den vorhandenen Dateinamen erzeugen, (regular expressions)
+    # Ansagetexttypen automatisch aus den vorhandenen Dateinamen erzeugen, (regular expressions)
     for i in p.iterdir():
         # nur Namensteil vor dem Nummerntrenner, also von "hallo_1.mp3" nur "hallo"
         naked = i.name.split('_')[0]
@@ -417,12 +417,6 @@ class StateMachine():
         # Liste der Mastercard-UIDs laden, Strings
         self.MasterCardID = load_file(self.cfg_gl['fname_mc'], self.cfg_gl['fname_dflt_mc'])
 
-
-
-        #try:
-        # Ansagetexte laden
-        # todo: sprachspezifische Ansagetexte --> 3 verschiedenen Dictionaries, fuer jede Sprache eines 
-        # in der struktur: 'hello_de_01.mp3'
         
         # Liste mit dictionaries fuer: 
         # Ansagetext 'hello', Sprachindividuelle Texte fuer den Rest
@@ -1578,7 +1572,6 @@ class StateMachine():
         # Display schreiben, 
         self.LCD.clear()
         self._writeMessage(self.msg_dict["400"][self.lg])
-        # todo: timer autoshutdown anzeigen...
 
     def DO_ST_450(self):
         # Wartezustand von WAIT
@@ -2552,7 +2545,7 @@ class StateMachine():
             if len(lines) > 2:
                 self.__load_helptext(lines[-3])
             else:
-                self.__load_helptext("no help available")
+                self.__load_helptext("no help on this update available")
 
             self.newstate = 1069   
 
@@ -2895,14 +2888,15 @@ class StateMachine():
 
             if self.F_button == self.BU_PREV:
                 # Kommando an MPD schicken, dass Titel zurueck (falls moeglich)
-                # todo: Fehler beim Abspielen eines Internetradios:
                 # - warum auf dem einen ok, dem anseren aber nicht?
                 # - wie abfangen?
                 # --> eigene Fehlermeldung akustisch, dass Intenetradio nicht verfuegbar oder falsch
                 if self._check_prev():
                     try:
                         # immer zurueck zum ersten Radio. Wenn eines nicht tut, dann kann man nicht darueber zurueck.
-                        # Wenn es nicht tut, wird es beim vorwaerts gehen automatisch uebersprungen.  
+                        # Wenn es nicht tut, wird es beim vorwaerts gehen automatisch uebersprungen. 
+                        self.cl.pause(1)
+                        self.play_sound_msg('nointernetradio') 
                         self.cl.play(1)  
                     except:
                         self.logger.error("Fehler 1350: self.cl.previous() ")
@@ -2913,6 +2907,7 @@ class StateMachine():
                     try:
                         self.cl.next()
                     except:
+
                         self.logger.error("Fehler 1350: self.cl.next() ")
 
             elif self.F_button == self.BU_PAUSE:
@@ -2977,7 +2972,6 @@ class StateMachine():
         # aehlich State 700
         update_all_playlists(self.cfg_gl['foname_music'],self.cfg_gl['foname_playlists']) 
         # Liste aller abspielbaren Playlisten
-        # todo: wo bleiben die Internetradios? 
         self.all_pl = read_playlists(self.cfg_gl['foname_playlists'])
         self.all_pl.sort()
         self.logger.info(f'self.all_pl: {self.all_pl}')
@@ -3063,11 +3057,9 @@ class StateMachine():
         self.update_MPD_info()
         self.LCD.clear()
         if self.info['state'] == 'play':
-            # todo: Abspieldisplay mit Play ???
             self.newstate = 250
             self._writePlay()
         elif self.info['state'] == 'pause':
-            # todo: Abspieldisplay mit Pause
             self.newstate = 350
             self._writePlay()
         else:

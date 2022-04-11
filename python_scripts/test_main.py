@@ -141,7 +141,6 @@ try:
      volume.start()
 except RuntimeError:
      logger.error('RuntimeError Button: volume rotary encoder')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?     
 
 # KyPause
 try:
@@ -150,7 +149,6 @@ try:
      pause.start()
 except RuntimeError:
      logger.error('RuntimeError Button: pause rotary encoder')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?     
 
 
 # PauseButton
@@ -160,7 +158,6 @@ try:
      GPIO.add_event_callback(PausePIN_SW, sm.OnPauseButton)
 except RuntimeError:
      logger.error('RuntimeError Button: PausePIN_SW')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?
 
 # Taste Shutdown indirekt, nicht der VolumePIN_SW, sondern der HIGH gesetzte GPIO der onoff-shim
 GPIO.setup(SHUTDOWN_PIN,GPIO.IN)
@@ -169,7 +166,6 @@ try:
      GPIO.add_event_callback(SHUTDOWN_PIN, sm.OnShutdownButton)
 except RuntimeError:
      logger.error('RuntimeError Button: SHUTDOWN_PIN')
-     # todo: was machen wir denn dann? Neustart, nochmal versuchen?
 
 
 logger.info('Intialisierungen beendent')

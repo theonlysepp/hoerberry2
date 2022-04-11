@@ -68,7 +68,6 @@ Basisfunktionen
 - Funktion WritePos(string, x,y)
 - Laufschrift weiterschieben
 
-Fest zu definierende Darstellungen: TODO
 
 
 - Darstellung Musikwiedergabe, fester Satz an Input, feste Formatierung
