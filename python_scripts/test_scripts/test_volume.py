@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 # Test der Verstärkerlautstaerke
 # zufaelliges Abspielen der deutschen Ansagetexte, mit varabler Lautstaerke
 # zum Einstelen des Verstaerkers. Die Hoerbuecher und Lieder sind in der Regel etwas lauter.
