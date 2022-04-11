@@ -28,5 +28,5 @@ soundlist = [e for e in path.iterdir() if e.is_file()]
 
 while True: 
     Vol = input('bitte Lautstaerke eingeben: ')
-    subprocess.Popen([f"sudo", "amixer", "set", "Master", f'{Vol}%'], stdout=subprocess.PIPE)
+    subprocess.Popen(["sudo", "amixer", "set", "Master", f'{Vol}%'], stdout=subprocess.PIPE)
     subprocess.call(f'sudo mpg123 {soundlist[randint(0,len(soundlist)-1)].resolve()}', shell=True)
