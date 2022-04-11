@@ -405,13 +405,13 @@
  "1500":       # Eingangszustand zum iPod-Modus
      {       #123456789ABCDEF
      "D "  : "Playlistenwahl, weiter mit OK",
-     "GB"  : "TODO",
+     "GB"  : "Choose a playlist, no card needed. Press any key to continue.",
      "Cz"  : "TODO",
      },
  "1590":     # Hilfetext Playlistenauswahl iPod-Modul
      {
      "D "  : "Freie Wahl al-ler ab-spiel-ba-ren Play-li-sten durch Dre-hen am Laut-stär-ke-reg-ler. Be-stä-ti-gung mit OK star-tet di-rekt die-se Play-li-ste. Ab-bre-chen mit BACK."
-     "GB"  : "TODO"
+     "GB"  : "Free choice of all avail-able play-lists by tur-ning the vol-ume but-ton. Please con-firm with OK and it will start imme-dia-te-ly. You can can-cel with BACK. "
      "Cz"  : "???",
      },      
  "000":       # 
