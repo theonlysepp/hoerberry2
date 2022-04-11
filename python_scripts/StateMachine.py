@@ -511,7 +511,6 @@ class StateMachine():
                         1059 : self.DO_ST_1059,
                         1060 : self.DO_ST_1060,
                         1065 : self.DO_ST_1065,
-                        1069 : self.DO_ST_1069,
                         1070 : self.DO_ST_1070,
                         1075 : self.DO_ST_1075,
                         1080 : self.DO_ST_1080,
@@ -2520,7 +2519,7 @@ class StateMachine():
         # Rueckgabe von git 1:1 auf das Display zaubern. 
         self.LCD.write_lines(ascii_str, 0, 1)
         self.LCD.write_single_line(f"Rev: {rev_num}", 1)
-        self.LCD.write_single_line(self.generate_footer(next="HELP", prev=False,updown=False, pause='OK'), 2)
+        self.LCD.write_single_line(self.generate_footer(next=False, prev=False,updown=False, pause='OK'), 2)
 
         self.newstate = 1065
 
@@ -2532,26 +2531,6 @@ class StateMachine():
             self.newstate = 1005
             self.F_update_display = True
             self.list_index = 4
-
-        elif self.F_button == self.BU_NEXT:
-                # zur Hilfe gehen
-            p = subprocess.Popen(["git", "shortlog"], stdout=subprocess.PIPE)
-            return_stuff = p.communicate()
-            ascii_str = return_stuff[0].decode('utf-8')
-            lines = ascii_str.split('\n')
-            self.logger.info(lines)
-
-            # am Ende sind 2 Leerzeilen, die davor ist der letzte aktuelle Commit
-            if len(lines) > 2:
-                self.__load_helptext(lines[-3])
-            else:
-                self.__load_helptext("no help on this update available")
-
-            self.newstate = 1069   
-
-    def DO_ST_1069(self):
-        # Gleich zurueck in die Hauptebene
-        self._run_helptext(1005)
 
     def DO_ST_1070(self):
         # Nutzerstatistik anzeigen
