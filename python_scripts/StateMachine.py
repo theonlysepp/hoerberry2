@@ -2923,6 +2923,7 @@ class StateMachine():
         self.cl.stop()
         # Anzeige der Fehlerursache
 
+
         if self.exception:
             #helptext = traceback.print_exc()
             ex = self.exception
@@ -2935,6 +2936,9 @@ class StateMachine():
         else:
             helptext = 'ST_1400: No Exception recieved.'
 
+        # Meldung ansagen, dass ein FEhler aufgetreten ist.
+        self.play_sound_msg('error')
+        
         self.__load_errortext(helptext)
 
     def DO_ST_1450(self):
